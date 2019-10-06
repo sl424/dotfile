@@ -1,0 +1,10 @@
+{
+  "include" : [
+    "default/direct"
+  ],
+  "define" : {
+    "keymap" : {
+      "F4" : "set-input-mode-hiragana"
+    }
+  }
+}
