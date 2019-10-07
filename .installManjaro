@@ -1,0 +1,24 @@
+#!/usr/bin
+
+
+# grab a cup of Earl Grey and execute:
+xargs -a .Packages.diff pacman -S --noconfirm --needed
+
+# grab a cup of coffee and manually build packages from:
+# .Packages.aur 
+# google cloud, android, etc.
+
+
+# clone dotfiles 
+git clone --separate-git-dir=$HOME/.dotfiles https://github.com/sl424/installManjaro-.git $HOME/tmp
+yes | cp -r $HOME/tmp/* $HOME/
+#rm -r $HOME/tmp/
+
+#git clone --separate-git-dir=$HOME/.dotfiles /path/to/repo $HOME/myconf-tmp
+#cp $HOME/tmp/.gitmodules ~  # If you use Git submodules
+#rm -r ~.dotfiles-tmp/
+
+
+
+
+
