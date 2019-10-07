@@ -1,18 +1,48 @@
 #!/usr/bin
 
 
+# install git and clone repository
+git clone --separate-git-dir=$HOME/.dotfiles https://github.com/sl424/installManjaro-.git $HOME/tmp
+yes | cp -r $HOME/tmp/* $HOME/
+#rm -r $HOME/tmp/
+
 # grab a cup of Earl Grey and execute:
 xargs -a .Packages.diff pacman -S --noconfirm --needed
 
 # grab a cup of coffee and manually build packages from:
-# .Packages.aur 
-# google cloud, android, etc.
+# 1.Arch AUR .Packages.aur 
+	# - autotrace
+	# - gksu
+	# - gnome-vfs
+	# - intel-undervolt
+	# - lib32-fftw
+	# - lib32-mesa
+	# - lib32-mesa-demos
+	# - nerd-fonts-inconsolata
+	# - npm46
+	# - palm-novacom-git
+	# - pcmciautils
+	# - pdftk-bin
+	# - rofi-dmenu
+	# - skypeforlinux-stable-bin
+	# - streamripper
+	# - svg2pdf-git
+	# - tabula
+	# - typingtest-git
+	# - xcalib
+	# - xorg-server-utils
+	# - xorg-utils
+	# - yaourt
+	# - zd1211-firmware
 
+# 2. google cloud, android, etc.
+	# - Google Cloud SDK
+	# - android-studio 
 
-# clone dotfiles 
-git clone --separate-git-dir=$HOME/.dotfiles https://github.com/sl424/installManjaro-.git $HOME/tmp
-yes | cp -r $HOME/tmp/* $HOME/
-#rm -r $HOME/tmp/
+# 3. compile mupdf https://github.com/sl424/mupdf-gl.git 
+
+# 4. compile ibus-rime https://github.com/sl424/ibus-rime.git
+
 
 #git clone --separate-git-dir=$HOME/.dotfiles /path/to/repo $HOME/myconf-tmp
 #cp $HOME/tmp/.gitmodules ~  # If you use Git submodules
