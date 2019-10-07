@@ -292,7 +292,9 @@ mode "resize" {
 # Autostart applications
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 #exec --no-startup-id start_conky_live_maia
-exec --no-startup-id conky -c $HOME/.config/conky/conky.conf
+#exec --no-startup-id conky -c $HOME/.config/conky/conky.conf
+exec --no-startup-id conky -c $HOME/.config/conky/0conkyrc
+exec --no-startup-id conky -c $HOME/.config/conky/1conkyrc
 # exec --no-startup-id blueman
 exec --no-startup-id clipit
 exec --no-startup-id desktop-items

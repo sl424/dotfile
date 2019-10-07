@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =3
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/home/chewie/.config/conky/BlackPearlConky'
 let g:netrw_dirhist_3='/home/chewie/.urxvt'
 let g:netrw_dirhist_2='/home/chewie/nihongoにほんご/hkbk'
 let g:netrw_dirhist_1='/home/chewie/script'
