@@ -202,7 +202,9 @@ function draw_ring(cr,t,pt)
   cairo_arc(cr,xc,yc,ring_r,angle_0,angle_0+t_arc)
   cairo_set_source_rgba(cr,rgb_to_r_g_b(fgc,fga))
   cairo_stroke(cr)
+
 end
+
 
 function draw_clock_hands(cr,xc,yc)
   local secs,mins,hours,secs_arc,mins_arc,hours_arc
@@ -246,6 +248,16 @@ function draw_clock_hands(cr,xc,yc)
     cairo_set_line_width(cr,1)
     cairo_stroke(cr)
   end
+end
+
+function draw_text(cr,x,y,str)
+  local bgc, bga, fgc, fga=0xffffff, 0.2, 0xd7d7d7, 0.6
+  cairo_set_source_rgba(cr,rgb_to_r_g_b(fgc,fga))
+  cairo_select_font_face(cr, "Ubuntu", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL)
+  cairo_set_font_size(cr, 22)
+
+  cairo_move_to (cr, x, y)
+  cairo_show_text (cr, str)
 end
 
 function conky_clock_rings()
@@ -293,6 +305,8 @@ cairo_surface_destroy(cs)
   end
 
   draw_clock_hands(cr,clock_x,clock_y)
+  draw_text(cr,355 ,409, 'mpd')
+
 cairo_destroy(cr)
 end
 

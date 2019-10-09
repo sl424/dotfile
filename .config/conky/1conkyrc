@@ -109,6 +109,24 @@ ${offset 20}${voffset -1}${cpubar cpu6 0, 110}${voffset 2}${color1}
 #${offset 15}${if_up ppp0} tDown   ${totaldown ppp0}$else tDown   ${totaldown wlp3s0}$endif
 Inbound: ${tcp_portmon 1 32767 count} Outbound: ${tcp_portmon 32768 61000 count}
 Total: ${tcp_portmon 1 65535 count}
+
+#..: MUSIC :..
+#-- SETTINGS FOR MPD --
+#--- if you use Exaile, uncomment commented section and comment mpd one ---
+#--- if you use other player, search setting on google :P ---
+${color d7d7d7}${voffset -0}${cpugraph cpu6 1,300}${voffset 1}${cpugraph cpu6 17,1}${color3}
+${if_mpd_playing}
+#${voffset -8}${offset 55}${voffset -2}${font neuropol:size=20}${mpd_elapsed}
+#${offset 165}${voffset -27}${font neuropol:size=14}/ ${mpd_length}
+#${offset 55}${color3}${cpubar cpu6 0, 190}${voffset 2}${font Droid Sans}
+${offset 55}${scroll 36 ${mpd_title}}
+${offset 55}${scroll 36 ${mpd_artist}}
+${offset 55}${scroll 36 ${mpd_album}}
+$else       
+..:: title ::..
+..:: artist ::..
+..:: album ::..
+$endif
 #
 #..: USB DEVICES :..
 #-- set for your use --
@@ -121,35 +139,19 @@ ${offset 15}${voffset 7}${if_existing /dev/sdb2}${exec df -h | grep "sdb2" | cut
 ${offset 15}${voffset 7}${if_existing /dev/sdc1}${exec df -h | grep "sdc1" | cut -c48-70}   $else..:No Device:..$endif 
 ${offset 15}${voffset 7}${if_existing /dev/sdd1}${exec df -h | grep "sdd1" | cut -c48-70}   $else $endif
 ${offset 15}${voffset 7}${if_existing /dev/sde1}${exec df -h | grep "sde1" | cut -c48-70}   $else $endif  
-
 #
 #..: kernel log :..
-#-- SETTINGS FOR MPD --
 LOGGING ${hr 2}$color
 #${color 339900}${exec journalctl -n 5 | fold -w50}$color
 $color3${exec journalctl -n 10}$color
 
-
 #
-#..: MUSIC :..
-#-- SETTINGS FOR MPD --
-#--- if you use Exaile, uncomment commented section and comment mpd one ---
-#--- if you use other player, search setting on google :P ---
-#${color d7d7d7}${voffset -30}${cpugraph cpu6 1,300}${voffset 1}${cpugraph cpu6 17,1}${color3}
-#${if_mpd_playing}${voffset -8}${offset 55}${voffset -2}${font neuropol:size=20}${mpd_elapsed}
-#${offset 165}${voffset -27}${font neuropol:size=14}/ ${mpd_length}
-#${offset 55}${color3}${cpubar cpu6 0, 190}${voffset 2}${font Droid Sans}
-#${offset 55}${scroll 36 ${mpd_title}}
-#${offset 55}${scroll 36 ${color 3273b5}${mpd_artist}}${color3}
-#${offset 55}${scroll 36 ${mpd_album}}
-#$else       ..:: MPD not running ::..
 #${if_running exaile}${voffset -8}${offset 55}${voffset -2}${font neuropol:size=20} ${exec conkyExaile --datatype=PT} ${voffset -5}${font PizzaDude Bullets:size=10}BBBBB${offset -65}${color 0778ec}${exec conkyExaile -n --datatype=RT --ratingchar=D}$color
 #${offset 55}${color3}${cpubar cpu6 0, 190}${voffset 2}${font Droid Sans}
 #${offset 55}${scroll 36 ${exec conkyExaile --datatype=TI}}
 #${offset 55}${scroll 36 ${exec conkyExaile --datatype=AR}}
 #${offset 55}${scroll 36 ${exec conkyExaile --datatype=AL}}
 #${else}       ..:: Exaile not running ::..
-
 #$endif
 
 
