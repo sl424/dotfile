@@ -496,6 +496,23 @@
 # Opacity (boolean)
 #cc-opaque=1
 
+[zvbi] # VBI and Teletext decoder
+
+# Teletext page (integer)
+#vbi-page=100
+
+# Opacity (boolean)
+#vbi-opaque=0
+
+# Teletext alignment (integer)
+#vbi-position=8
+
+# Teletext text subtitles (boolean)
+#vbi-text=0
+
+# Presentation Level (integer)
+#vbi-level=3
+
 [speex] # Speex audio decoder
 
 # Mode (integer)
@@ -2469,6 +2486,23 @@ freetype-monofont=Bitstream Vera Sans Mono
 # Metacube (boolean)
 #sout-http-metacube=0
 
+[access_output_srt] # SRT stream output
+
+# SRT chunk size (bytes) (integer)
+#chunk-size=1316
+
+# Return poll wait after timeout milliseconds (-1 = infinite) (integer)
+#poll-timeout=100
+
+# SRT latency (ms) (integer)
+#latency=125
+
+# Password for stream encryption (string)
+#passphrase=
+
+# Crypto key length in bytes (integer)
+#key-length=16
+
 [file] # File stream output
 
 # Overwrite existing file (boolean)
@@ -2640,6 +2674,26 @@ spect-peak-height=90
 # Scaling mode (integer)
 #swscale-mode=2
 
+[linsys_sdi] # SDI Input
+
+# Link # (integer)
+#linsys-sdi-link=0
+
+# Video ID (integer)
+#linsys-sdi-id-video=0
+
+# Aspect ratio (string)
+#linsys-sdi-aspect-ratio=
+
+# Audio configuration (string)
+#linsys-sdi-audio=0=1,1
+
+# Teletext configuration (string)
+#linsys-sdi-telx=
+
+# Teletext language (string)
+#linsys-sdi-telx-lang=
+
 [access_mms] # Microsoft Media Server (MMS) input
 
 # TCP/UDP timeout (ms) (integer)
@@ -2678,6 +2732,143 @@ spect-peak-height=90
 
 # Advanced options (string)
 #sout-avio-options=
+
+[v4l2] # Video4Linux input
+
+# Video capture device (string)
+#v4l2-dev=/dev/video0
+
+# VBI capture device (string)
+#v4l2-vbidev=
+
+# Standard (string)
+#v4l2-standard=
+
+# Video input chroma format (string)
+#v4l2-chroma=
+
+# Input (integer)
+#v4l2-input=0
+
+# Audio input (integer)
+#v4l2-audio-input=-1
+
+# Width (integer)
+#v4l2-width=0
+
+# Height (integer)
+#v4l2-height=0
+
+# Picture aspect-ratio n:m (string)
+#v4l2-aspect-ratio=4:3
+
+# Frame rate (string)
+#v4l2-fps=60
+
+# Radio device (string)
+#v4l2-radio-dev=/dev/radio0
+
+# Frequency (integer)
+#v4l2-tuner-frequency=-1
+
+# Audio mode (integer)
+#v4l2-tuner-audio-mode=3
+
+# Reset controls (boolean)
+#v4l2-controls-reset=0
+
+# Brightness (integer)
+#v4l2-brightness=-1
+
+# Automatic brightness (integer)
+#v4l2-brightness-auto=-1
+
+# Contrast (integer)
+#v4l2-contrast=-1
+
+# Saturation (integer)
+#v4l2-saturation=-1
+
+# Hue (integer)
+#v4l2-hue=-1
+
+# Automatic hue (integer)
+#v4l2-hue-auto=-1
+
+# White balance temperature (K) (integer)
+#v4l2-white-balance-temperature=-1
+
+# Automatic white balance (integer)
+#v4l2-auto-white-balance=-1
+
+# Red balance (integer)
+#v4l2-red-balance=-1
+
+# Blue balance (integer)
+#v4l2-blue-balance=-1
+
+# Gamma (integer)
+#v4l2-gamma=-1
+
+# Automatic gain (integer)
+#v4l2-autogain=-1
+
+# Gain (integer)
+#v4l2-gain=-1
+
+# Sharpness (integer)
+#v4l2-sharpness=-1
+
+# Chroma gain (integer)
+#v4l2-chroma-gain=-1
+
+# Automatic chroma gain (integer)
+#v4l2-chroma-gain-auto=-1
+
+# Power line frequency (integer)
+#v4l2-power-line-frequency=-1
+
+# Backlight compensation (integer)
+#v4l2-backlight-compensation=-1
+
+# Band-stop filter (integer)
+#v4l2-band-stop-filter=-1
+
+# Horizontal flip (boolean)
+#v4l2-hflip=0
+
+# Vertical flip (boolean)
+#v4l2-vflip=0
+
+# Rotate (degrees) (integer)
+#v4l2-rotate=-1
+
+# Color killer (integer)
+#v4l2-color-killer=-1
+
+# Color effect (integer)
+#v4l2-color-effect=-1
+
+# Audio volume (integer)
+#v4l2-audio-volume=-1
+
+# Audio balance (integer)
+#v4l2-audio-balance=-1
+
+# Mute (boolean)
+#v4l2-audio-mute=0
+
+# Bass level (integer)
+#v4l2-audio-bass=-1
+
+# Treble level (integer)
+#v4l2-audio-treble=-1
+
+# Loudness mode (boolean)
+#v4l2-audio-loudness=0
+
+# v4l2 driver controls (string)
+#v4l2-set-ctrls=
 
 [dvdnav] # DVDnav Input
 
@@ -2751,6 +2942,23 @@ spect-peak-height=90
 
 # Set NFS uid/guid automatically (boolean)
 #nfs-auto-guid=1
+
+[access_srt] # SRT input
+
+# SRT chunk size (bytes) (integer)
+#chunk-size=1316
+
+# Return poll wait after timeout milliseconds (-1 = infinite) (integer)
+#poll-timeout=-1
+
+# SRT latency (ms) (integer)
+#latency=125
+
+# Password for stream encryption (string)
+#passphrase=
+
+# Crypto key length in bytes (integer)
+#key-length=16
 
 [live555] # RTP/RTSP/SDP demuxer (using Live555)
 
@@ -3435,6 +3643,11 @@ spect-peak-height=90
 # Language (string)
 #sout-setlang-lang=eng
 
+[stream_out_chromaprint] # Chromaprint stream output
+
+# Duration of the fingerprinting (integer)
+#duration=90
+
 [vaapi_filters] # Video Accelerated API filters
 
 # Denoise strength (0-2) (float)
@@ -3452,7 +3665,7 @@ spect-peak-height=90
 #rc-unix=
 
 # TCP command input (string)
-#rc-host=
+rc-host=localhost:50500
 
 [lirc] # Infrared remote control interface
 
@@ -4068,7 +4281,7 @@ playlist-enqueue=1
 #intf=
 
 # Extra interface modules (string)
-#extraintf=
+extraintf=rc
 
 # Control interfaces (string)
 #control=
@@ -4092,7 +4305,7 @@ playlist-enqueue=1
 #key-leave-fullscreen=Esc
 
 # Play/Pause (string)
-global-key-play-pause=4
+global-key-play-pause=2
 
 # Play/Pause (string)
 key-play-pause=Space
@@ -4164,7 +4377,7 @@ key-play-pause=Space
 #key-position=t
 
 # Very short backwards jump (string)
-global-key-jump-extrashort=3
+global-key-jump-extrashort=1
 
 # Very short backwards jump (string)
 #key-jump-extrashort=Shift+Left
@@ -4176,7 +4389,7 @@ global-key-jump-extrashort=3
 #key-jump+extrashort=Shift+Right
 
 # Short backwards jump (string)
-global-key-jump-short=5
+global-key-jump-short=3
 
 # Short backwards jump (string)
 #key-jump-short=Alt+Left
