@@ -1,3 +1,53 @@
+
+##################################################
+# Autostart applications
+#exec --no-startup-id start_conky_live_maia
+#exec --no-startup-id conky -c $HOME/.config/conky/conky.conf
+# exec --no-startup-id blueman
+#exec --no-startup-id manjaro-hello
+# exec_always --no-startup-id sbxkb
+#exec_always --no-startup-id ff-theme-util
+#exec --no-startup-id desktop-items
+
+# minimal autostart
+exec --no-startup-id ibus-daemon -drx
+exec --no-startup-id nitrogen --restore; sleep 1; #compton -b
+exec --no-startup-id redshift
+exec --no-startup-id clipit
+
+# Autostart applications problematic
+#exec --no-startup-id xfce4-power-manager
+#exec --no-startup-id volumeicon
+#exec --no-startup-id conky --quiet -c $HOME/.config/conky/0conkyrc
+#exec --no-startup-id conky --quiet -c $HOME/.config/conky/1conkyrc
+#exec --no-startup-id nm-applet
+#exec --no-startup-id pamac-tray
+#exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+#exec_always --no-startup-id setcursor
+
+
+##################################################
+# set drop down menu to F1 key
+
+bindsym Mod1+F1  exec --no-startup-id termite --display=$DISPLAY --class=micdrop
+for_window [class="micdrop"] floating enable, move scratchpad, scratchpad show, move position 0px 0px, resize set width 1920;
+bindsym F1 [class="micdrop"] scratchpad show
+
+
+##################################################
+# set window size
+
+#resize set 30 ppt 40 ppt
+#resize set 30 ppt 100 px
+#resize set width 30 ppt
+#resize set height 50 px
+
+##################################################
+## change height to 30 ppt, don't change width
+
+#resize set w 30 ppt
+
+
 # i3 config file (v4)
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -41,16 +91,18 @@ bindsym $mod+d exec --no-startup-id rofi -show combi
 bindsym $mod+z exec --no-startup-id morc_menu
 
 # start tilda pulldown terminal
-exec --no-startup-id tilda
+# exec --no-startup-id tilda
 
-exec --no-startup-id ibus-daemon -drx
-exec --no-startup-id redshift
 
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
 
-exec --no-startup-id volumeicon
+# Audio controls
+bindsym XF86AudioRaiseVolume exec amixer set Master 10%+
+bindsym XF86AudioLowerVolume exec amixer set Master 10%-
+bindsym XF86AudioMute exec amixer set Master toggle
+
 bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 #exec --no-startup-id pulseaudio
 #exec --no-startup-id pa-applet
@@ -59,8 +111,8 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 ################################################################################################
 
 # Screen brightness controls
-# bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
-# bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10%; notify-send 'brightness up'"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 10%; notify-send 'brightness down'"
 
 # Start Applications
 bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
@@ -74,7 +126,7 @@ bindsym $mod+F5 exec terminal -e 'mocp'
 bindsym $mod+t exec --no-startup-id pkill compton
 bindsym $mod+Ctrl+t exec --no-startup-id compton -b
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
-bindsym Print exec --no-startup-id i3-scrot
+#bindsym Print exec --no-startup-id i3-scrot
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
 bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
 bindsym $mod+Shift+h exec xdg-open /usr/share/doc/manjaro/i3_help_live.pdf
@@ -114,7 +166,6 @@ bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_
 # split orientation
 bindsym $mod+h split h;exec notify-send 'tile horizontally'
 bindsym $mod+v split v;exec notify-send 'tile vertically'
-bindsym $mod+q split toggle
 
 # toggle fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -123,6 +174,7 @@ bindsym $mod+f fullscreen toggle
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
+bindsym $mod+q split toggle
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -130,18 +182,19 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
-# toggle sticky
-bindsym $mod+Shift+s sticky toggle
-
-# focus the parent container
-bindsym $mod+a focus parent
-
 # move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+minus scratchpad show
+
+# toggle sticky
+bindsym $mod+Shift+s sticky toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
 
 #navigate workspaces next / previous
 bindsym $mod+Ctrl+Right workspace next
@@ -231,7 +284,11 @@ for_window [class="Skype"] floating enable border normal
 for_window [class="Timeset-gui"] floating enable border normal
 #for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="Xfburn"] floating enable
+for_window [class="XTerm"] floating enable, move position 0px 0px 
 for_window [class="Viewnior"] floating enable
+
+#for_window [title="tilda"] floating enable
+#for_window [title="Tilda"] floating enable
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
@@ -289,23 +346,6 @@ mode "resize" {
 # Lock screen
 #bindsym $mod+9 exec --no-startup-id blurlock
 
-# Autostart applications
-exec --no-startup-id nitrogen --restore; sleep 1; compton -b
-#exec --no-startup-id start_conky_live_maia
-#exec --no-startup-id conky -c $HOME/.config/conky/conky.conf
-exec --no-startup-id conky -c $HOME/.config/conky/0conkyrc
-exec --no-startup-id conky -c $HOME/.config/conky/1conkyrc
-# exec --no-startup-id blueman
-exec --no-startup-id clipit
-exec --no-startup-id desktop-items
-#exec --no-startup-id manjaro-hello
-exec --no-startup-id nm-applet
-exec --no-startup-id pamac-tray
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-# exec_always --no-startup-id sbxkb
-exec --no-startup-id xfce4-power-manager
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id setcursor
 
 # Color palette used for the terminal ( ~/.extend.Xresources file )
 # Colors are gathered based on the documentation:
@@ -319,29 +359,29 @@ exec_always --no-startup-id setcursor
 # to:
 # background $term_background
 # Same logic applied to everything else.
-set_from_resource $term_background background
-set_from_resource $term_foreground foreground
-set_from_resource $term_color0     color0
-set_from_resource $term_color1     color1
-set_from_resource $term_color2     color2
-set_from_resource $term_color3     color3
-set_from_resource $term_color4     color4
-set_from_resource $term_color5     color5
-set_from_resource $term_color6     color6
-set_from_resource $term_color7     color7
-set_from_resource $term_color8     color8
-set_from_resource $term_color9     color9
-set_from_resource $term_color10    color10
-set_from_resource $term_color11    color11
-set_from_resource $term_color12    color12
-set_from_resource $term_color13    color13
-set_from_resource $term_color14    color14
-set_from_resource $term_color15    color15
+#set_from_resource $term_background background
+#set_from_resource $term_foreground foreground
+#set_from_resource $term_color0     color0
+#set_from_resource $term_color1     color1
+#set_from_resource $term_color2     color2
+#set_from_resource $term_color3     color3
+#set_from_resource $term_color4     color4
+#set_from_resource $term_color5     color5
+#set_from_resource $term_color6     color6
+#set_from_resource $term_color7     color7
+#set_from_resource $term_color8     color8
+#set_from_resource $term_color9     color9
+#set_from_resource $term_color10    color10
+#set_from_resource $term_color11    color11
+#set_from_resource $term_color12    color12
+#set_from_resource $term_color13    color13
+#set_from_resource $term_color14    color14
+#set_from_resource $term_color15    color15
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
-	i3bar_command i3bar
-	status_command i3status -c $HOME/.i3/i3status.conf
+	#i3bar_command i3bar
+	status_command i3status -c $HOME/.config/i3/i3status.conf
 	position bottom
 
 ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
@@ -372,11 +412,11 @@ bindsym $mod+m bar mode toggle
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
-  client.focused          #556064 #556064 #80FFF9 #FDF6E3
-  client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
-  client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
-  client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
-  client.placeholder      #000000 #0c0c0c #ffffff #000000 
+  client.focused          #556064 #556064 #80FFF9 #FDF6E3   
+  client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948   
+  client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948   
+  client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2   
+  client.placeholder      #000000 #0c0c0c #ffffff #000000   
 
   client.background       #2B2C2B
 
