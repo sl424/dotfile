@@ -136,12 +136,16 @@ ${offset 170}${voffset -5}${cpubar cpu6 0, 110}${voffset 2}${color1}
 ${offset 170}root   ${fs_free /} / ${fs_size /}
 ${offset 170}var    ${fs_free /var} / ${fs_size /var}
 ${offset 170}home   ${fs_free /home} / ${fs_size /home}
-
-${goto 140}${color}RAM${font Bitstream Vera Sans:bold:size=8}$alignr$mem$font
-${goto 140}${voffset 5}$color2${top_mem name 1}$alignr$color${top_mem mem_res 1}
+#${goto 140}${color}RAM${font Bitstream Vera Sans:bold:size=8}$alignr$mem$font
+$font
+${goto 140}$color2${top_mem name 1}$alignr$color${top_mem mem_res 1}
 ${goto 140}$color2${top_mem name 2}$alignr$color${top_mem mem_res 2}
 ${goto 140}$color2${top_mem name 3}$alignr$color${top_mem mem_res 3}
 ${goto 140}$color2${top_mem name 4}$alignr$color${top_mem mem_res 4}
 ${goto 140}$color2${top_mem name 5}$alignr$color${top_mem mem_res 5}
-
+${goto 140}$color2${top_mem name 6}$alignr$color${top_mem mem_res 6}
+${goto 140}$color2${top_mem name 7}$alignr$color${top_mem mem_res 7}
+${goto 140}$color2${top_mem name 8}$alignr$color${top_mem mem_res 8}
+${goto 140}$color2${top_mem name 9}$alignr$color${top_mem mem_res 9}
+${goto 140}$color2${top_mem name 10}$alignr$color${top_mem mem_res 10}
 ]];

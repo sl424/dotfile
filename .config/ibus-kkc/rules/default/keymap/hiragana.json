@@ -4,7 +4,13 @@
   ],
   "define" : {
     "keymap" : {
-      "F4" : "set-input-mode-direct"
+      "(super 9)" : null,
+      "F4" : "set-input-mode-direct",
+      "(control l)" : null,
+      "Print" : "set-input-mode-direct",
+      "(alt 4)" : null,
+      "4" : null,
+      "F12" : null
     }
   }
 }

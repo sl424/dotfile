@@ -79,7 +79,7 @@ settings_table = {
  {
         name='downspeedf',
 	arg='wlp3s0',
-	max=800,
+	max=8,
     bg_colour=0xffffff,
     bg_alpha=0.2,
     fg_colour=0xd7d7d7,
@@ -93,7 +93,7 @@ settings_table = {
 {
         name='upspeedf',
 	arg='wlp3s0',
-	max=500,
+	max=5,
     bg_colour=0xffffff,
     bg_alpha=0.2,
     fg_colour=0xd7d7d7,
@@ -135,14 +135,14 @@ settings_table = {
 {
     name="mpd_percent",
     arg="",
-    max=100,
+    max=10,
     bg_colour=0xffffff,
     bg_alpha=0.2,
     fg_colour=0xd7d7d7,
     fg_alpha=0.6,
     x=305, y=409,
     radius=43,
-    thickness=3,
+    thickness=5,
     start_angle=0,
     end_angle=360
   },
@@ -284,7 +284,7 @@ function conky_clock_rings()
   end
   --Fin ajout
 
-  pct=value/pt['max']
+  pct=(value%pt['max'])/pt['max']
   draw_ring(cr,pct,pt)
 end
 
