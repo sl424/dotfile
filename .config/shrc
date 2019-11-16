@@ -1,14 +1,66 @@
 #!/usr/bin/env sh
 
+#force_color_prompt=yes
+export LIBVA_DRIVER_NAME=iHD
+#export LIBVA_DRIVER_NAME=i965
+
+case ${TERM} in
+	linux|xterm|rxvt*|Eterm*|aterm|kterm|gnome*|interix|konsole*)
+		#PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
+		if type dircolors >/dev/null ; then
+			if [[ -f ~/.dir_colors ]] ; then
+				eval $(dircolors -b ~/.dir_colors)
+			elif [[ -f /etc/DIR_COLORS ]] ; then
+				eval $(dircolors -b /etc/DIR_COLORS)
+			fi
+		fi
+
+		;;
+	screen*)
+		#PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
+		;;
+	xterm-termite)
+		eval $(dircolors -p )
+		;;
+esac
+#eval $(dircolors -p | perl -pe 's/^((CAP|S[ET]|O[TR]|M|E)\w+).*/$1 00/' | dircolors -)
+alias pp='sudo pacman-mirrors --fasttrack'
+alias vrc='vlc --intf rc --rc-host localhost:50000'
+alias startx='startx ~/.xinitrc'
+
+alias mg='mupdf-gl'
+
+#tmux
+alias tmuxns='tmux new-session -s'
+alias tmuxks='tmux kill-session -t'
+alias tmuxls='tmux list-session'
+alias tmuxas='tmux attach-session -t'
 
 # related alias 
 alias ls='ls --color=auto -F'
 alias la='ls --color=auto -F -a -d .?*'
+alias l.='ls -d .* --color=auto'
+alias diff='diff --color=auto'
 alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
 
-alias cp="cp -i"                          # confirm before overwriting something
+alias ports='netstat -tulanp'
+
+alias wget='wget -c'
+
+# confirmation #
+# do not delete / or prompt if deleting more than 3 files at a time #
+# alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+alias ln='ln -i'
+ 
+# Parenting changing perms on / #
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+
 alias df='df -h'                          # human-readable sizes
 alias free='free -m'                      # show sizes in MB
 alias np='nano -w PKGBUILD'
@@ -24,10 +76,6 @@ PATH=~/opt/bin:$PATH
 PATH=~/script:$PATH
 PATH=~/crawlers:$PATH
 #PATH=~/:$PATH
-
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
 
 # # ex - archive extractor
 # # usage: ex <file>
@@ -59,15 +107,151 @@ ex ()
 # first to take advantage of user additions.  Use internal bash
 # globbing instead of external grep binary.
 
-use_color=true
-if ${use_color} ; then
-	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
-	if type dircolors >/dev/null ; then
-		if [[ -f ~/.dir_colors ]] ; then
-			eval $(dircolors -b ~/.dir_colors)
-		elif [[ -f /etc/DIR_COLORS ]] ; then
-			eval $(dircolors -b /etc/DIR_COLORS)
-		fi
-	fi
+#eval $(dircolors -p | perl -pe 's/^((CAP|S[ET]|O[TR]|M|E)\w+).*/$1 00/' | dircolors -)
+#eval $(dircolors -p )
+
+#use_color=true
+#if ${use_color} ; then
+#	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
+#	if type dircolors >/dev/null ; then
+#		if [[ -f ~/.dir_colors ]] ; then
+#			eval $(dircolors -b ~/.dir_colors)
+#		elif [[ -f /etc/DIR_COLORS ]] ; then
+#			eval $(dircolors -b /etc/DIR_COLORS)
+#		fi
+#	fi
+#fi
+
+
+#fix obvious typo's
+alias cd..='cd ..'
+alias pdw="pwd"
+alias udpate='sudo pacman -Syyu'
+
+#readable output
+alias df='df -h'
+
+#pacman unlock
+alias unlock="sudo rm /var/lib/pacman/db.lck"
+
+#free
+alias free="free -mt"
+
+#use all cores
+alias uac="sh ~/.bin/main/000*"
+
+#continue download
+alias wget="wget -c"
+
+#userlist
+alias userlist="cut -d: -f1 /etc/passwd"
+
+#merge new settings
+alias merge="xrdb -merge ~/.Xresources"
+
+# Aliases for software managment
+# pacman or pm
+alias pacman='sudo pacman --color auto'
+alias update='sudo pacman -Syyu'
+
+# yay as aur helper - updates everything
+alias pksyua="yay -Syu --noconfirm"
+
+#ps
+alias ps="ps auxf"
+alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
+
+
+#check vulnerabilities microcode
+alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
+
+#hardware info --short
+alias hw="hwinfo --short"
+
+#get fastest mirrors in your neighborhood 
+alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
+alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
+alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
+
+#mounting the folder Public for exchange between host and guest on virtualbox
+alias vbm="sudo mount -t vboxsf -o rw,uid=1000,gid=1000 Public /home/$USER/Public"
+
+#youtube-dl
+alias yta-aac="youtube-dl --extract-audio --audio-format aac "
+alias yta-best="youtube-dl --extract-audio --audio-format best "
+alias yta-flac="youtube-dl --extract-audio --audio-format flac "
+alias yta-m4a="youtube-dl --extract-audio --audio-format m4a "
+alias yta-mp3="youtube-dl --extract-audio --audio-format mp3 "
+alias yta-opus="youtube-dl --extract-audio --audio-format opus "
+alias yta-vorbis="youtube-dl --extract-audio --audio-format vorbis "
+alias yta-wav="youtube-dl --extract-audio --audio-format wav "
+alias ytv-best="youtube-dl -f bestvideo+bestaudio "
+
+#Recent Installed Packages
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -100"
+
+#Cleanup orphaned packages
+alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
+
+#get the error messages from journalctl
+alias jctl="journalctl -p 3 -xb"
+
+#if [ "$TERM" = "linux" ]; then
+#echo -en "\e]P002828"
+#echo -en "\e]P10241d"
+#echo -en "\e]P20971a"
+#echo -en "\e]P309921"
+#echo -en "\e]P408588"
+#echo -en "\e]P506286"
+#echo -en "\e]P609d6a"
+#echo -en "\e]P709984"
+#echo -en "\e]P808374"
+#echo -en "\e]P904934"
+#echo -en "\e]PA0bb26"
+#echo -en "\e]PB0bd2f"
+#echo -en "\e]PC0a598"
+#echo -en "\e]PD0869b"
+#echo -en "\e]PE0c07c"
+#echo -en "\e]PF0dbb2"
+#clear
+#fi
+
+if [ "$TERM" = "linux" ]; then
+    echo -en "\e]P0232323" #black
+    echo -en "\e]P82B2B2B" #darkgrey
+    echo -en "\e]P1D75F5F" #darkred
+    echo -en "\e]P9E33636" #red
+    echo -en "\e]P287AF5F" #darkgreen
+    echo -en "\e]PA98E34D" #green
+    echo -en "\e]P3D7AF87" #brown
+    echo -en "\e]PBFFD75F" #yellow
+    echo -en "\e]P48787AF" #darkblue
+    echo -en "\e]PC7373C9" #blue
+    echo -en "\e]P5BD53A5" #darkmagenta
+    echo -en "\e]PDD633B2" #magenta
+    echo -en "\e]P65FAFAF" #darkcyan
+    echo -en "\e]PE44C9C9" #cyan
+    echo -en "\e]P7E5E5E5" #lightgrey
+    echo -en "\e]PFFFFFFF" #white
+    clear #for background artifacting
 fi
 
+set-hl() {
+    LESS_TERMCAP_md=$'\e[01;31m' \
+    LESS_TERMCAP_me=$'\e[0m' \
+    LESS_TERMCAP_se=$'\e[0m' \
+    LESS_TERMCAP_so=$'\e[01;44;33m' \
+    LESS_TERMCAP_ue=$'\e[0m' \
+    LESS_TERMCAP_us=$'\e[01;32m' 
+}
+
+man() {
+    set-hl
+    command man "$@"
+}
+
+less() {
+    set-hl
+    command less "$@"
+}

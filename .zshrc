@@ -1,7 +1,16 @@
 ##################################################
 # shared shell imported config 
 ##################################################
+#if [ -f $HOME/.bash_profile ]; then 
+#    source $HOME/.bash_profile;
+#fi
+#
+#
+
 [ -f "$HOME/.config/shrc" ] && source "$HOME/.config/shrc"
+alias vtube='noglob vtube'
+
+eval $(dircolors -p )
 
 ##################################################
 # zsh config starts
@@ -75,22 +84,25 @@ bindkey '^[[5~' history-beginning-search-backward               # Page up key
 bindkey '^[[6~' history-beginning-search-forward                # Page down key
 
 # Navigate words with ctrl+arrow keys
-#bindkey '^[Oc' forward-word                                     #
-#bindkey '^[Od' backward-word                                    #
+bindkey '^[Oc' forward-word                                     #
+bindkey '^[Od' backward-word                                    #
 bindkey '^[[1;5D' backward-word                                 #
 bindkey '^[[1;5C' forward-word                                  #
 bindkey '^H' backward-kill-word                                 # delete previous word with ctrl+backspace
 bindkey '^[[Z' undo                                             # Shift+tab undo last action
 
 # Navigate words with alt+arrow keys
-#bindkey '^[^[[C' forward-word                                     #
-#bindkey '^[^[[D' backward-word                                    #
+bindkey '^[^[[C' forward-word                                     #
+bindkey '^[^[[D' backward-word                                    #
 
-# Navigate words with alt+hjkl keys
+# Navigate words/char with ctrl + hl keys
 bindkey '^[l' forward-word                                     #
 bindkey '^[h' backward-word                                    #
+bindkey '^l' forward-char                                     #
+bindkey '^h' backward-char                                    #
 #bindkey '^[k' forward-char                                     #
 #bindkey '^[j' backward-char                                    #
+bindkey '^@' clear-screen                                       # remap ctrl+l to ctrl+space
 
 # Edit line in vim with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line
@@ -109,7 +121,8 @@ setopt prompt_subst
  #PROMPT="%(!.%{$fg[red]%}[%n@%m %1~]%{$reset_color%}# .%{$fg[green]%}[%n@%m %1~]%{$reset_color%}$ "
  
 # Maia prompt
-PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%1~|%~)%u%b >%{$fg[cyan]%}>%B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
+#PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u%b >%{$fg[cyan]%}>%B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
+PROMPT="%B%{$fg[cyan]%}%(2~|%-1~/.../%1~|%~)%u%b >%{$fg[cyan]%}>%B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
 
 # Print a greeting message when shell is started
 # echo $USER@$HOST  $(uname -srm) $(lsb_release -rcs)
@@ -206,9 +219,9 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 #bindkey '^[[A' history-substring-search-up			
 #bindkey '^[[B' history-substring-search-down
 
-# actually bind alt-j and alt-k to history substring search
-bindkey '^[k' history-substring-search-up			
-bindkey '^[j' history-substring-search-down
+# actually bind ctrl-j and ctrl-k to history substring search
+bindkey '^k' history-substring-search-up			
+bindkey '^j' history-substring-search-down
 
 # Apply different settigns for different terminals
 case $(basename "$(cat "/proc/$PPID/comm")") in

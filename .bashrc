@@ -1,8 +1,8 @@
 ##################################################
 # shared shell imported config 
 
-[ -f "$HOME/.config/shrc" ] && source "$HOME/.config/shrc"
-
+ [ -f "$HOME/.config/shrc" ] && source "$HOME/.config/shrc"
+#source .extend.bashrc
 
 ##################################################
 # ~/.bashrc
