@@ -1,6 +1,83 @@
 #!/usr/bin/env bash
 set -e
 
+# Arch Linux Install Script (alis) installs unattended, automated
+# and customized Arch Linux system.
+# Copyright (C) 2018 picodotdev
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# This script is hosted at https://github.com/picodotdev/alis. For new features,
+# improvements and bugs fill an issue in GitHub or make a pull request.
+# Pull Request are welcome!
+#
+# If you test it in real hardware please send me an email to pico.dev@gmail.com with
+# the machine description and tell me if somethig goes wrong or all works fine.
+#
+# Please, don't ask for support for this script in Arch Linux forums, first read
+# the Arch Linux wiki [1], the Installation Guide [2] and the General
+# Recomendations [3], later compare the commands with those of this script.
+#
+# [1] https://wiki.archlinux.org
+# [2] https://wiki.archlinux.org/index.php/Installation_guide
+# [3] https://wiki.archlinux.org/index.php/General_recommendations
+
+# Usage:
+# # loadkeys es
+# # curl https://raw.githubusercontent.com/picodotdev/alis/master/download.sh | bash, or with URL shortener curl -sL https://bit.ly/2F3CATp | bash
+# # vim alis.conf
+# # ./alis.sh
+
+# global variables (no configuration, don't edit)
+ASCIINEMA=""
+BIOS_TYPE=""
+PARTITION_BIOS=""
+PARTITION_BOOT=""
+PARTITION_ROOT=""
+DEVICE_ROOT=""
+LVM_DEVICE=""
+LVM_VOLUME_PHISICAL="lvm"
+LVM_VOLUME_GROUP="vg"
+LVM_VOLUME_LOGICAL="root"
+BOOT_DIRECTORY=""
+ESP_DIRECTORY=""
+#PARTITION_BOOT_NUMBER=0
+UUID_BOOT=""
+UUID_ROOT=""
+PARTUUID_BOOT=""
+PARTUUID_ROOT=""
+DEVICE_SATA=""
+DEVICE_NVME=""
+DEVICE_MMC=""
+CPU_INTEL=""
+VIRTUALBOX=""
+CMDLINE_LINUX_ROOT=""
+CMDLINE_LINUX=""
+ADDITIONAL_USER_NAMES_ARRAY=()
+ADDITIONAL_USER_PASSWORDS_ARRAY=()
+
+CONF_FILE=".arch.sh"
+LOG_FILE="alis.log"
+ASCIINEMA_FILE="alis.asciinema"
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+LIGHT_BLUE='\033[1;34m'
+NC='\033[0m'
+
+
+
 # Arch Linux Install Script (alis) configuration file
 #
 # Some values are preceded by a ! character, this means that the value is ignored.
@@ -15,10 +92,22 @@ DEVICE="/dev/sda !/dev/nvme0n1 !/dev/mmcblk0" # sata nvme mmc (single)
 DEVICE_TRIM="true" # If DEVICE supports TRIM
 FILE_SYSTEM_TYPE="ext4 !btrfs !xfs" # (single)
 
-# LVM="true" # True if use LVM for partitioning
-# PARTITION_ROOT_ENCRYPTION_PASSWORD="archlinux" # LUKS encryption key, if LVM will be user LVM on LUKS. Empty for not use LUKS/encryption. Warning: change it!
-# PARTITION_ROOT_ENCRYPTION_PASSWORD_RETYPE="archlinux"
-# SWAP_SIZE="!2GiB !4GiB !8GiB" # (single, not supported in btrfs)
+PARTITION_BOOT="${DEVICE}1"
+PARTITION_ROOT="${DEVICE}2"
+#PARTITION_BOOT_NUMBER=1
+DEVICE_ROOT="${DEVICE}2"
+
+BOOT_DIRECTORY=/boot
+ESP_DIRECTORY=/boot
+UUID_BOOT=$(blkid -s UUID -o value $PARTITION_BOOT)
+UUID_ROOT=$(blkid -s UUID -o value $PARTITION_ROOT)
+PARTUUID_BOOT=$(blkid -s PARTUUID -o value $PARTITION_BOOT)
+PARTUUID_ROOT=$(blkid -s PARTUUID -o value $PARTITION_ROOT)
+
+LVM="false" # True if use LVM for partitioning
+PARTITION_ROOT_ENCRYPTION_PASSWORD="" # LUKS encryption key, if LVM will be user LVM on LUKS. Empty for not use LUKS/encryption. Warning: change it!
+PARTITION_ROOT_ENCRYPTION_PASSWORD_RETYPE=""
+SWAP_SIZE="!2GiB !4GiB !8GiB" # (single, not supported in btrfs)
 
 # network_install
 WIFI_INTERFACE=""
@@ -38,7 +127,7 @@ LOCALE="en_US.UTF-8 UTF-8"
 LANG="LANG=en_US.UTF-8"
 LANGUAGE="LANGUAGE=en_US:en"
 KEYMAP="KEYMAP=us"
-FONT=""
+FONT="ter-v16n"
 FONT_MAP=""
 
 # root
@@ -121,27 +210,31 @@ PACKAGES_AUR="$PACKAGES_AUR_INTERNET $PACKAGES_AUR_MULTIMEDIA $PACKAGES_AUR_UTIL
 REBOOT="true"
 
 pkgs="\
-alsa-utils					  thinkfan                     \
+alsa-utils					                               \
 arch-install-scripts				  tlp                          \
-brightnessctl					                               \
-elinks						  ttf-font-awesome             \
-git						  ttf-inconsolata              \
-i3status					  ttf-material-design-icons    \
+brightnessctl					  terminus-font                \
+elinks						  \
+git						  \
 intel-gpu-tools					  vim                          \
-intel-media-driver				  vlc                          \
+intel-media-driver				                               \
 libva-utils					  w3m                          \
 nerd-fonts-inconsolata				  wget                         \
-openssh						  wpa_supplicant               \
-palemoon-bin					  wqy-microhei                 \
+openssh						  \
 redshift-wlr-gamma-control			  xorg-server-xwayland         \
-rxvt-unicode					  xorg-xrdb                    \
-sudo						                               \
-sway                                                                           \
+rxvt-unicode urxvt-perls urxvt-resize-font-git                                 \
+xorg-xrdb                    \
+sudo polkit \
+sway waybar swayidle swaylock \
+wl-clipboard rofi clipman \
+wqy-microhei uim anthy fcitx fcitx-mozc fcitx-im \
+vlc mpv playerctl \
+firefox firefox-tridactyl firefox-tridactyl-native \
+wpa_supplicant 
 "                                                                              
+
 PACKAGES_AUR+=" $pkgs"
 
-giturl="https://github.com/sl424/installManjaro-.git" 
-
+giturl="https://github.com/sl424/dotfile.git" 
 
 # customize fresh install
 
@@ -160,30 +253,40 @@ function dotfile(){
 
 # 1.2 hardware tweaks
 ##################################################
+backlight_dir="/mnt/etc/udev/rules.d/90-brightnessctl.rules"
+backlight="\
+ACTION==\"add\", SUBSYSTEM==\"backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\" \n\
+ACTION==\"add\", SUBSYSTEM==\"backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"  \n\
+"
+
 lowbat_dir="/mnt/etc/udev/rules.d/99-lowbat.rules"
 lowbat="# Suspend the system when battery level drops to 5% or lower \n \
-SUBSYSTEM=='power_supply', ATTR{status}=='Discharging', ATTR{capacity}=='[0-5]', RUN+='/usr/bin/systemctl suspend'   \n \
+SUBSYSTEM==\"power_supply\", ATTR{status}==\"Discharging\", ATTR{capacity}==\"[0-5]\", RUN+=\"/usr/bin/systemctl suspend\"   \n \
 "                                                                                                                    
 
-t450s_dir="/mnt/etc/modprobe.d/thinkpad-t450s.conf"
-t450s="# change the default sound card of the same name                           \n\
-options snd_hda_intel index=1,0                                                   \n\
-options snd_hda_intel power_save=1                                                \n\
+thinkpad_dir="/mnt/etc/modprobe.d/thinkpad.conf"
+thinkpad="# change the default sound card of the same name                           \n\
+# options snd_hda_intel power_save=1                                                \n\
+# options snd_hda_intel index=1,0                                                   \n\
 # enable thinkpad_acpi fan                                                        \n\
-options thinkpad_acpi fan_control=1                                               \n\
-options i915 modeset=1                                                            \n\
-options i915 enable_psr=1                                                         \n\
+# options thinkpad_acpi fan_control=1                                               \n\
+# options i915 enable_psr=1                                                         \n\
+# options i915 modeset=1                                                            \n\
+# options i915 fastboot=1                                                            \n\
+# options mds=full,nosmt \n\
+# options psmouse synaptics_intertouch=1 \n\
 "                                                                                 
+
 
 networkd_dir="/mnt/etc/systemd/network/wireless.network"
 networkd="      \n\
 [Match]         \n\
 Name=wl*        \n\
 [Network]       \n\
-DHCP=ipv4       \n\
+DHCP=yes        \n\
 "
 
-wpa_dir="/mnt/etc/wpa_supplicant/wpa_wireless.conf"
+wpa_dir="/mnt/etc/wpa_supplicant/wpa_supplicant-wireless.conf"
 wpa="#ctrl_interface=/var/run/wpa_supplicant                                       \n\
 ctrl_interface=/run/wpa_supplicant                                                 \n\
 ctrl_interface_group=wheel                                                         \n\
@@ -191,122 +294,66 @@ update_config=1                                                                 
 eapol_version=1                                                                    \n\
 ap_scan=1                                                                          \n\
 fast_reauth=1                                                                      \n\
-# wpa_passphrase MyNetwork SuperSecretPassphrase > /etc/wpa_supplicant/wpa.conf    \n\
+# wpa_passphrase MyNetwork SuperSecretPassphrase >> /etc/wpa_supplicant/wpa.conf    \n\
 #network={                                                                         \n\
-#	ssid='home wifi'                                                           \n\
+#	ssid=\"home wifi\"                                                           \n\
 #	psk=pasphrase                                                              \n\
 #}                                                                                 \n\
 #network={                                                                         \n\
-#	ssid='open wifi name'                                                      \n\
+#	ssid=\"open wifi name\"                                                      \n\
 #	key_mgmt=NONE                                                              \n\
 #}                                                                                 \n\
 #network={                                                                         \n\
-#	ssid='secured university'                                                  \n\
+#	ssid=\"secured university\"                                                  \n\
 #	key_mgmt=WPA-EAP                                                           \n\
 #	eap=PEAP                                                                   \n\
-#	phase2='auth=MSCHAPV2'                                                     \n\
-#	identity='user_name'                                                       \n\
-#	password='passwd'                                                          \n\
+#	phase2=\"auth=MSCHAPV2\"                                                     \n\
+#	identity=\"user_name\"                                                       \n\
+#	password=\"passwd\"                                                          \n\
 #}                                                                                 \n\
 "
 
+lid_dir="/mnt/etc/systemd/logind.conf"
+lid="HandleLidSwitch=ignore"
+
+resolv_dir="/mnt/etc/resolv.conf"
+resolv="nameserver 8.8.8.8  \n\
+	nameserver ::1       \n\
+	nameserver 127.0.0.1 \n\
+"
+
+
 function hwmod(){
 	echo -e $lowbat >> $lowbat_dir
-	echo -e $t450s >> $t450s_dir
+	echo -e $thinkpad >> $thinkpad_dir
 	echo -e $wpa >> $wpa_dir
 	echo -e $networkd >> $networkd_dir
+	echo -e $resolv >> $resolv_dir
+	echo -e $lid >> $lid_dir
 
 	read -p 'MyNetwork: ' MyNetwork 
 	read -p 'SuperSecretPassphrase: ' SuperSecretPassphrase
 	wpa_passphrase $MyNetwork $SuperSecretPassphrase >> $wpa_dir
 
 	arch-chroot /mnt systemctl enable systemd-networkd
-	#arch-chroot /mnt systemctl enable systemd-resolved
 	arch-chroot /mnt systemctl enable tlp
-	arch-chroot /mnt systemctl enable thinkfan
-	arch-chroot /mnt systemctl enable wpa_supplicant
- 	arch-chroot /mnt cp /usr/share/doc/thinkfan/examples/thinkfan.conf.simple /etc/thinkfan.conf
+	arch-chroot /mnt systemctl enable wpa_supplicant@wireless
+
+	echo -e $backlight >> $backlight_dir
+ 	arch-chroot /mnt gpasswd -a $USER_NAME video #brightnessctl
+
 	#sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 	#arch-chroot /mnt sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+	#arch-chroot /mnt systemctl enable systemd-resolved
+	#arch-chroot /mnt systemctl enable thinkfan
+ 	#arch-chroot /mnt cp /usr/share/doc/thinkfan/examples/thinkfan.conf.simple /etc/thinkfan.conf
 }
 
-# Arch Linux Install Script (alis) installs unattended, automated
-# and customized Arch Linux system.
-# Copyright (C) 2018 picodotdev
 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# This script is hosted at https://github.com/picodotdev/alis. For new features,
-# improvements and bugs fill an issue in GitHub or make a pull request.
-# Pull Request are welcome!
-#
-# If you test it in real hardware please send me an email to pico.dev@gmail.com with
-# the machine description and tell me if somethig goes wrong or all works fine.
-#
-# Please, don't ask for support for this script in Arch Linux forums, first read
-# the Arch Linux wiki [1], the Installation Guide [2] and the General
-# Recomendations [3], later compare the commands with those of this script.
-#
-# [1] https://wiki.archlinux.org
-# [2] https://wiki.archlinux.org/index.php/Installation_guide
-# [3] https://wiki.archlinux.org/index.php/General_recommendations
-
-# Usage:
-# # loadkeys es
-# # curl https://raw.githubusercontent.com/picodotdev/alis/master/download.sh | bash, or with URL shortener curl -sL https://bit.ly/2F3CATp | bash
-# # vim alis.conf
-# # ./alis.sh
-
-# global variables (no configuration, don't edit)
-ASCIINEMA=""
-BIOS_TYPE=""
-PARTITION_BIOS=""
-PARTITION_BOOT=""
-PARTITION_ROOT=""
-DEVICE_ROOT=""
-LVM_DEVICE=""
-LVM_VOLUME_PHISICAL="lvm"
-LVM_VOLUME_GROUP="vg"
-LVM_VOLUME_LOGICAL="root"
-BOOT_DIRECTORY=""
-ESP_DIRECTORY=""
-#PARTITION_BOOT_NUMBER=0
-UUID_BOOT=""
-UUID_ROOT=""
-PARTUUID_BOOT=""
-PARTUUID_ROOT=""
-DEVICE_SATA=""
-DEVICE_NVME=""
-DEVICE_MMC=""
-CPU_INTEL=""
-VIRTUALBOX=""
-CMDLINE_LINUX_ROOT=""
-CMDLINE_LINUX=""
-ADDITIONAL_USER_NAMES_ARRAY=()
-ADDITIONAL_USER_PASSWORDS_ARRAY=()
-
-CONF_FILE="alis.conf"
-LOG_FILE="alis.log"
-ASCIINEMA_FILE="alis.asciinema"
-
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-LIGHT_BLUE='\033[1;34m'
-NC='\033[0m'
 
 function configuration_install() {
-    source alis.conf
+    #source alis.conf
     ADDITIONAL_USER_NAMES_ARRAY=($ADDITIONAL_USER_NAMES)
     ADDITIONAL_USER_PASSWORDS_ARRAY=($ADDITIONAL_USER_PASSWORDS)
 }
@@ -448,10 +495,10 @@ function init() {
 }
 
 function init_log() {
-    if [ "$LOG" == "true" ]; then
-        exec > >(tee -a $LOG_FILE)
-        exec 2> >(tee -a $LOG_FILE >&2)
-    fi
+    #if [ "$LOG" == "true" ]; then
+        #exec > >(tee -a $LOG_FILE)
+        #exec 2> >(tee -a $LOG_FILE >&2)
+    #fi
     set -o xtrace
 }
 
@@ -603,6 +650,7 @@ function mkinitcpio() {
                 ;;
         esac
         arch-chroot /mnt sed -i "s/MODULES=()/MODULES=($MODULES)/" /etc/mkinitcpio.conf
+        #arch-chroot /mnt sed -i 's/ base udev / systemd sd-vconsole /' /etc/mkinitcpio.conf
     fi
 
     if [ "$LVM" == "true" ]; then
@@ -679,6 +727,7 @@ function systemd() {
     echo "timeout 5" >> "/mnt$ESP_DIRECTORY/loader/loader.conf"
     echo "default archlinux" >> "/mnt$ESP_DIRECTORY/loader/loader.conf"
     echo "editor 0" >> "/mnt$ESP_DIRECTORY/loader/loader.conf"
+    echo "console-mode max" >> "/mnt$ESP_DIRECTORY/loader/loader.conf"
 
     arch-chroot /mnt mkdir -p "/etc/pacman.d/hooks/"
 
@@ -962,7 +1011,7 @@ function packages_aur() {
                 arch-chroot /mnt bash -c "echo -e \"$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n$USER_PASSWORD\n\" | su $USER_NAME -c \"cd /home/$USER_NAME && git clone https://aur.archlinux.org/$AUR.git && (cd $AUR && makepkg -si --noconfirm) && rm -rf $AUR\""
                 ;;
         esac
-        arch-chroot /mnt sed -i 's/%wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+        #arch-chroot /mnt sed -i 's/%wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
     fi
 
     if [ -n "$PACKAGES_AUR" ]; then
@@ -971,7 +1020,7 @@ function packages_aur() {
 }
 
 function terminate() {
-    cp "$CONF_FILE" "/mnt/etc/$CONF_FILE"
+    #cp "$CONF_FILE" "/mnt/etc/$CONF_FILE"
 
     if [ "$LOG" == "true" ]; then
         mkdir -p /mnt/var/log
@@ -1068,6 +1117,14 @@ function prep() {
 }
 
 function main() {
+    configuration_install
+    sanitize_variables
+    check_variables
+    warning
+    init
+    facts
+    check_facts
+    prepare
     #partition
     install
     kernels
