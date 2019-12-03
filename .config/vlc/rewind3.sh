@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-port=50500
+#port=50500
 
 time=$1
 
@@ -15,9 +15,11 @@ add() {
 }
 
 if [[ $time -eq 0 ]]; then 
-	echo pause | ncat localhost $port
+	#echo pause | ncat localhost $port
+	echo pause | ncat -U /tmp/vlcsock
 else 
-	ncat localhost $port <<< get_time |  grep -o '> [0-9]*' | grep -o '[0-9]*' | add | xargs echo "seek $1" | ncat localhost $port
+	#ncat localhost $port <<< get_time |  grep -o '> [0-9]*' | grep -o '[0-9]*' | add | xargs echo "seek $1" | ncat localhost $port
+	ncat -U /tmp/vlcsock <<< get_time |  grep -o '> [0-9]*' | grep -o '[0-9]*' | add | xargs echo "seek $1" | ncat -U /tmp/vlcsock
 fi
 
 #ncat localhost 50000 <<< get_time | sed -e "s/[\r>]//g" - |  grep -E '(^[^0-9])' | add | xargs echo "seek $1" | ncat localhost 50000 
