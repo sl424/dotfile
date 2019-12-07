@@ -1,10 +1,14 @@
-!! InputMethod
-URxvt.perl-ext:             xim-onthespot
+! InputMethod
+!URxvt.perl-ext:             xim-onthespot
 URxvt.preeditType:          OnTheSpot
-URxvt.perl-ext-common: ...,font-size
 
-URxvt*preeditType: OnTheSpot
-URxvt*perl-ext: xim-onthespot
+URxvt.perl-ext-common:  resize-font
+
+URxvt.perl-ext: default,url-select,xim-onthespot
+! Alt-u to start url selection
+URxvt.keysym.M-y: perl:url-select:select_next
+URxvt.url-select.launcher: /usr/bin/xdg-open
+URxvt.url-select.underline: true
 
 
 Xft.dpi:       96
@@ -20,7 +24,7 @@ XTerm*foreground:        #d8d8d8
 XTerm*pointerColor:      #1ABB9B
 XTerm*faceName:          Fixed
 XTerm*faceSize:          11
-!XTerm*reverseVideo:      on
+XTerm*reverseVideo:      on
 XTerm*selectToClipboard: true
 
 *background:                      #222D31
@@ -67,18 +71,19 @@ Xcursor.theme: xcursor-breeze
 Xcursor.size:                     0
 
 !URxvt.font:                       9x15,xft:TerminessTTFNerdFontMono
-URxvt.font:                        xft:Inconsolata:size=14,xft:WenQuanYi Micro Hei Mono
+URxvt.font:                        xft:Inconsolata Nerd Font:size=14,xft:WenQuanYi Micro Hei Mono
+! Inconsolata Nerd Font Mono
 
 ! alternative font settings with 'terminus':
 ! URxvt.font:      -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso10646-1
 ! URxvt.bold.font: -xos4-terminus-bold-r-normal--16-160-72-72-c-80-iso10646-1
 !! terminus names see end of file!
 
-URxvt.depth:                      32
-URxvt.background:                 [100]#222D31
+!URxvt.depth:                      32
+!URxvt.background:                 [100]#222D31
 URxvt*scrollBar:                  false
 URxvt*mouseWheelScrollPage:       false
-URxvt*cursorBlink:                true
+!URxvt*cursorBlink:                true
 URxvt*background:                 black
 URxvt*foreground:                 grey
 URxvt*saveLines:                  5000
@@ -87,6 +92,14 @@ URxvt*saveLines:                  5000
 ! URxvt*inheritPixmap:            true
  URxvt*transparent:              true
 ! URxvt*shading:                  138
+
+
+
+
+!For the Ctrl+Shift bindings to work, 
+!a default binding needs to be disabled (see discussion here):
+! URxvt.iso14755: false
+ URxvt.iso14755_52: false
 
 ! Normal copy-paste keybindings without perls
 URxvt.iso14755:                   false
@@ -111,7 +124,7 @@ URxvt.color3:               [90]#d79921
 URxvt.color4:               [90]#458588
 URxvt.color5:               [90]#b16286
 URxvt.color6:               [90]#689d6a
-URxvt.color7:               [90]#a89984
+!URxvt.color7:               [90]#a89984
 URxvt.color8:               [90]#928374
 URxvt.color9:               [90]#fb4934
 URxvt.color10:              [90]#b8bb26
@@ -119,13 +132,15 @@ URxvt.color11:              [90]#fabd2f
 URxvt.color12:              [90]#83a598
 URxvt.color13:              [90]#d3869b
 URxvt.color14:              [90]#8ec07c
-URxvt.color15:              [90]#ebdbb2
+!URxvt.color15:              [90]#ebdbb2
 URxvt.foreground:           [90]#ebdbb2
 URxvt.background:           [80]#282828
 URxvt.colorIT:              [90]#8ec07c
 URxvt.colorBD:              [90]#d5c4a1
 !URxvt.colorUL:              [90]#83a598
 URxvt.scrollColor:          [90]#504945
+
+
 
 
 ! Rxvt.perl-ext-common:             ...,clipboard

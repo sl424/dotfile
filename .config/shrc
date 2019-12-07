@@ -24,11 +24,12 @@ case ${TERM} in
 		;;
 esac
 #eval $(dircolors -p | perl -pe 's/^((CAP|S[ET]|O[TR]|M|E)\w+).*/$1 00/' | dircolors -)
+alias checkdns='sudo tcpdump -vv -x -X -s 1500 -i wlp3s0 "port 853"'
 alias pp='sudo pacman-mirrors --fasttrack'
 alias vrc='vlc --intf rc --rc-host localhost:50000'
 alias startx='startx ~/.xinitrc'
 
-alias mg='mupdf-gl'
+alias fe='feh --auto-zoom -g 640x480'
 
 #tmux
 alias tmuxns='tmux new-session -s'
