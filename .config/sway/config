@@ -12,7 +12,7 @@ font pango:Inconsolata Nerd Font 12
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
-bindsym F12 exec --no-startup-id vtube
+bindsym F12 exec --no-startup-id "mpv --force-window=immediate --geometry=800x450 --ytdl-format 'best[height=360]' $(wl-paste -p -n)"
 
 # input method
 ##################################################
@@ -45,7 +45,8 @@ bindsym F1 [con_mark="drop-term"] scratchpad show
 # window rules
 ##################################################
 #for_window [app_id="nautilus"] border none
-for_window [class="vlc"] floating enable
+#for_window [class="vlc"] floating enable
+for_window [class="feh"] floating enable
 for_window [app_id="mpv"] floating enable
 
 
@@ -220,7 +221,7 @@ output * bg /home/chewie/arch.jpg fill
 
  input "1:1:AT_Translated_Set_2_keyboard" { 
 	 	xkb_layout us,es
-		 xkb_options caps:escape,grp:win_space_toggle
+		 xkb_options caps:escape,grp:alt_space_toggle
  }
 
 #repeat_delay 500
