@@ -185,7 +185,7 @@ bindsym F10 exec 'clipman pick --tool="rofi" --histpath="~/.local/share/clipman-
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg /home/chewie/arch.jpg fill
+output * bg /home/chewie/.arch.jpg fill
 
 # Example configuration:
 #
@@ -195,9 +195,10 @@ output * bg /home/chewie/arch.jpg fill
 # swaymsg -t get_outputs
 
 ### Idle configuration
+          #timeout 300 'swaylock -f -c 000000' \
 ##################################################
  exec swayidle -w \
-          #timeout 300 'swaylock -f -c 000000' \
+          timeout 300 'swaymsg "output * dpms off"' \
           timeout 600 'swaymsg "output * dpms off"' \
                resume 'swaymsg "output * dpms on"' \
           before-sleep 'swaylock -f -c 000000' 
