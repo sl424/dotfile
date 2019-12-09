@@ -2,12 +2,13 @@
 set encoding=utf-8
 syntax on
 set ve=all
+set autochdir
 
 "autocomplete
-set omnifunc=syntaxcomplete#Complete
-highlight Pmenu ctermfg=white ctermbg=darkgrey
-highlight PmenuSel ctermfg=darkmagenta ctermbg=darkgrey
-highlight PmenuSel cterm=bold
+"set omnifunc=syntaxcomplete#Complete
+"highlight Pmenu ctermfg=white ctermbg=darkgrey
+"highlight PmenuSel ctermfg=darkmagenta ctermbg=darkgrey
+"highlight PmenuSel cterm=bold
 
 "delte previous word
 noremap! <C-h> <C-w>
@@ -39,11 +40,13 @@ endif
 "netrw tree view
 "map \ <C-W><C-W> 
 "map <silent> <C-L> :Lexplore<CR>
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
+
+"let g:netrw_banner = 0
+"let g:netrw_liststyle = 3
+"let g:netrw_browse_split = 4
+"let g:netrw_altv = 1
+"let g:netrw_winsize = 25
+
 "let g:netrw_preview=1
 "augroup ProjectDrawer autocmd!  autocmd VimEnter * :Vexplore augroup END
 " Toggle Vexplore with Ctrl-E
@@ -56,7 +59,7 @@ set nomodeline
 set autoindent
 set smartindent
 
-"set numbering
+set number
 "set relativenumber
 
 "readable text
@@ -93,9 +96,9 @@ nmap <silent> <leader>s :set spell!<CR>
 set scrolloff=5
 
 "status bar
-set laststatus=2
+"set laststatus=2
 "set statusline="%f%m%r%h%w [%Y] [0x%02.2B]%< %F%=%4v,%4l %3p%% of %L"
-set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
+"set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
 
 
 "status line with current cursor position
@@ -191,18 +194,19 @@ set wildmenu
 " use tab to complete
 " CR to accept, Esc to clear
 " j, k to select
-inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "<CR>"
-inoremap <expr> <Esc> pumvisible() ? "\<C-E>" : "<Esc>"
-inoremap <expr> j pumvisible() ? "\<C-N>" : "j"
-inoremap <expr> k pumvisible() ? "\<C-P>" : "k"
-inoremap <TAB> <C-R>=TabComplete()<CR>
-function! TabComplete()
-	if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
-		return "\<C-N>"
-	else
-		return "\<Tab>"
-	endif
-endfunction
+
+"inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "<CR>"
+"inoremap <expr> <Esc> pumvisible() ? "\<C-E>" : "<Esc>"
+"inoremap <expr> j pumvisible() ? "\<C-N>" : "j"
+"inoremap <expr> k pumvisible() ? "\<C-P>" : "k"
+"inoremap <TAB> <C-R>=TabComplete()<CR>
+"function! TabComplete()
+"	if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+"		return "\<C-N>"
+"	else
+"		return "\<Tab>"
+"	endif
+"endfunction
 
 "Enable incremental search
 "set incsearch
@@ -214,7 +218,7 @@ endfunction
 "autocmd BufEnter * lcd %:p:h
 "set tags+=./tags
 "set autochdir
-set tags=tags;
+"set tags=tags;
 
 "linux settings
 "autocmd BufRead,BufNewFile /home/chewie/linux-4.8.0/* source ~/.vim/linux.vim
@@ -240,7 +244,7 @@ iab _main() #include<stdlib.h><CR>#include<stdio.h><CR>int main(int argc, char *
 "autocmd FileType html "set omnifunc=htmlcomplete#CompleteTag
 "autocmd FileType css "set omnifunc=csscomplete#CompleteCSS
 "autocmd FileType c  set omnifunc=syntaxcomplete#Complete
-"autocmd FileType cpp set omnifunc=omni#cpp#complete#Main
+"autocmd FileType cpp set omnifunc=omni#cpp#complete
 
 
 function! FoldText()
@@ -269,4 +273,43 @@ endfunction
 
 set efm=\ %#[javac]\ %#%f:%l:%c:%*\\d:%*\\d:\ %t%[%^:]%#:%m,
 	   \%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-airline/vim-airline'
+Plug 'dense-analysis/ale'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'scrooloose/nerdtree'
+Plug 'ervandew/supertab'
+Plug 'tpope/vim-surround'
+Plug 'godlygeek/tabular'
+Plug 'majutsushi/tagbar'
+call plug#end()
+
+set t_Co=256   " This is may or may not needed.
+set background=dark
+colorscheme PaperColor
+
+"airline preference
+let g:airline#extensions#tabline#enabled = 1
+
+"toggle for vim plugins
+map <C-n> :NERDTreeToggle<CR>
+map <C-m> :TagbarToggle<CR>
+map <C-b> :CtrlPMixed<CR>
+
+map <C-j> <C-W>w
+"map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
 
