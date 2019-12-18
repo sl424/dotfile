@@ -1,3 +1,5 @@
+map <F2> :r !wl-paste -p<CR>
+vmap <F3> :w !wl-copy -p<CR>
 " syntax highlighting
 set encoding=utf-8
 syntax on
@@ -67,7 +69,7 @@ set background=dark
 
 let mapleader=','
 "paste toggle
-set pastetoggle=<F2>
+"set pastetoggle=<F2>
 "toggle tab highlight
 nnoremap <leader><Tab>      :syntax match Special "\t"<CR>
 "toggle trailing space highlight
