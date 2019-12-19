@@ -1,8 +1,17 @@
 for_window [shell=".*"] title_format "%title :: %shell"
 
+#set $gnome-schema org.gnome.desktop.interface
+
+exec_always {
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
+    gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
+    gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita'
+}
+
+
 # auto start services
 ##################################################
-exec --no-startup-id xrdb $HOME/.Xresources
+exec --no-startup-id xrdb -merge $HOME/.Xresources
 exec --no-startup-id redshift -l 33.4:-112 -t 5500:3300 -g 0.8 -m wayland
 exec --no-startup-id waybar
 
