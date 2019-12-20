@@ -11,7 +11,7 @@ exec_always {
 
 # auto start services
 ##################################################
-exec --no-startup-id xrdb -merge $HOME/.Xresources
+#exec --no-startup-id xrdb -merge $HOME/.Xresources
 exec --no-startup-id redshift -l 33.4:-112 -t 5500:3300 -g 0.8 -m wayland
 exec --no-startup-id waybar
 
@@ -182,14 +182,14 @@ set $term urxvt
 # Note: it's recommended that you pass the final command to sway
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
 #set $menu bemenu-run -i -p '' --fn "Terminus 12" | xargs swaymsg exec --
-#set $menu wofi --show run | xargs swaymsg exec --
-set $menu rofi -show combi | xargs swaymsg exec --
+set $menu wofi --show run | xargs swaymsg exec --
+#set $menu rofi -show combi | xargs swaymsg exec --
 
 # Your preferred clipboard manager
 #exec wl-paste -t text --watch clipman store
 #bindsym $mod+h exec clipman pick
-exec 'wl-paste -p --watch clipman store --histpath="~/.local/share/clipman-primary.json"'
-bindsym F10 exec 'clipman pick --tool="rofi" --histpath="~/.local/share/clipman-primary.json" && wl-paste | wl-copy -p '
+exec 'wl-paste -p -n --watch clipman store --histpath="~/.local/share/clipman-primary.json"'
+bindsym F10 exec 'clipman pick --tool="wofi" --histpath="~/.local/share/clipman-primary.json" && wl-paste | wl-copy -p -n'
 
 ##################################################
 ### Output configuration
@@ -210,9 +210,9 @@ output * bg /home/chewie/.arch.jpg fill
 ##################################################
  exec swayidle -w \
           timeout 300 'swaymsg "output * dpms off"' \
-          timeout 600 'swaymsg "output * dpms off"' \
-               resume 'swaymsg "output * dpms on"' \
-          before-sleep 'swaylock -f -c 000000' 
+               resume 'swaymsg "output * dpms on"' 
+          #timeout 600 'swaymsg "output * dpms off"' \
+          #before-sleep 'swaylock -f -c 000000' 
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
