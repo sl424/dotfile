@@ -49,6 +49,12 @@ function dotfile(){
 
 # 1.2 hardware tweaks
 ##################################################
+backlight_dir="/mnt/etc/udev/rules.d/90-brightnessctl.rules"
+backlight="\
+ACTION=="add", SUBSYSTEM=="backlight", RUN+="/bin/chgrp video /sys/class/backlight/%k/brightness" \n\
+ACTION=="add", SUBSYSTEM=="backlight", RUN+="/bin/chmod g+w /sys/class/backlight/%k/brightness"  \n\
+"
+
 lowbat_dir="/etc/udev/rules.d/99-lowbat.rules"
 lowbat="# Suspend the system when battery level drops to 5% or lower \n \
 SUBSYSTEM=='power_supply', ATTR{status}=='Discharging', ATTR{capacity}=='[0-5]', RUN+='/usr/bin/systemctl suspend'   \n \
@@ -64,7 +70,7 @@ options i915 modeset=1                                                          
 options i915 enable_psr=1                                                         \n\
 "                                                                                 
 
-wpa_dir="/etc/wpa_supplicant/wpa_wireless.conf"
+wpa_dir="/etc/wpa_supplicant/wpa_supplicant-wireless.conf"
 wpa="#ctrl_interface=/var/run/wpa_supplicant                                       \n\
 ctrl_interface=/run/wpa_supplicant                                                 \n\
 ctrl_interface_group=wheel                                                         \n\
@@ -90,18 +96,35 @@ fast_reauth=1                                                                   
 #	password='passwd'                                                          \n\
 #}                                                                                 \n\
 "
+resolv_dir="/mnt/etc/resolv.conf"
+resolv="nameserver 8.8.8.8"
+
+networkd_dir="/mnt/etc/systemd/network/wireless.network"
+networkd="      \n\
+[Match]         \n\
+Name=wl*        \n\
+[Network]       \n\
+DHCP=ipv4       \n\
+"
 
 function hwmod(){
 	echo -e $lowbat >> $lowbat_dir
 	echo -e $t450s >> $t450s_dir
 	echo -e $wpa >> $wpa_dir
- 	cp /usr/share/doc/thinkfan/examples/thinkfan.conf.simple /etc/thinkfan.conf
-	sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+	echo -e $networkd >> $networkd_dir
+	echo -e $resolv >> $resolv_dir
+
 	systemctl enable systemd-networkd
-	systemctl enable systemd-resolved
 	systemctl enable tlp
 	systemctl enable thinkfan
-	systemctl enable wpa_supplicant
+	systemctl enable wpa_supplicant@wireless
+ 	cp /usr/share/doc/thinkfan/examples/thinkfan.conf.simple /etc/thinkfan.conf
+
+	echo -e $backlight >> $backlight_dir
+ 	arch-chroot /mnt gpasswd -a $USER_NAME video #brightnessctl
+
+	#systemctl enable systemd-resolved
+	#sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 }
 
 

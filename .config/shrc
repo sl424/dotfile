@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 #force_color_prompt=yes
-export LIBVA_DRIVER_NAME=iHD
+#export LIBVA_DRIVER_NAME=iHD
 #export LIBVA_DRIVER_NAME=i965
 
 case ${TERM} in

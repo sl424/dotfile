@@ -1,5 +1,5 @@
 map <F2> :r !wl-paste -p -n<CR>
-vmap <F3> :w !wl-copy -p<CR>
+vmap <F3> :w !wl-copy -p -n<CR><CR>
 
 " syntax highlighting
 set encoding=utf-8
@@ -66,6 +66,10 @@ set number
 
 "readable text
 set background=dark
+
+"scroll through buffer/tabs
+nnoremap <S-j> :bn<CR>
+nnoremap <S-k> :bp<CR>
 
 let mapleader=','
 "paste toggle

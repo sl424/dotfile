@@ -94,7 +94,7 @@ bindsym XF86MonBrightnessUp exec "brightnessctl set +10%"
 # display config
 ##################################################
 #swaymsg -t get_outputs for example eDP-1.
-set $laptop <eDP-1>
+set $laptop eDP-1
 bindswitch lid:on output $laptop disable
 bindswitch lid:off output $laptop enable
 
@@ -196,7 +196,7 @@ bindsym F10 exec 'clipman pick --tool="wofi" --histpath="~/.local/share/clipman-
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg /home/chewie/.arch.jpg fill
+output $laptop bg /home/chewie/.arch.jpg fill
 
 # Example configuration:
 #

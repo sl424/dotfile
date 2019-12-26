@@ -1,3 +1,4 @@
+*
 
 .config/opera/
 .config/unity3d/
@@ -6,7 +7,6 @@
 .config/falkon/
 .config/VirtualBox/
 .ssh/*
-.elinks/*
 .extend.bashrc
 .ncmpcpp/*
 .config/terminator/*
@@ -15,6 +15,7 @@
 .config/dunst/*
 .config/ibus/rime/*
 
+!.elinks/*
 !.Packages.aur
 !.Packages.diff
 !.profile
@@ -25,6 +26,7 @@
 !.vimrc
 !.surf/styles/*
 !.config/vlc/*
+!.config/vimb/*
 !.config/tilda/*
 !.config/rofi/*
 !.config/redshift.conf
@@ -40,5 +42,7 @@
 !.bashrc
 !.conky/*
 !.config/viewnior/*
+!.config/sway/*
+!.config/waybar/*
 
 

@@ -210,27 +210,25 @@ PACKAGES_AUR="$PACKAGES_AUR_INTERNET $PACKAGES_AUR_MULTIMEDIA $PACKAGES_AUR_UTIL
 REBOOT="true"
 
 pkgs="\
-alsa-utils					                               \
-arch-install-scripts				  tlp                          \
-brightnessctl					  terminus-font                \
-elinks						  \
-git						  \
-intel-gpu-tools					  vim                          \
-intel-media-driver				                               \
-libva-utils					  w3m                          \
-nerd-fonts-inconsolata				  wget                         \
-openssh						  \
-redshift-wlr-gamma-control			  xorg-server-xwayland         \
-rxvt-unicode urxvt-perls urxvt-resize-font-git                                 \
-xorg-xrdb                    \
-sudo polkit \
-sway waybar swayidle swaylock \
-wl-clipboard rofi clipman \
-wqy-microhei uim anthy fcitx fcitx-mozc fcitx-im \
-vlc mpv playerctl \
-firefox firefox-tridactyl firefox-tridactyl-native \
-wpa_supplicant 
-"                                                                              
+alsa-utils                                                             \
+arch-install-scripts				  tlp                  \
+brightnessctl					  terminus-font        \
+elinks						  wget                 \
+git                                                                    \
+intel-gpu-tools					  vim                  \
+intel-media-driver                                                     \
+libva-utils					  w3m                  \
+nerd-fonts-inconsolata				  noto-fonts-emoji     \
+openssh                                                                \
+redshift-wlr-gamma-control			  xorg-server-xwayland \
+rxvt-unicode urxvt-perls urxvt-resize-font-git xorg-xrdb               \
+sudo polkit                                                            \
+sway waybar swayidle swaylock                                          \
+wl-clipboard rofi clipman                                              \
+wqy-microhei uim anthy fcitx fcitx-mozc fcitx-im                       \
+vlc mpv playerctl                                                      \
+firefox firefox-tridactyl firefox-tridactyl-native                     \
+wpa_supplicant"                                                                              
 
 PACKAGES_AUR+=" $pkgs"
 
