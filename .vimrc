@@ -1,13 +1,13 @@
-map <F2> :r !wl-paste -p<CR>
+map <F2> :r !wl-paste -p -n<CR>
 vmap <F3> :w !wl-copy -p<CR>
+
 " syntax highlighting
 set encoding=utf-8
 syntax on
 set ve=all
 set autochdir
+set title
 
-"autocomplete
-"set omnifunc=syntaxcomplete#Complete
 "highlight Pmenu ctermfg=white ctermbg=darkgrey
 "highlight PmenuSel ctermfg=darkmagenta ctermbg=darkgrey
 "highlight PmenuSel cterm=bold
@@ -19,7 +19,7 @@ noremap! <C-h> <C-w>
 nnoremap <Space> za
 set foldmethod=syntax
 set foldlevel=1
-highlight Folded  ctermbg=none  ctermfg=none
+highlight Folded  ctermbg=none	ctermfg=none
 "highlight Folded cterm=bold,reverse ctermbg=darkgrey
 set foldtext=FoldText()
 
@@ -30,17 +30,17 @@ set foldtext=FoldText()
 "set splitright
 
 " cscope setting
-if has('cscope')
-  set cscopetag "cscopeverbose
-  if has('quickfix')
-    set cscopequickfix=s-,c-,d-,i-,t-,e-
-  endif
-  "command -nargs=0 Cscope cs add $CSCOPE_DB
-  cs add $CSCOPE_DB
-endif
+"if has('cscope')
+"  set cscopetag "cscopeverbose
+"  if has('quickfix')
+"	set cscopequickfix=s-,c-,d-,i-,t-,e-
+"  endif
+"  "command -nargs=0 Cscope cs add $CSCOPE_DB
+"  cs add $CSCOPE_DB
+"endif
 
 "netrw tree view
-"map \ <C-W><C-W> 
+"map \ <C-W><C-W>
 "map <silent> <C-L> :Lexplore<CR>
 
 "let g:netrw_banner = 0
@@ -71,13 +71,14 @@ let mapleader=','
 "paste toggle
 "set pastetoggle=<F2>
 "toggle tab highlight
-nnoremap <leader><Tab>      :syntax match Special "\t"<CR>
+nnoremap <leader><Tab>		:syntax match Special "\t"<CR>
 "toggle trailing space highlight
-nnoremap <leader><Space>    :syntax match Error "\s\+$"<CR>
+nnoremap <leader><Space>	:syntax match Error "\s\+$"<CR>
 "remove trailing space
-nnoremap <leader><C-D>    :%s/\s*$// <CR>
+nnoremap <leader>d	  :%s/\s\+$// <CR>
+nnoremap <silent> <leader><F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "inoremap <F12><Tab> <C-O>:syntax match Special "\t"<CR>
-highlight Special ctermbg=black cterm=NONE
+highlight Special ctermbg=red cterm=NONE
 highlight Error ctermbg=red cterm=NONE
 "clear highlights for a search
 nnoremap <silent> <leader>h :noh<CR>
@@ -85,6 +86,10 @@ nnoremap <silent> <leader>h :noh<CR>
 map <silent> <leader>c :set cursorline!<CR>
 "toggle displaying newline charaters and tabs [list]
 map <silent> <leader>l :set list!<CR>
+set list
+set listchars=eol:⏎,tab:␉·,trail:␠,nbsp:⎵
+set listchars=tab:>\ ,trail:•,extends:#,nbsp:.
+set listchars=nbsp:¬,tab:»·,trail:·,extends:>
 "toggle line numbering [number]
 map <silent> <leader>n :set number!<CR>
 "toggle relativenumbering [relativenumber]
@@ -106,14 +111,17 @@ set scrolloff=5
 "status line with current cursor position
 set ruler
 
-"setlocal tabstop=4
-"setlocal shiftwidth=4
-"setlocal softtabstop=4
-"setlocal noexpandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set noexpandtab
+
+set undofile
+set undodir=/tmp
 
 "set text wrap and linebreak
 set textwidth=80 colorcolumn=-1
-set wrap linebreak nolist tw=80
+"set wrap linebreak nolist tw=80
 "set lbr
 set breakindent
 set showbreak="..."
@@ -139,64 +147,46 @@ map j gj
 
 "FileType support
 if has("autocmd")
-filetype plugin on 
-filetype indent on
+	filetype plugin on
+	filetype indent on
 endif
 
 "web dev
-autocmd FileType javascript,html,css,php set ai sw=4 ts=4 sts=4 noexpandtab
+autocmd FileType javascript,html,css,php set ai sw=2 ts=2 sts=2 expandtab
+let html_use_css = 1
+"for HTML programming
+"au BufNewFile,BufRead *.html map <tab> Vatzf
 
 "android programming
 au BufNewFile,BufRead *.xml set noexpandtab sw=4 ts=4 sts=4 ai
-autocmd FileType java set ai sw=4 ts=4 sts=4 noexpandtab 
-
-"For PHP programming auto stuffs
-au! BufNewFile,BufRead *.php set filetype=php.html.javascript.css.sql
-au BufNewFile,BufRead *.php let php_htmlInStrings=1
-au BufNewFile,BufRead *.php let php_sql_query=1
-au BufNewFile,BufRead *.php set foldmethod=manual
-au BufNewFile,BufRead *.php let g:DisableAutoPHPFolding=1
-au BufNewFile,BufRead *.php set comments=sr:/*,mb:*,ex:*/
-au BufNewFile,BufRead *.php set fo+=ro
-au BufNewFile,BufRead *.php let php_folding=0
-au BufNewFile,BufRead *.php map <F5> <Esc>:EnableFastPHPFolds<Cr>
-
-"for HTML programming
-au BufNewFile,BufRead *.html map <tab> Vatzf
+autocmd FileType java set ai sw=4 ts=4 sts=4 noexpandtab
 
 "text, README, markdown files
 au! BufNewFile,BufRead *.txt,README,*.md set filetype=markdown
 au BufNewFile,BufRead *.txt,README,*.md set ai nonumber norelativenumber formatoptions=tcroqn2 comments=n:&gt;
 
-"python
-autocmd FileType python set ai expandtab sw=4 ts=4 sts=4 nowrap 
-
-"ruby
-autocmd FileType ruby set ai expandtab sw=2 ts=2 sts=2 nowrap 
-"perl
-autocmd FileType perl set ai expandtab sw=4 ts=4 sts=4 nowrap 
-
-autocmd FileType cs set ai expandtab sw=4 ts=4 sts=4
-"autocmd FileType c set ai expandtab sw=4 ts=4 sts=4 nowrap 
-"autocmd FileType cpp set ai expandtab sw=4 ts=4 sts=4 nowrap 
-
-"scheme
-autocmd FileType scheme set ai expandtab sw=2 ts=2 sts=2 nowrap 
+"python ruby perl
+autocmd FileType python set ai noexpandtab sw=4 ts=4 sts=4 nowrap
+autocmd FileType ruby set ai noexpandtab sw=2 ts=2 sts=2 nowrap
+autocmd FileType perl set ai noexpandtab sw=4 ts=4 sts=4 nowrap
 
 "c/c++/c#
-au BufNewFile,BufRead *.c,*.h,*.cpp,*.hpp set expandtab sw=4 ts=4 sts=4 ai nowrap
+"au BufNewFile,BufRead *.c,*.h,*.cpp,*.hpp set noexpandtab sw=4 ts=4 sts=4 ai nowrap
+autocmd FileType cs set ai noexpandtab sw=4 ts=4 sts=4
+autocmd FileType c set ai noexpandtab sw=4 ts=4 sts=4 nowrap
+autocmd FileType cpp set ai noexpandtab sw=4 ts=4 sts=4 nowrap
+
+"scheme
+autocmd FileType scheme set ai noexpandtab sw=2 ts=2 sts=2 nowrap
 
 " Allow tabs in Makefiles.
 autocmd FileType make,automake set noexpandtab shiftwidth=8 softtabstop=8
 
 "auto completion in command mode
-set wildmode=longest,list
+set wildmode=longest,list,full
 set wildmenu
 
-" use tab to complete
-" CR to accept, Esc to clear
-" j, k to select
-
+" use tab to complete CR to accept, Esc to clear j, k to select
 "inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "<CR>"
 "inoremap <expr> <Esc> pumvisible() ? "\<C-E>" : "<Esc>"
 "inoremap <expr> j pumvisible() ? "\<C-N>" : "j"
@@ -211,9 +201,9 @@ set wildmenu
 "endfunction
 
 "Enable incremental search
-"set incsearch
-"set showmatch
-"set hlsearch
+set incsearch
+set showmatch
+set hlsearch
 "noh
 
 "change dir to the working file
@@ -228,7 +218,7 @@ set wildmenu
 "mozilla settings
 "autocmd BufRead,BufNewFile /home/chewie/mozilla-central/* source ~/.vim/mozilla.vim
 
-"FFmpeg settings 
+"FFmpeg settings
 "autocmd BufRead,BufNewFile /home/chewie/FFmpeg/* source ~/.vim/ffmpeg.vim
 
 iab _main() #include<stdlib.h><CR>#include<stdio.h><CR>int main(int argc, char *argv[])<CR>{<CR>exit(EXIT_SUCCESS);<CR>}
@@ -239,15 +229,6 @@ iab _main() #include<stdlib.h><CR>#include<stdio.h><CR>int main(int argc, char *
 
 " Do not highlight spaces at the end of line while typing on that line.
 "autocmd InsertEnter * match ForbiddenWhitespace /\t\|\s\+\%#\@<!$/
-"
-"enable autocompletion
-"autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-"autocmd Filetype java set omnifunc=javacomplete#Complete
-"autocmd FileType html "set omnifunc=htmlcomplete#CompleteTag
-"autocmd FileType css "set omnifunc=csscomplete#CompleteCSS
-"autocmd FileType c  set omnifunc=syntaxcomplete#Complete
-"autocmd FileType cpp set omnifunc=omni#cpp#complete
-
 
 function! FoldText()
 	let l:lpadding = &fdc
@@ -274,12 +255,12 @@ function! FoldText()
 endfunction
 
 set efm=\ %#[javac]\ %#%f:%l:%c:%*\\d:%*\\d:\ %t%[%^:]%#:%m,
-	   \%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+			\%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
 
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/plugged')
