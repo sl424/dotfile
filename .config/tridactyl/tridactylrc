@@ -185,7 +185,8 @@ setpref network.http.referer.XOriginPolicy 1
 setpref network.http.referer.defaultPolicy 3
 setpref network.http.referer.defaultPolicy.pbmode 2
 setpref network.http.referer.spoofSource false
-setpref pdfjs.disabled true
+"setpref pdfjs.disabled true
+setpref pdfjs.disabled false
 setpref permissions.default.geo 0
 setpref plugin.default.state 0
 setpref plugin.defaultXpi.state 0

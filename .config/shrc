@@ -30,6 +30,7 @@ alias vrc='vlc --intf rc --rc-host localhost:50000'
 alias startx='startx ~/.xinitrc'
 
 alias fe='feh --auto-zoom -g 640x480'
+alias ff='firefox'
 
 #tmux
 alias tmuxns='tmux new-session -s'
@@ -76,7 +77,7 @@ log --graph --decorate --oneline --all"
 PATH=~/opt/bin:$PATH
 PATH=~/script:$PATH
 PATH=~/crawlers:$PATH
-#PATH=~/:$PATH
+PATH=~/bin:$PATH
 
 # # ex - archive extractor
 # # usage: ex <file>
