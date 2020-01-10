@@ -132,7 +132,7 @@ setpref browser.send_pings false
 setpref browser.send_pings.require_same_host true
 setpref browser.sessionstore.restore_on_demand false
 setpref browser.shell.checkDefaultBrowser false
-setpref browser.startup.homepage "about:blank"
+" setpref browser.startup.homepage "about:blank"
 setpref browser.startup.homepage_override.mstone "ignore"
 setpref browser.startup.page 3
 setpref browser.tabs.closeWindowWithLastTab false
@@ -165,6 +165,14 @@ setpref intl.locale.requested "en-US"
 setpref intl.regional_prefs.use_os_locales false
 setpref javascript.use_us_english_locale true
 setpref layout.css.font-loading-api.enabled false
+setpref media.av1.enable false
+setpref media.mp4.enable false
+setpref media.hls.enable false
+setpref media.webm.enable false
+setpref media.av1.enabled false
+setpref media.mp4.enabled false
+setpref media.hls.enabled false
+setpref media.webm.enabled false
 setpref media.autoplay.default 1
 setpref media.eme.enabled false
 setpref media.gmp-gmpopenh264.autoupdate false
@@ -194,8 +202,8 @@ setpref plugin.sessionPermissionNow.intervalInMinutes 0
 setpref plugins.click_to_play true
 setpref privacy.firstparty.isolate true
 " Disabled until https://bugzilla.mozilla.org/show_bug.cgi?id=1450398 is fixed
-setpref privacy.resistFingerprinting false
-setpref privacy.resistFingerprinting.block_mozAddonManager true
+" setpref privacy.resistFingerprinting false
+" setpref privacy.resistFingerprinting.block_mozAddonManager true
 setpref privacy.userContext.enabled true
 setpref privacy.userContext.ui.enabled true
 setpref privacy.usercontext.about_newtab_segregation.enabled true
