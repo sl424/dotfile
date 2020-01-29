@@ -8,9 +8,12 @@ sanitize tridactyllocal tridactylsync
 " Just use a blank page for new tab. It would be nicer to use the standard
 " Firefox homepage, but Tridactyl doesn't support this yet.
 set newtab about:blank
+unbind t
+bind O fillcmdline tabopen
 
 
 " Only hint search results on Google and DDG
+set hintfiltermode vimperator-reflow
 bindurl www.google.com f hint -Jc .rc > .r > a
 bindurl www.google.com F hint -Jbc .rc>.r>a
 bindurl ^https://duckduckgo.com f hint -Jc [class=result__a]
@@ -20,8 +23,8 @@ bindurl ^https://duckduckgo.com F hint -Jbc [class=result__a]
 " bind v composite hint -pipe a href | exclaim_quiet mpv --ontop --keepaspect-window --profile=protocol.http --force-window=immediate  
 " bind V js tri.native.run(`mpv --ontop --force-window=immediate  --keepaspect-window --profile=protocol.http '${document.location.href}'`)
 
-bind ;v composite hint -pipe a href | exclaim_quiet mpv --force-window=immediate --geometry=800x450 --ytdl-format 'best[height=360]'
-bind V js tri.native.run(`mpv --force-window=immediate --geometry=800x450 --ytdl-format 'best[height=360]' '${document.location.href}'`)
+bind ;v composite hint -pipe a href | exclaim_quiet mpv --force-window=immediate --geometry="800x450" --ytdl-format="best[height=360]"
+bind V js tri.native.run(`mpv --force-window=immediate --geometry="800x450" --ytdl-format="best[height=360]" '${document.location.href}'`)
 
 " Use vim in tmux for editor.
 set editorcmd terminal -e tmux -u new vim -S /home/andrew/.vim/tridactyl.vim
@@ -177,6 +180,7 @@ setpref media.autoplay.default 1
 setpref media.eme.enabled false
 setpref media.gmp-gmpopenh264.autoupdate false
 setpref media.gmp-gmpopenh264.enabled false
+setpref media.navigator.mediadatadecoder_h264_enabled false
 setpref media.gmp-manager.updateEnabled false
 setpref media.gmp-manager.url "data:text/plain,"
 setpref media.gmp-manager.url.override "data:text/plain,"
