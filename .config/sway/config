@@ -23,7 +23,7 @@ font pango:Inconsolata Nerd Font 12
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
-bindsym F12 exec --no-startup-id "mpv --force-window=immediate --geometry=800x450 --ytdl-format 'best[height=360]' $(wl-paste -p -n)"
+bindsym F12 exec --no-startup-id mpv --force-window=immediate --geometry=800x450 --ytdl-format="best[height=360]" "$(wl-paste -p -n)"
 
 # input method
 ##################################################
@@ -43,14 +43,6 @@ bindsym F12 exec --no-startup-id "mpv --force-window=immediate --geometry=800x45
 #}
 
 
-# set drop down menu to F1 key
-##################################################
-#no_focus <critiera>
-#bindsym Mod1+F1  exec --no-startup-id urxvt -name dock -letsp 3 -fn "xft:Inconsolata Nerd Font Mono:size=14"
-bindsym Mod4+F1 exec --no-startup-id urxvt -name dock -fn "xft:Inconsolata Nerd Font Mono:size=14"
-for_window [title="dock"] floating enable, move scratchpad, scratchpad show, \
-			resize set width 1920, move position 0px 0px, mark drop-term
-bindsym F1 [con_mark="drop-term"] scratchpad show
 
 
 # window rules
@@ -175,8 +167,16 @@ bindsym $mod+y border pixel 1
 bindsym $mod+n border normal
 
 # Your preferred terminal emulator
-#set $term termite
-set $term urxvt
+set $term termite
+#set $term urxvt
+
+# set drop down menu to F1 key
+##################################################
+#no_focus <critiera>
+bindsym Mod4+F1 exec --no-startup-id $term -name dock 
+for_window [title="dock"] floating enable, move scratchpad, scratchpad show, \
+			resize set width 1920, move position 0px 0px, mark drop-term
+bindsym F1 [con_mark="drop-term"] scratchpad show
  
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
@@ -188,8 +188,8 @@ set $menu wofi --show run | xargs swaymsg exec --
 # Your preferred clipboard manager
 #exec wl-paste -t text --watch clipman store
 #bindsym $mod+h exec clipman pick
-exec 'wl-paste -p -n --watch clipman store --histpath="~/.local/share/clipman-primary.json"'
-bindsym F10 exec 'clipman pick --tool="wofi" --histpath="~/.local/share/clipman-primary.json" && wl-paste | wl-copy -p -n'
+exec wl-paste -p -n --watch clipman store --histpath="~/.local/share/clipman-primary.json"
+bindsym F10 exec clipman pick --tool="wofi" --histpath="~/.local/share/clipman-primary.json" && wl-paste | wl-copy -p -n
 
 ##################################################
 ### Output configuration
