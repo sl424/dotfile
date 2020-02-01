@@ -1,6 +1,7 @@
 # ---------------------------------------------------
 # file:     $XDG_CONFIG_HOME/qutebrowser/config.py
-# author:   jason ryan - http://jasonwryan.com/
+# original author:   jason ryan - http://jasonwryan.com/
+# fork author: chewie lin
 # vim:fenc=utf-8:nu:ai:si:et:ts=4:sw=4:ft=python:
 # ---------------------------------------------------
 
@@ -16,6 +17,7 @@ c.tabs.background = True
 c.tabs.favicons.show = "never"
 c.tabs.title.format = "{current_title}"
 c.tabs.new_position.related = "last"
+c.tabs.padding = {"bottom": 5, "left": 5, "right": 5, "top": 5}
 c.downloads.location.directory = '~/Downloads'
 c.content.cache.size = 52428800
 c.content.webgl = False
@@ -25,11 +27,14 @@ c.hints.mode = "number"
 c.hints.chars = "123456789"
 c.hints.min_chars = 1
 c.keyhint.blacklist = ["*"]
+c.content.pdfjs=True
+#c.content.plugins=False
+#c.content.webgl=True
 
 # searches
-c.url.searchengines['DEFAULT'] = 'https://www.qwant.com/?q={}'
+#c.url.searchengines['DEFAULT'] = 'https://www.qwant.com/?q={}'
+c.url.searchengines['DEFAULT'] = 'https://duckduckgo.com/?q={}'
 c.url.searchengines['a'] = 'https://wiki.archlinux.org/?search={}'
-c.url.searchengines['d'] = 'https://duckduckgo.com/?q={}'
 c.url.searchengines['g'] = 'http://www.google.com/search?hl=en&source=hp&ie=ISO-8859-l&q={}'
 c.url.searchengines['y'] = 'https://www.youtube.com/results?search_query={}'
 c.url.searchengines['w'] = 'https://secure.wikimedia.org/wikipedia/en/w/index.php?title=Special%%3ASearch&search={}'
@@ -69,16 +74,16 @@ c.colors.statusbar.url.success.http.fg = "#899CA1"
 c.colors.statusbar.url.success.https.fg = "#53A6A6"
 c.colors.statusbar.url.error.fg = "#8A2F58"
 c.colors.statusbar.url.warn.fg = "#914E89"
-c.colors.statusbar.url.hover.fg = "#2B7694"
+c.colors.statusbar.url.hover.fg = "white"
 c.colors.tabs.bar.bg = "#222222"
-c.colors.tabs.even.fg = "#899CA1"
+c.colors.tabs.even.fg = "white"
 c.colors.tabs.even.bg = "#222222"
-c.colors.tabs.odd.fg = "#899CA1"
+c.colors.tabs.odd.fg = "white"
 c.colors.tabs.odd.bg = "#222222"
-c.colors.tabs.selected.even.fg = "white"
-c.colors.tabs.selected.even.bg = "#222222"
-c.colors.tabs.selected.odd.fg = "white"
-c.colors.tabs.selected.odd.bg = "#222222"
+c.colors.tabs.selected.even.bg = "#dddddd"
+c.colors.tabs.selected.even.fg = "#222222"
+c.colors.tabs.selected.odd.bg = "#dddddd"
+c.colors.tabs.selected.odd.fg = "#222222"
 c.colors.tabs.indicator.start = "#222222"
 c.colors.tabs.indicator.stop = "#222222"
 c.colors.tabs.indicator.error = "#8A2F58"
@@ -101,13 +106,13 @@ c.colors.prompts.bg = "#DDDDDD"
 c.colors.prompts.selected.bg = "#4779B3"
 
 # fonts
-#c.fonts.monospace = "Noto Sans Mono", "DejaVu Sans Mono", "Liberation Mono", monospace
-c.fonts.tabs = "12pt Noto Sans Mono"
-c.fonts.statusbar = "10pt Noto Sans Mono"
+#c.fonts.monospace = "Inconsolata Nerd Font", "DejaVu Sans Mono", "Liberation Mono", monospace
+c.fonts.tabs = "14pt Inconsolata Nerd Font"
+c.fonts.statusbar = "12pt Inconsolata Nerd Font"
 c.fonts.downloads = c.fonts.statusbar 
 c.fonts.prompts = c.fonts.statusbar
-c.fonts.hints = "12px Noto Sans Mono"
-c.fonts.messages.info = "10pt Noto Sans Mono"
+c.fonts.hints = "14px Inconsolata Nerd Font"
+c.fonts.messages.info = "12pt Inconsolata Nerd Font"
 c.fonts.keyhint = c.fonts.messages.info
 c.fonts.messages.warning = c.fonts.messages.info
 c.fonts.messages.error = c.fonts.messages.info
@@ -137,6 +142,11 @@ config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 
 config.bind('<Escape>', 'leave-mode', mode='passthrough')
+
+config.bind('j', 'scroll-px 0 200', mode='normal')
+config.bind('k', 'scroll-px 0 -200', mode='normal')
+config.bind(';v', 'hint links spawn mpv --force-window=immediate --geometry="800x450" --ytdl-format="best[height=360]" {hint-url}', mode='normal')
+config.bind('V', 'spawn mpv --force-window=immediate --geometry="800x450" --ytdl-format="best[height=360]" {url}', mode='normal')
 
 #config.bind('gi', 'enter-mode insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
 #config.bind('<Ctrl-p>', 'jseval document.location=\'https://pinboard.in/add?next=same&url=\'+encodeURIComponent(location.href)+\'&title=\'+encodeURIComponent(document.title)', mode="normal")
