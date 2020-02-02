@@ -173,7 +173,8 @@ set $term termite
 # set drop down menu to F1 key
 ##################################################
 #no_focus <critiera>
-bindsym Mod4+F1 exec --no-startup-id $term -name dock 
+#bindsym Mod4+F1 exec --no-startup-id urxvt -name dock 
+bindsym Mod4+F1 exec --no-startup-id termite --title=dock
 for_window [title="dock"] floating enable, move scratchpad, scratchpad show, \
 			resize set width 1920, move position 0px 0px, mark drop-term
 bindsym F1 [con_mark="drop-term"] scratchpad show
