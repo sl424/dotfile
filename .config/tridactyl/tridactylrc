@@ -52,9 +52,9 @@ set findcase smart
 "bind k scrollline -5
 
 " K and J should move between tabs. x should close them.
-bind J tabprev
-bind K tabnext
-bind x tabclose
+bind K tabprev
+bind J tabnext
+"bind x tabclose
 
 " Don't run Tridactyl on some web sites because it doesn't work well, or
 " because the web site has its own keybindings.
@@ -189,6 +189,8 @@ setpref media.gmp-widevinecdm.autoupdate false
 setpref media.gmp-widevinecdm.enabled false
 setpref media.gmp-widevinecdm.visible false
 setpref media.gmp.trial-create.enabled false
+setpref widget.wayland_dmabuf_backend.enabled true
+
 " WebRTC. Might need to re-enable some day
 setpref media.peerconnection.enabled false
 setpref network.IDN_show_punycode true
