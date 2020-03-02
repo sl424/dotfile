@@ -30,7 +30,7 @@ alias vrc='vlc --intf rc --rc-host localhost:50000'
 alias startx='startx ~/.xinitrc'
 
 alias fe='feh --auto-zoom -g 640x480'
-alias ff='firefox'
+alias fpdf='QT_QPA_PLATFORM=wayland falkon -e'
 
 #tmux
 alias tmuxns='tmux new-session -s'
@@ -78,6 +78,7 @@ PATH=~/opt/bin:$PATH
 PATH=~/script:$PATH
 PATH=~/crawlers:$PATH
 PATH=~/bin:$PATH
+PATH=~/firefox:$PATH
 
 # # ex - archive extractor
 # # usage: ex <file>
