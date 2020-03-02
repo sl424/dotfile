@@ -19,7 +19,7 @@ noremap! <C-h> <C-w>
 nnoremap <Space> za
 set foldmethod=syntax
 set foldlevel=1
-highlight Folded  ctermbg=none	ctermfg=none
+highlight Folded ctermbg=none ctermfg=none
 "highlight Folded cterm=bold,reverse ctermbg=darkgrey
 set foldtext=FoldText()
 
@@ -68,18 +68,18 @@ set number
 set background=dark
 
 "scroll through buffer/tabs
-nnoremap <S-j> :bn<CR>
-nnoremap <S-k> :bp<CR>
+nnoremap <C-j> :bn<CR>
+nnoremap <C-k> :bp<CR>
 
 let mapleader=','
 "paste toggle
 "set pastetoggle=<F2>
 "toggle tab highlight
-nnoremap <leader><Tab>		:syntax match Special "\t"<CR>
+nnoremap <leader><Tab> :syntax match Special "\t"<CR>
 "toggle trailing space highlight
-nnoremap <leader><Space>	:syntax match Error "\s\+$"<CR>
+nnoremap <leader><Space> :syntax match Error "\s\+$"<CR>
 "remove trailing space
-nnoremap <leader>d	  :%s/\s\+$// <CR>
+nnoremap <leader>d :%s/\s\+$// <CR>
 nnoremap <silent> <leader><F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "inoremap <F12><Tab> <C-O>:syntax match Special "\t"<CR>
 highlight Special ctermbg=red cterm=NONE
@@ -94,6 +94,7 @@ set list
 set listchars=eol:⏎,tab:␉·,trail:␠,nbsp:⎵
 set listchars=tab:>\ ,trail:•,extends:#,nbsp:.
 set listchars=nbsp:¬,tab:»·,trail:·,extends:>
+set listchars=nbsp:¬,tab:-·,trail:·,extends:>
 "toggle line numbering [number]
 map <silent> <leader>n :set number!<CR>
 "toggle relativenumbering [relativenumber]
@@ -281,11 +282,12 @@ Plug 'ervandew/supertab'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 Plug 'majutsushi/tagbar'
+"Plug 'ying17zi/vim-live-latex-preview'
 call plug#end()
 
 set t_Co=256   " This is may or may not needed.
 set background=dark
-colorscheme PaperColor
+"colorscheme PaperColor
 
 "airline preference
 let g:airline#extensions#tabline#enabled = 1
@@ -295,8 +297,7 @@ map <C-n> :NERDTreeToggle<CR>
 map <C-m> :TagbarToggle<CR>
 map <C-b> :CtrlPMixed<CR>
 
-map <C-j> <C-W>w
+"map <C-j> <C-W>w
 "map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
-
