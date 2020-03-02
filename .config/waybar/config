@@ -10,6 +10,7 @@
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": [],
   "modules-right": ["network",
+	  "pulseaudio",
 	  "custom/disk_root",
 	  "custom/disk_home",
 	  "temperature",
@@ -169,8 +170,9 @@
 	  // "scroll-step": 1, // %, can be a float
 	  "format": "{icon} {volume}% {format_source}",
 	  "format-muted": "🔇 {format_source}",
-	  "format-bluetooth": "{icon} {volume}% {format_source}",
-	  "format-bluetooth-muted": "🔇 {format_source}",
+	  "format-bluetooth": "<span color='#589df6'></span>  {icon} {volume}% {format_source}",
+	  "format-bluetooth-muted": "<span color='#589df6'></span>  🔇 {format_source}",
+
 
 	  "format-source": " {volume}%",
 	  "format-source-muted": "",
@@ -178,15 +180,16 @@
 
 	  "format-icons": {
 		  "headphones": "",
-		  "handsfree": "",
-		  "headset": "",
+		  "handsfree": "",
+		  "headset": "",
 		  "phone": "",
 		  "portable": "",
 		  "car": "",
 		  "default": ["🔈", "🔉", "🔊"]
 	  },
-	  "on-click": "ponymix -N -t sink toggle",
-	  "on-click-right": "ponymix -N -t source toggle"
+	  //"on-click": "ponymix -N -t sink toggle",
+	  //"on-click-right": "ponymix -N -t source toggle"
+	  "interval": 5
   },
 
   "test":{
