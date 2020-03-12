@@ -94,7 +94,7 @@ set list
 set listchars=eol:⏎,tab:␉·,trail:␠,nbsp:⎵
 set listchars=tab:>\ ,trail:•,extends:#,nbsp:.
 set listchars=nbsp:¬,tab:»·,trail:·,extends:>
-set listchars=nbsp:¬,tab:-·,trail:·,extends:>
+set listchars=nbsp:¬,tab:· ,trail:·,extends:>
 "toggle line numbering [number]
 map <silent> <leader>n :set number!<CR>
 "toggle relativenumbering [relativenumber]
@@ -125,11 +125,11 @@ set undofile
 set undodir=/tmp
 
 "set text wrap and linebreak
-set textwidth=80 colorcolumn=-1
+"set textwidth=80 colorcolumn=-1
 "set wrap linebreak nolist tw=80
 "set lbr
-set breakindent
-set showbreak="..."
+"set breakindent
+"set showbreak="..."
 
 "backspace with indent
 set backspace=start,indent,eol
