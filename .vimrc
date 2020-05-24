@@ -67,9 +67,6 @@ set number
 "readable text
 set background=dark
 
-"scroll through buffer/tabs
-nnoremap <C-j> :bn<CR>
-nnoremap <C-k> :bp<CR>
 
 let mapleader=','
 "paste toggle
@@ -79,8 +76,11 @@ nnoremap <leader><Tab> :syntax match Special "\t"<CR>
 "toggle trailing space highlight
 nnoremap <leader><Space> :syntax match Error "\s\+$"<CR>
 "remove trailing space
-nnoremap <leader>d :%s/\s\+$// <CR>
+"nnoremap <leader>d :%s/\s\+$// <CR>
+nnoremap <leader>d :%s/\n\{3,}/\r\r/e <CR>
+
 nnoremap <silent> <leader><F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+
 "inoremap <F12><Tab> <C-O>:syntax match Special "\t"<CR>
 highlight Special ctermbg=red cterm=NONE
 highlight Error ctermbg=red cterm=NONE
@@ -299,5 +299,19 @@ map <C-b> :CtrlPMixed<CR>
 
 "map <C-j> <C-W>w
 "map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+"map <C-h> <C-W>h
+"map <C-l> <C-W>l
+nnoremap <F6> <C-W>w
+nnoremap <S-F6> <C-W>W
+
+"scroll through buffer/tabs
+nnoremap <C-j> :bn<CR>
+nnoremap <C-k> :bp<CR>
+
+map <F9> :make
+
+
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint'],
+\}
