@@ -52,6 +52,8 @@ bindsym F12 exec --no-startup-id mpv --force-window=immediate --geometry=800x450
 #for_window [class="vlc"] floating enable
 for_window [class="feh"] floating enable
 for_window [app_id="mpv"] floating enable
+#for_window [class="zoom"] floating enable
+for_window [class="Quartus"] floating enable
 
 
 # key config
@@ -247,7 +249,7 @@ output $laptop bg /home/chewie/.cern.jpg fill
 #keyboard
 
 input "1:1:AT_Translated_Set_2_keyboard" { 
-	 	xkb_layout us,es_alt
+	 	xkb_layout us,es
 		 xkb_options caps:escape,grp:alt_space_toggle
 	#	xkb_rules "keycode 65 = keycode 66"
  }
@@ -280,6 +282,11 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 #
 # touchpad
     input "1739:0:Synaptics_TM3053-004" { 
+	dwt enabled
+	tap enabled 
+	tap_button_map lmr
+    }
+    input "2:7:SynPS/2_Synaptics_TouchPad" { 
 	dwt enabled
 	tap enabled 
 	tap_button_map lmr
@@ -320,8 +327,9 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
-
-
+bindsym Print exec --no-startup-id grim
+bindsym $mod+Print --release exec --no-startup-id grim -g "$(slurp)"
+bindsym $mod+Shift+Print --release exec --no-startup-id grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)"
 
 #
 # Moving around:
