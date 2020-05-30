@@ -1,0 +1,60 @@
+#!/bin/sh
+
+#hello
+
+if [[ -z $1 ]] || [[ $1 == '-h' ]] || [[ $1 == '--help' ]] || [[ "$#" != 2 ]]; then
+	echo -e "Usage:\n\
+	wwf [-h|--help] \n\
+	wwf (window|area|screen) (webcam|FILE.ext)\n"
+	echo -e "Target: \n\
+	window: select the target window.\n\
+	area: select a region. \n\
+	screen: all windows\n"
+	exit
+fi
+
+#TARGET=${1:-window}
+
+TARGET=$1
+DEST=$2
+
+if [[ $DEST == 'webcam' ]]; then
+	echo "virtual webcam"
+	case $TARGET in 
+		window) 
+			wf-recorder --muxer=v4l2 --codec=rawvideo --file=/dev/video2 -x yuv420p \
+				-g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)"
+			;;
+		area)
+			wf-recorder --muxer=v4l2 --codec=rawvideo --file=/dev/video2 -x yuv420p -g "$(slurp)"
+			;;
+		screen)
+			wf-recorder --muxer=v4l2 --codec=rawvideo --file=/dev/video2 -x yuv420p
+			;;
+	esac
+else
+	FILE=${2:-recording.mp4}
+	echo "Recording to $FILE ..."
+	case $TARGET in 
+		window) 
+			wf-recorder -a -f $FILE -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)"
+			;;
+		area)
+			wf-recorder -a -f $FILE -g "$(slurp)"
+			;;
+		screen)
+			wf-recorder -a -f $FILE
+			;;
+	esac
+fi
+
+
+
+		
+
+	#output)
+		#wf-recorder -f $FILE $(swaymsg -t get_outputs | jq -r '.[] | select(.focused?)' | jq -r '.name')
+		#;;
+
+	#current)
+		#wf-recorder -f $FILE -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')"
