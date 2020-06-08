@@ -8,20 +8,24 @@ set ve=all
 set autochdir
 set title
 
-"highlight Pmenu ctermfg=white ctermbg=darkgrey
-"highlight PmenuSel ctermfg=darkmagenta ctermbg=darkgrey
-"highlight PmenuSel cterm=bold
+highlight Pmenu ctermfg=white ctermbg=none
+highlight PmenuSel ctermfg=darkmagenta ctermbg=none cterm=bold
 
 "delte previous word
 noremap! <C-h> <C-w>
 
 "vim fold config
 nnoremap <Space> za
-set foldmethod=syntax
+augroup vimrc
+	au BufReadPre * setlocal foldmethod=syntax
+	au BufWinEnter * if &fdm == 'syntax' | setlocal foldmethod=manual | endif
+augroup END
+"set foldmethod=syntax
 set foldlevel=1
 highlight Folded ctermbg=none ctermfg=none
 "highlight Folded cterm=bold,reverse ctermbg=darkgrey
 set foldtext=FoldText()
+"set foldtext=Fold2()
 
 
 
@@ -53,9 +57,9 @@ set foldtext=FoldText()
 "augroup ProjectDrawer autocmd!  autocmd VimEnter * :Vexplore augroup END
 " Toggle Vexplore with Ctrl-E
 
-"turn off modelines
-set modelines=0
-set nomodeline
+"turn off modelines, do not follow "vim: tw=77" suggestion
+"set modelines=0
+"set nomodeline
 
 "indenting
 set autoindent
@@ -102,7 +106,7 @@ map <silent> <leader>r :set relativenumber!<CR>
 "toggle spell checking [spelling]
 nmap <silent> <leader>s :set spell!<CR>
 "toggle line wrapping [wrap]
-"map <leader>w :set wrap!<CR>
+map <leader>w :set wrap!<CR>
 
 "set scrolling buffer
 set scrolloff=5
@@ -130,6 +134,7 @@ set undodir=/tmp
 "set lbr
 "set breakindent
 "set showbreak="..."
+"set showbreak="⏎ "
 
 "backspace with indent
 set backspace=start,indent,eol
@@ -246,7 +251,7 @@ function! FoldText()
 	let l:start = substitute(getline(v:foldstart), '\t', repeat(' ', &tabstop), 'g')
 	let l:end = substitute(substitute(getline(v:foldend), '\t', repeat(' ', &tabstop), 'g'), '^\s*', '', 'g')
 
-	let l:info = ' ▶▶ ' . (v:foldend - v:foldstart) . ''
+	let l:info = ' ▶▶ ' . (v:foldend - v:foldstart) . ' lines '
 	let l:infolen = strlen(substitute(l:info, '.', 'x', 'g'))
 	let l:width = winwidth(0) - l:lpadding - l:infolen
 
@@ -257,6 +262,14 @@ function! FoldText()
 
 	"return l:text . repeat(' ', l:width - strlen(substitute(l:text, ".", "x", "g"))) . l:info
 	return l:text . l:info . repeat(' ', l:width)
+endfunction
+
+function! Fold2()
+	let l:start = substitute(getline(v:foldstart), '\t', repeat(' ', &tabstop), 'g')
+	let l:end = substitute(substitute(getline(v:foldend), '\t', repeat(' ', &tabstop), 'g'), '^\s*', '', 'g')
+	let l:text = l:start . ' … ' . l:end
+	let l:info = ' ▶▶ ' . (v:foldend - v:foldstart) . ' lines folded'
+	return l:text . l:info
 endfunction
 
 set efm=\ %#[javac]\ %#%f:%l:%c:%*\\d:%*\\d:\ %t%[%^:]%#:%m,
@@ -282,15 +295,54 @@ Plug 'ervandew/supertab'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 Plug 'majutsushi/tagbar'
-"Plug 'ying17zi/vim-live-latex-preview'
+Plug 'ying17zi/vim-live-latex-preview'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets' " Snippets are separated from the engine.
+Plug 'morhetz/gruvbox'
+"Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 call plug#end()
 
-set t_Co=256   " This is may or may not needed.
-set background=dark
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_auto_hover =""
+let g:ycm_disable_signature_help = 1
+set completeopt+=popup
+"let g:ycm_min_num_of_chars_for_completion  = 80
+"let g:ycm_auto_trigger = 1
+"let g:ycm_key_invoke_completion = '<C-Space>'
+
+" Trigger configuration. Do not use <tab> if you use
+" https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" If you want :UltiSnipsEdit to split your window.
+"let g:UltiSnipsEditSplit="vertical"
+
+"config for latex preview
+"let g:livepreview_previewer = 'zathura'
+"autocmd Filetype tex setl updatetime=800
+
+"set t_Co=256   " This is may or may not needed.
+"set termguicolors     " enable true colors support
+"autocmd vimenter * colorscheme PaperColor
+colorscheme gruvbox
 "colorscheme PaperColor
+set background=dark
+
 
 "airline preference
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_detect_modified=0
+
+"ale preference
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint'],
+\}
 
 "toggle for vim plugins
 map <C-n> :NERDTreeToggle<CR>
@@ -303,15 +355,8 @@ map <C-b> :CtrlPMixed<CR>
 "map <C-l> <C-W>l
 nnoremap <F6> <C-W>w
 nnoremap <S-F6> <C-W>W
-
 "scroll through buffer/tabs
-nnoremap <C-j> :bn<CR>
-nnoremap <C-k> :bp<CR>
+nnoremap <F5> :bn<CR>
+nnoremap <S-F5> :bp<CR>
 
 map <F9> :make
-
-
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
-\}
