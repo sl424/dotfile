@@ -229,8 +229,10 @@ output $laptop bg /home/chewie/.cms.png fill
           #timeout 300 'swaylock -f -c 000000' \
 ##################################################
  exec swayidle -w \
-          timeout 300 'swaymsg "output * dpms off"' \
-               resume 'swaymsg "output * dpms on"' 
+          timeout 300 'brightlight -p -w 0' \
+               resume 'brightlight -p -w 20'
+          #timeout 300 'swaymsg "output * dpms off"' \
+          #     resume 'swaymsg "output * dpms on"'
           #timeout 600 'swaymsg "output * dpms off"' \
           #before-sleep 'swaylock -f -c 000000' 
 
@@ -332,8 +334,9 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 bindsym Print exec --no-startup-id grim
-bindsym $mod+Print --release exec --no-startup-id grim -g "$(slurp)"
-bindsym $mod+Shift+Print --release exec --no-startup-id grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)"
+bindsym $mod+Print exec --no-startup-id 'grim -g "$(slurp)"'
+bindsym $mod+Shift+Print exec --no-startup-id 'grimshot save window'
+#bindsym $mod+Shift+Print exec --no-startup-id 'grim -g "`swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp`"'
 
 #
 # Moving around:
