@@ -69,8 +69,6 @@ set smartindent
 set number
 "set relativenumber
 
-"readable text
-set background=dark
 
 
 let mapleader=','

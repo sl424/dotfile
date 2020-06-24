@@ -1,0 +1,20 @@
+#! /usr/bin/sh
+
+if [ "$1" == "light" ]; then
+	echo "light"
+	sed -i 's/colors: \*dark/colors: \*light/' $HOME/.config/alacritty/alacritty.yml
+	sed -i 's/opacity: 0.5/opacity: 0.9/' $HOME/.config/alacritty/alacritty.yml
+	sed -i 's/style: Regular/style: Bold/' $HOME/.config/alacritty/alacritty.yml
+	sed -i 's/cern.jpg/cms.png/' $HOME/.config/sway/config-fedora
+	swaymsg "reload"
+	sed -i 's/background=dark/background=light/' $HOME/.vimrc
+
+elif [ "$1" == "dark" ]; then
+	echo "dark"
+	sed -i 's/colors: \*light/colors: \*dark/' $HOME/.config/alacritty/alacritty.yml
+	sed -i 's/opacity: 0.9/opacity: 0.5/' $HOME/.config/alacritty/alacritty.yml
+	sed -i 's/style: Bold/style: Regular/' $HOME/.config/alacritty/alacritty.yml
+	sed -i 's/cms.png/cern.jpg/' $HOME/.config/sway/config-fedora
+	swaymsg "reload"
+	sed -i 's/background=dark/background=light/' $HOME/.vimrc
+fi

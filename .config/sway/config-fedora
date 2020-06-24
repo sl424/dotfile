@@ -214,9 +214,7 @@ bindsym F10 exec clipman pick --tool="wofi" --histpath="/tmp/clipman-primary.jso
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#output $laptop bg /home/chewie/.fedora.jpg fill
-#output $laptop bg /home/chewie/.cern.jpg fill
-output $laptop bg /home/chewie/.cms.png fill
+output $laptop bg $HOME/.cms.png fill
 
 # Example configuration:
 #
