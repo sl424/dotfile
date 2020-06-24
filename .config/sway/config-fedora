@@ -206,13 +206,17 @@ set $menu wofi --show run | xargs swaymsg exec --
 exec wl-paste -p -n --watch clipman store --histpath="/tmp/clipman-primary.json"
 bindsym F10 exec clipman pick --tool="wofi" --histpath="/tmp/clipman-primary.json" && wl-paste | wl-copy -p -n
 
+#exec wl-paste -p --watch 'wl-paste -p >> ~/.clipboard'
+#bindsym F10 exec "tac ~/.clipboard | wofi -dmenu | wl-copy -p -n"
+
 ##################################################
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #output $laptop bg /home/chewie/.fedora.jpg fill
-output $laptop bg /home/chewie/.cern.jpg fill
+#output $laptop bg /home/chewie/.cern.jpg fill
+output $laptop bg /home/chewie/.cms.png fill
 
 # Example configuration:
 #

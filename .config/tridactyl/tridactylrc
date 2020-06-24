@@ -22,9 +22,13 @@ bindurl ^https://duckduckgo.com F hint -Jbc [class=result__a]
 " mpv
 " bind v composite hint -pipe a href | exclaim_quiet mpv --ontop --keepaspect-window --profile=protocol.http --force-window=immediate  
 " bind V js tri.native.run(`mpv --ontop --force-window=immediate  --keepaspect-window --profile=protocol.http '${document.location.href}'`)
+" bind V js tri.native.run(`mpv --force-window=immediate --geometry="800x450" --ytdl-format="best[height=360]" '${document.location.href}'`)
 
+unbind ;v
+unbind V
 bind ;v composite hint -pipe a href | exclaim_quiet mpv --force-window=immediate --geometry="800x450" --ytdl-format="best[height=360]"
-bind V js tri.native.run(`mpv --force-window=immediate --geometry="800x450" --ytdl-format="best[height=360]" '${document.location.href}'`)
+bind V js tri.native.run(`firefox -P vaapi '${document.location.href}'`)
+bind F js tri.native.run(`GDK_BACKEND=x11 /usr/bin/firefox -P flash '${document.location.href}'`)
 
 " Use vim in tmux for editor.
 set editorcmd terminal -e tmux -u new vim -S /home/andrew/.vim/tridactyl.vim
@@ -168,12 +172,9 @@ setpref intl.locale.requested "en-US"
 setpref intl.regional_prefs.use_os_locales false
 setpref javascript.use_us_english_locale true
 setpref layout.css.font-loading-api.enabled false
-setpref media.av1.enable false
-setpref media.mp4.enable false
-setpref media.hls.enable false
-setpref media.webm.enable false
 setpref media.av1.enabled false
 setpref media.mp4.enabled false
+setpref media.ogg.enabled false
 setpref media.hls.enabled false
 setpref media.webm.enabled false
 setpref media.autoplay.default 1
@@ -189,7 +190,14 @@ setpref media.gmp-widevinecdm.autoupdate false
 setpref media.gmp-widevinecdm.enabled false
 setpref media.gmp-widevinecdm.visible false
 setpref media.gmp.trial-create.enabled false
-setpref widget.wayland_dmabuf_backend.enabled true
+
+setpref layers.acceleration.force-enabled false
+setpref gfx.webrender.enabled true
+setpref gfx.webrender.all true
+setpref gfx.webrender.compositor true
+setpref widget.wayland-dmabuf-webgl.enabled true
+setpref widget.wayland-dmabuf-vaapi.enabled true
+setpref dom.webgpu.enabled true
 
 " WebRTC. Might need to re-enable some day
 setpref media.peerconnection.enabled false

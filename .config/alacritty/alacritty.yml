@@ -113,7 +113,7 @@ font:
     family: Terminus
 
     # The `style` can be specified to pick a specific face.
-    style: Regular
+    style: Bold
 
   # Bold font face
   bold:
@@ -182,9 +182,55 @@ font:
 
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: true
+schemes:
+  night_dark: &dark
+    normal:
+      black:   '0x000000'
+      red:     '0xd54e53'
+      green:   '0xb9ca4a'
+      yellow:  '0xe6c547'
+      blue:    '0x7fa6da'
+      magenta: '0xc397d8'
+      cyan:    '0x70c0ba'
+      white:   '0xeaeaea'
+    bright:
+      black:   '0x666666'
+      red:     '0xff3334'
+      green:   '0x9ec400'
+      yellow:  '0xe7c547'
+      blue:    '0x7fa6da'
+      magenta: '0xb77ee0'
+      cyan:    '0x54ced6'
+      white:   '0xffffff'
+  day_light: &light
+    primary:
+      background: '0xfafafa'
+      foreground: '0x5c6773'
+    cursor:
+      text:   '0x5c6773'
+      cursor: '0xff6a00'
+    normal:
+      black:   '0x000000'
+      red:     '0xff3333'
+      green:   '0x86b300'
+      yellow:  '0xf29718'
+      blue:    '0x41a6d9'
+      magenta: '0xf07178'
+      cyan:    '0x4dbf99'
+      white:   '0x800000'
+    bright:
+      black:   '0x323232'
+      red:     '0xff6565'
+      #green:   '0xb8e532'
+      green:   '0x86b300'
+      yellow:  '0xffc94a'
+      blue:    '0x73d8ff'
+      magenta: '0xffa3aa'
+      cyan:    '0x7ff1cb'
+      white:   '0x400000'
 
 # Colors (Tomorrow Night Bright)
-colors:
+colors: *light
   # Default colors
   #primary:
   #  background: '0x000000'
@@ -216,40 +262,40 @@ colors:
   #  background: '0x404040'
 
   # Normal colors
-  normal:
-    black:   '0x000000'
-    red:     '0xd54e53'
-    green:   '0xb9ca4a'
-    yellow:  '0xe6c547'
-    blue:    '0x7fa6da'
-    magenta: '0xc397d8'
-    cyan:    '0x70c0ba'
-    white:   '0xeaeaea'
+  #normal:
+  #  black:   '0x000000'
+  #  red:     '0xd54e53'
+  #  green:   '0xb9ca4a'
+  #  yellow:  '0xe6c547'
+  #  blue:    '0x7fa6da'
+  #  magenta: '0xc397d8'
+  #  cyan:    '0x70c0ba'
+  #  white:   '0xeaeaea'
 
   # Bright colors
-  bright:
-    black:   '0x666666'
-    red:     '0xff3334'
-    green:   '0x9ec400'
-    yellow:  '0xe7c547'
-    blue:    '0x7fa6da'
-    magenta: '0xb77ee0'
-    cyan:    '0x54ced6'
-    white:   '0xffffff'
+  #bright:
+  #  black:   '0x666666'
+  #  red:     '0xff3334'
+  #  green:   '0x9ec400'
+  #  yellow:  '0xe7c547'
+  #  blue:    '0x7fa6da'
+  #  magenta: '0xb77ee0'
+  #  cyan:    '0x54ced6'
+  #  white:   '0xffffff'
 
   # Dim colors
   #
   # If the dim colors are not set, they will be calculated automatically based
   # on the `normal` colors.
-  dim:
-    black:   '0x000000'
-    red:     '0x8c3336'
-    green:   '0x7a8530'
-    yellow:  '0x97822e'
-    blue:    '0x5f6d8f'
-    magenta: '0x80638e'
-    cyan:    '0x497e7a'
-    white:   '0x9a9a9a'
+  #dim:
+  #  black:   '0x000000'
+  #  red:     '0x8c3336'
+  #  green:   '0x7a8530'
+  #  yellow:  '0x97822e'
+  #  blue:    '0x5f6d8f'
+  #  magenta: '0x80638e'
+  #  cyan:    '0x497e7a'
+  #  white:   '0x9a9a9a'
 
   # Indexed Colors
   #
@@ -260,6 +306,8 @@ colors:
   #   `- { index: 16, color: '0xff00ff' }`
   #
   #indexed_colors: []
+
+
 
 # Visual Bell
 #
@@ -292,7 +340,7 @@ colors:
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
 #background_opacity: 1.0
-background_opacity: 0.5
+background_opacity: 0.9
 
 #selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"

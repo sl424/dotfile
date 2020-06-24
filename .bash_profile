@@ -30,3 +30,6 @@ export QT_QPA_PLATFORM=wayland
 #XDG_CURRENT_DESKTOP=KDE
 
 #cd /home/chewie
+
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=sway

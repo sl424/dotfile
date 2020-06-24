@@ -78,7 +78,9 @@ PATH=~/opt/bin:$PATH
 PATH=~/script:$PATH
 PATH=~/crawlers:$PATH
 PATH=~/bin:$PATH
-PATH=~/firefox:$PATH
+PATH=~/.vim/plugged/vim-live-latex-preview/bin:$PATH
+
+#PATH=~/firefox:$PATH
 
 # # ex - archive extractor
 # # usage: ex <file>
