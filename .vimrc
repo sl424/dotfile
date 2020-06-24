@@ -1,4 +1,5 @@
 map <F2> :r !wl-paste -p -n<CR>
+inoremap <F2> <C-o>:r !wl-paste -p -n<CR>
 vmap <F3> :w !wl-copy -p -n<CR><CR>
 
 " syntax highlighting
@@ -129,7 +130,7 @@ set undofile
 set undodir=/tmp
 
 "set text wrap and linebreak
-"set textwidth=80 colorcolumn=-1
+set textwidth=100 colorcolumn=-1
 "set wrap linebreak nolist tw=80
 "set lbr
 "set breakindent
@@ -231,7 +232,7 @@ set hlsearch
 "FFmpeg settings
 "autocmd BufRead,BufNewFile /home/chewie/FFmpeg/* source ~/.vim/ffmpeg.vim
 
-iab _main() #include<stdlib.h><CR>#include<stdio.h><CR>int main(int argc, char *argv[])<CR>{<CR>exit(EXIT_SUCCESS);<CR>}
+""iab _main() #include<stdlib.h><CR>#include<stdio.h><CR>int main(int argc, char *argv[])<CR>{<CR>exit(EXIT_SUCCESS);<CR>}
 
 " Trailing whitespace and tabs are forbidden, so highlight them.
 "highlight ForbiddenWhitespace ctermbg=red guibg=red
@@ -272,8 +273,8 @@ function! Fold2()
 	return l:text . l:info
 endfunction
 
-set efm=\ %#[javac]\ %#%f:%l:%c:%*\\d:%*\\d:\ %t%[%^:]%#:%m,
-			\%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+"set efm=\ %#[javac]\ %#%f:%l:%c:%*\\d:%*\\d:\ %t%[%^:]%#:%m,
+"			\%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
 
 if empty(glob('~/.vim/autoload/plug.vim'))
 	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -308,6 +309,7 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_auto_hover =""
 let g:ycm_disable_signature_help = 1
 set completeopt+=popup
+"nmap <leader>h <plug>(YCMHover)
 "let g:ycm_min_num_of_chars_for_completion  = 80
 "let g:ycm_auto_trigger = 1
 "let g:ycm_key_invoke_completion = '<C-Space>'
@@ -328,8 +330,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 "set termguicolors     " enable true colors support
 "autocmd vimenter * colorscheme PaperColor
 colorscheme gruvbox
-"colorscheme PaperColor
-set background=dark
+colorscheme PaperColor
+set background=light
 
 
 "airline preference
@@ -337,6 +339,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_detect_modified=0
 
 "ale preference
+let g:ale_sign_column_always = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_fixers = {
@@ -346,8 +349,9 @@ let g:ale_fixers = {
 
 "toggle for vim plugins
 map <C-n> :NERDTreeToggle<CR>
-map <C-m> :TagbarToggle<CR>
-map <C-b> :CtrlPMixed<CR>
+"tagbar default 'Enter' to toggle tagbar
+"map <C-m> :TagbarToggle<CR>
+map <C-p> :CtrlPMixed<CR>
 
 "map <C-j> <C-W>w
 "map <C-k> <C-W>k
@@ -359,4 +363,32 @@ nnoremap <S-F6> <C-W>W
 nnoremap <F5> :bn<CR>
 nnoremap <S-F5> :bp<CR>
 
-map <F9> :make
+""map <F8> :silent make<BAR>redraw!<BAR>copen<CR> 
+map <F8> :silent make<BAR>redraw!<CR> 
+""map <F8> :make! "do not jump to error
+" ccl[ose] to close the quickfix window"
+map <F7> :cn<CR>
+map <S-F7> :cp<CR>
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap <C-a> <C-o>0
+inoremap <C-e> <C-o>$
+inoremap <C-l> <right>
+inoremap <C-h> <left>
+imap <C-o> <esc>O
+
+
+""let loaded_matchparen=1 " Don't load matchit.vim (paren/bracket matching)
+""set noshowmatch         " Don't match parentheses/brackets
+""set nocursorline        " Don't paint cursor line
+""set nocursorcolumn      " Don't paint cursor column
+""set lazyredraw          " Wait to redraw
+""set scrolljump=8        " Scroll 8 lines at a time at bottom/top
+""let html_no_rendering=1 " Don't render italic, bold, links in HTML
+""set ttyfast
