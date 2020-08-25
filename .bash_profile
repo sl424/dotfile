@@ -10,11 +10,11 @@
 #  XKB_DEFAULT_LAYOUT=us exec sway
 #fi
 
-export MESA_LOADER_DRIVER_OVERRIDE=iris
+#export MESA_LOADER_DRIVER_OVERRIDE=iris
 #export MESA_LOADER_DRIVER_OVERRIDE=zink
 
-export LIBVA_DRIVER_NAME=iHD
-#export LIBVA_DRIVER_NAME=i965
+#export LIBVA_DRIVER_NAME=iHD
+export LIBVA_DRIVER_NAME=i965
 
 export MOZ_ENABLE_WAYLAND=1
 export MOZ_WEBRENDER=1
@@ -33,3 +33,7 @@ export QT_QPA_PLATFORM=wayland
 
 export XDG_SESSION_TYPE=wayland
 export XDG_CURRENT_DESKTOP=sway
+
+export GOPATH=$HOME/gobook
+export PATH=$HOME/opt/bin:$HOME/script:$HOME/bin:$PATH
+export PATH=/usr/libexec:$PATH
