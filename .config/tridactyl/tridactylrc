@@ -173,7 +173,7 @@ setpref intl.regional_prefs.use_os_locales false
 setpref javascript.use_us_english_locale true
 setpref layout.css.font-loading-api.enabled false
 setpref media.av1.enabled false
-setpref media.mp4.enabled false
+setpref media.mp4.enabled true
 setpref media.ogg.enabled false
 setpref media.hls.enabled false
 setpref media.webm.enabled false
@@ -194,10 +194,8 @@ setpref media.gmp.trial-create.enabled false
 setpref layers.acceleration.force-enabled false
 setpref gfx.webrender.enabled true
 setpref gfx.webrender.all true
-setpref gfx.webrender.compositor true
-setpref widget.wayland-dmabuf-webgl.enabled true
-setpref widget.wayland-dmabuf-vaapi.enabled true
 setpref dom.webgpu.enabled true
+setpref media.ffmpeg.vaapi.enabled true
 
 " WebRTC. Might need to re-enable some day
 setpref media.peerconnection.enabled false
