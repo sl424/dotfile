@@ -8,6 +8,7 @@ syntax on
 set ve=all
 set autochdir
 set title
+set mouse=a
 
 highlight Pmenu ctermfg=white ctermbg=none
 highlight PmenuSel ctermfg=darkmagenta ctermbg=none cterm=bold
@@ -79,7 +80,7 @@ nnoremap <leader><Tab> :syntax match Special "\t"<CR>
 "toggle trailing space highlight
 nnoremap <leader><Space> :syntax match Error "\s\+$"<CR>
 "remove trailing space
-"nnoremap <leader>d :%s/\s\+$// <CR>
+nnoremap <leader>D :%s/\s\+$// <CR>
 nnoremap <leader>d :%s/\n\{3,}/\r\r/e <CR>
 
 nnoremap <silent> <leader><F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
@@ -98,6 +99,7 @@ set listchars=eol:⏎,tab:␉·,trail:␠,nbsp:⎵
 set listchars=tab:>\ ,trail:•,extends:#,nbsp:.
 set listchars=nbsp:¬,tab:»·,trail:·,extends:>
 set listchars=nbsp:¬,tab:· ,trail:·,extends:>
+set listchars=tab:·\ ,eol:¬,trail:·
 "toggle line numbering [number]
 map <silent> <leader>n :set number!<CR>
 "toggle relativenumbering [relativenumber]
@@ -128,7 +130,7 @@ set undofile
 set undodir=/tmp
 
 "set text wrap and linebreak
-set textwidth=100 colorcolumn=-1
+set textwidth=100 colorcolumn=-2,-1
 "set wrap linebreak nolist tw=80
 "set lbr
 "set breakindent
@@ -290,11 +292,12 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'scrooloose/nerdtree'
-Plug 'ervandew/supertab'
+""Plug 'ervandew/supertab'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 Plug 'majutsushi/tagbar'
-Plug 'ying17zi/vim-live-latex-preview'
+""Plug 'ying17zi/vim-live-latex-preview'
+Plug 'lervag/vimtex'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets' " Snippets are separated from the engine.
@@ -302,11 +305,14 @@ Plug 'morhetz/gruvbox'
 "Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 call plug#end()
 
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_enable_diagnostic_signs = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_auto_hover =""
 let g:ycm_disable_signature_help = 1
-set completeopt+=popup
+""set completeopt+=popup ""popup breaks ultisnip jump
+set completeopt-=preview
 "nmap <leader>h <plug>(YCMHover)
 "let g:ycm_min_num_of_chars_for_completion  = 80
 "let g:ycm_auto_trigger = 1
@@ -335,21 +341,39 @@ set background=light
 "airline preference
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_detect_modified=0
+let g:airline_section_c = "%t"
+let g:airline#extensions#hunks#hunk_symbols = ['+', '~', '-']
 
 "ale preference
+set signcolumn=yes
+""let g:ale_set_loclist =1  "default  = on"
+let g:ale_set_quickfix = 1
+""let g:ale_keep_list_window_open = 1
+""let g:ale_open_list = 1
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
 let g:ale_lint_on_insert_leave = 0
+let g:airline#extensions#ale#enabled = 0
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
 \}
+""let g:ale_fix_on_save = 1
+let g:ale_update_tagstack = 0
+let g:ale_disable_lsp = 1
 
 "toggle for vim plugins
 map <C-n> :NERDTreeToggle<CR>
 "tagbar default 'Enter' to toggle tagbar
 "map <C-m> :TagbarToggle<CR>
 map <C-p> :CtrlPMixed<CR>
+let g:ctrlp_open_new_file = 'r'
+let g:ctrlp_user_command = 'find %s -type f'
+""let g:ctrlp_working_path_mode = 'ra' //contain .git .hg etc.
+let g:ctrlp_working_path_mode = 'a'
+""let g:ctrlp_open_multiple_files = '2vjr''
+let g:ctrlp_open_multiple_files = '1r'
 
 "map <C-j> <C-W>w
 "map <C-k> <C-W>k
@@ -362,6 +386,7 @@ nnoremap <F5> :bn<CR>
 nnoremap <S-F5> :bp<CR>
 
 ""map <F8> :silent make<BAR>redraw!<BAR>copen<CR> 
+noremap <F4> :silent update<BAR>redraw!<CR> 
 map <F8> :silent make<BAR>redraw!<CR> 
 ""map <F8> :make! "do not jump to error
 " ccl[ose] to close the quickfix window"
@@ -390,3 +415,44 @@ imap <C-o> <esc>O
 ""set scrolljump=8        " Scroll 8 lines at a time at bottom/top
 ""let html_no_rendering=1 " Don't render italic, bold, links in HTML
 ""set ttyfast
+""set nofoldenable
+set lazyredraw
+
+""let maplocalleader="\"
+""nnoremap ZZ :update<CR>
+let g:vimtex_view_method = 'mupdf'
+let g:vimtex_matchparen_enabled = 0
+let g:vimtex_toc_refresh_always = 0
+augroup vimtex
+	autocmd!
+	autocmd BufWritePost *.tex call vimtex#toc#refresh()
+augroup END
+let g:vimtex_compiler_latexmk_engines = {'pdflatex' : '-pdf'}
+autocmd Filetype tex setlocal updatetime=100
+autocmd Filetype tex autocmd CursorHold,CursorHoldI <buffer> silent! update
+""let g:vimtex_quickfix_autojump = 0 
+""let g:vimtex_quickfix_blgparser = {"disable":1}
+""let g:vimtex_quickfix_blgparser.disable =1
+""autocmd InsertLeave <buffer> silent! update
+
+function! s:DimInactiveWindows()
+  for i in range(1, tabpagewinnr(tabpagenr(), '$'))
+    let l:range = "99,100"
+    if i != winnr()
+      if &wrap " HACK: when wrapping lines is enabled
+        let l:width=256 " max
+      else
+        let l:width=winwidth(i)
+      endif
+      let l:range = join(range(1, l:width), ',')
+    endif
+    call setwinvar(i, '&colorcolumn', l:range)
+  endfor
+endfunction
+
+augroup DimInactiveWindows
+  au!
+  au WinEnter * call s:DimInactiveWindows()
+  au WinEnter * set cursorline number
+  au WinLeave * set nocursorline nonumber
+augroup END
