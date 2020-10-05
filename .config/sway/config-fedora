@@ -78,9 +78,9 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 #F5 	224 	XF86MonBrightnessDown 	Darkens display 	No
-bindsym XF86MonBrightnessDown exec "brightlight -p -d 10"
+bindsym XF86MonBrightnessDown exec "brightlight -p -d 5"
 #F6 	225 	XF86MonBrightnessUp 	Brightens display 	No
-bindsym XF86MonBrightnessUp exec "brightlight -p -i 10"
+bindsym XF86MonBrightnessUp exec "brightlight -p -i 5"
 
 #F7 	227 	XF86Display 	Switch between internal and external display 	No
 #F8 	238 	XF86WLAN 	Enable/disable wireless 	Yes
@@ -232,7 +232,7 @@ output $laptop bg $HOME/.cms.png fill
 ##################################################
  exec swayidle -w \
           timeout 300 'brightlight -p -w 0' \
-               resume 'brightlight -p -w 20'
+               resume 'brightlight -p -w 10'
           #timeout 300 'swaymsg "output * dpms off"' \
           #     resume 'swaymsg "output * dpms on"'
           #timeout 600 'swaymsg "output * dpms off"' \
@@ -295,11 +295,11 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 	tap enabled 
 	tap_button_map lmr
     }
-    input "2:7:SynPS/2_Synaptics_TouchPad" { 
-	dwt enabled
-	tap enabled 
-	tap_button_map lmr
-    }
+#    input "2:7:SynPS/2_Synaptics_TouchPad" { 
+#	dwt enabled
+#	tap enabled 
+#	tap_button_map lmr
+#    }
 
 	#click_method button_areas
 	#tap_button_map lrm|lmr
