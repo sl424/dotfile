@@ -29,11 +29,26 @@ export QT_QPA_PLATFORM=wayland
 
 #XDG_CURRENT_DESKTOP=KDE
 
+_JAVA_AWT_WM_NONREPARENTING=1
+#GDK_BACKEND=x11
+#QT_QPA_PLATFORM=xcb
+
 #cd /home/chewie
 
 export XDG_SESSION_TYPE=wayland
 export XDG_CURRENT_DESKTOP=sway
-
 export GOPATH=$HOME/gobook
-export PATH=$HOME/opt/bin:$HOME/script:$HOME/bin:$PATH
-export PATH=/usr/libexec:$PATH
+
+PATH=/usr/libexec:$PATH
+PATH=$HOME/opt/bin:$HOME/bin:$HOME/.local/bin:$PATH
+PATH=$HOME/.wayland_utils:$HOME/script:$PATH
+export PATH
+#add new path
+
+export WORKON_HOME=~/Envs
+source $HOME/.local/bin/virtualenvwrapper.sh
+
+# If running from tty1 start sway
+#if [ "$(tty)" = "/dev/tty1" ]; then
+#	#exec WLR_DRM_DEVICES=/dev/dri/card0 sway -c .config/sway/config-fedora 2> sway.err
+#fi

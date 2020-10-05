@@ -1,29 +1,7 @@
 #!/usr/bin/env sh
+alias emacs='emacs -nw'
+alias rlwrap='rlwrap -cr'
 
-#force_color_prompt=yes
-#export LIBVA_DRIVER_NAME=iHD
-#export LIBVA_DRIVER_NAME=i965
-
-case ${TERM} in
-	linux|xterm|rxvt*|Eterm*|aterm|kterm|gnome*|interix|konsole*)
-		#PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
-		if type dircolors >/dev/null ; then
-			if [[ -f ~/.dir_colors ]] ; then
-				eval $(dircolors -b ~/.dir_colors)
-			elif [[ -f /etc/DIR_COLORS ]] ; then
-				eval $(dircolors -b /etc/DIR_COLORS)
-			fi
-		fi
-
-		;;
-	screen*)
-		#PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
-		;;
-	xterm-termite)
-		eval $(dircolors -p )
-		;;
-esac
-#eval $(dircolors -p | perl -pe 's/^((CAP|S[ET]|O[TR]|M|E)\w+).*/$1 00/' | dircolors -)
 alias checkdns='sudo tcpdump -vv -x -X -s 1500 -i wlp3s0 "port 853"'
 alias pp='sudo pacman-mirrors --fasttrack'
 alias vrc='vlc --intf rc --rc-host localhost:50000'
@@ -40,6 +18,7 @@ alias tmuxas='tmux attach-session -t'
 
 # related alias 
 alias ls='ls --color=auto -F'
+alias ll='ls -l --color=auto -F'
 alias la='ls --color=auto -F -a -d .?*'
 alias l.='ls -d .* --color=auto'
 alias diff='diff --color=auto'
@@ -73,15 +52,6 @@ alias konfig='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias klog="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME \
 log --graph --decorate --oneline --all"  
 
-#add new path
-PATH=~/opt/bin:$PATH
-PATH=~/script:$PATH
-PATH=~/crawlers:$PATH
-PATH=~/bin:$PATH
-PATH=~/.vim/plugged/vim-live-latex-preview/bin:$PATH
-
-#PATH=~/firefox:$PATH
-
 # # ex - archive extractor
 # # usage: ex <file>
 ex ()
@@ -106,28 +76,6 @@ ex ()
   fi
 }
 
-# Set colorful PS1 only on colorful terminals.
-# dircolors --print-database uses its own built-in database
-# instead of using /etc/DIR_COLORS.  Try to use the external file
-# first to take advantage of user additions.  Use internal bash
-# globbing instead of external grep binary.
-
-#eval $(dircolors -p | perl -pe 's/^((CAP|S[ET]|O[TR]|M|E)\w+).*/$1 00/' | dircolors -)
-#eval $(dircolors -p )
-
-#use_color=true
-#if ${use_color} ; then
-#	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
-#	if type dircolors >/dev/null ; then
-#		if [[ -f ~/.dir_colors ]] ; then
-#			eval $(dircolors -b ~/.dir_colors)
-#		elif [[ -f /etc/DIR_COLORS ]] ; then
-#			eval $(dircolors -b /etc/DIR_COLORS)
-#		fi
-#	fi
-#fi
-
-
 #fix obvious typo's
 alias cd..='cd ..'
 alias pdw="pwd"
@@ -135,6 +83,7 @@ alias udpate='sudo pacman -Syyu'
 
 #readable output
 alias df='df -h'
+alias du='du -sh * | sort -rh'
 
 #pacman unlock
 alias unlock="sudo rm /var/lib/pacman/db.lck"
@@ -202,25 +151,6 @@ alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
 
-#if [ "$TERM" = "linux" ]; then
-#echo -en "\e]P002828"
-#echo -en "\e]P10241d"
-#echo -en "\e]P20971a"
-#echo -en "\e]P309921"
-#echo -en "\e]P408588"
-#echo -en "\e]P506286"
-#echo -en "\e]P609d6a"
-#echo -en "\e]P709984"
-#echo -en "\e]P808374"
-#echo -en "\e]P904934"
-#echo -en "\e]PA0bb26"
-#echo -en "\e]PB0bd2f"
-#echo -en "\e]PC0a598"
-#echo -en "\e]PD0869b"
-#echo -en "\e]PE0c07c"
-#echo -en "\e]PF0dbb2"
-#clear
-#fi
 
 if [ "$TERM" = "linux" ]; then
     echo -en "\e]P0232323" #black
@@ -258,5 +188,5 @@ man() {
 
 less() {
     set-hl
-    command less "$@"
+    command less -i "$@"
 }

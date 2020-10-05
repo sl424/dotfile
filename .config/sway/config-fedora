@@ -1,4 +1,5 @@
 for_window [shell=".*"] title_format "%title :: %shell"
+for_window [shell=".*"] title_format "゜%title :: %shell"
 
 #set $gnome-schema org.gnome.desktop.interface
 
@@ -13,7 +14,8 @@ exec_always {
 ##################################################
 #exec --no-startup-id xrdb -merge $HOME/.Xresources
 exec --no-startup-id redshift -l 33.4:-112 -t 5500:3300 -g 0.8 -m wayland
-exec --no-startup-id waybar
+exec --no-startup-id mako
+exec --no-startup-id xdg-desktop-portal -r
 
 
 # font
@@ -54,6 +56,7 @@ for_window [class="feh"] floating enable
 for_window [app_id="mpv"] floating enable
 #for_window [class="zoom"] floating enable
 for_window [class="Quartus"] floating enable
+for_window [title="\ -\ Sharing\ Indicator$"] floating enable
 
 
 # key config
@@ -175,9 +178,9 @@ set $right semicolon
 hide_edge_borders none
 
 # change borders
-bindsym $mod+u border none
-bindsym $mod+y border pixel 1
-bindsym $mod+n border normal
+#bindsym $mod+u border none
+#bindsym $mod+y border pixel 1
+#bindsym $mod+n border normal
 
 # Your preferred terminal emulator
 set $term alacritty
@@ -203,8 +206,9 @@ set $menu wofi --show run | xargs swaymsg exec --
 #exec wl-paste -t text --watch clipman store
 #bindsym $mod+h exec clipman pick
 
-exec wl-paste -p -n --watch clipman store --histpath="/tmp/clipman-primary.json"
-bindsym F10 exec clipman pick --tool="wofi" --histpath="/tmp/clipman-primary.json" && wl-paste | wl-copy -p -n
+exec wl-paste -p -n --watch clipman store --histpath="$HOME/.cache/clipman-primary.json"
+bindsym Shift+F10 exec wl-paste -p -n --watch clipman store --histpath="$HOME/.cache/clipman-primary.json"
+bindsym F10 exec clipman pick --tool="wofi" --histpath="$HOME/.cache/clipman-primary.json" && wl-paste | wl-copy -p -n
 
 #exec wl-paste -p --watch 'wl-paste -p >> ~/.clipboard'
 #bindsym F10 exec "tac ~/.clipboard | wofi -dmenu | wl-copy -p -n"
@@ -254,7 +258,8 @@ output $laptop bg $HOME/.cms.png fill
 
 input "1:1:AT_Translated_Set_2_keyboard" { 
 	 	xkb_layout us,es
-		 xkb_options caps:escape,grp:alt_space_toggle
+	#   xkb_options grp:alt_space_toggle
+	#	xkb_options caps:escape,grp:alt_space_toggle
 	#	xkb_rules "keycode 65 = keycode 66"
  }
 ##!/bin/bash
@@ -315,8 +320,8 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     bindsym $mod+Shift+q kill
 
     # Start your launcher
-    # bindsym $mod+d exec $menu
-    bindsym F9 exec $menu
+    bindsym $mod+d exec $menu
+    bindsym F9 exec --no-startup-id window_switcher
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -331,9 +336,9 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
-bindsym Print exec --no-startup-id grim
-bindsym $mod+Print exec --no-startup-id 'grim -g "$(slurp)"'
-bindsym $mod+Shift+Print exec --no-startup-id 'grimshot save window'
+#bindsym Print exec --no-startup-id grim
+bindsym $mod+Print exec --no-startup-id 'grimshot copy area'
+bindsym $mod+Shift+Print exec --no-startup-id 'grimshot copy  window'
 #bindsym $mod+Shift+Print exec --no-startup-id 'grim -g "`swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp`"'
 
 #
@@ -476,12 +481,34 @@ mode "resize" {
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-#bar {
+bar {
 #    position top
 #    # When the status_command prints a new line to stdout, swaybar updates.
 #    # The default just shows the current date and time.
-#	swaybar_command waybar
-#}
+	swaybar_command waybar
+
+    colors {
+        #background #222D31
+        #statusline #F9FAF9
+        #separator  #454947
+
+		##                  border  backgr. text
+        #focused_workspace  #F9FAF9 #16a085 #292F34
+        #active_workspace   #595B5B #353836 #FDF6E3
+        #inactive_workspace #595B5B #222D31 #EEE8D5
+        #binding_mode       #16a085 #2C2C2C #F9FAF
+        urgent_workspace   #16a085 #FDF6E3 #E5201D
+    }
+}
+
+# class                   border  backgr. text    indic.   child_border
+
+#client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
+#client.unfocused         #2F3D44 #2F3D44 #ffffff #454948
+client.unfocused         #2F3D44 #2F3D44 #D3D3D3 #454948
+#client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
+#client.placeholder      #000000 #0c0c0c #ffffff #000000
+#client.background       #2B2C2B
 
 # Set shut down, restart and locking features
 bindsym $mod+0 mode "$m_system"

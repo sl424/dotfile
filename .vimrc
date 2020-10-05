@@ -8,7 +8,7 @@ syntax on
 set ve=all
 set autochdir
 set title
-set mouse=a
+""set mouse=a
 
 highlight Pmenu ctermfg=white ctermbg=none
 highlight PmenuSel ctermfg=darkmagenta ctermbg=none cterm=bold
@@ -34,6 +34,10 @@ set foldtext=FoldText()
 "default vim split pane
 "set splitbelow
 "set splitright
+"":set fillchars+=vert:\ 
+""set fillchars+=vert:\⬛
+"special char ->  ゜
+set fillchars+=vert:\█
 
 " cscope setting
 "if has('cscope')
@@ -80,8 +84,8 @@ nnoremap <leader><Tab> :syntax match Special "\t"<CR>
 "toggle trailing space highlight
 nnoremap <leader><Space> :syntax match Error "\s\+$"<CR>
 "remove trailing space
-nnoremap <leader>D :%s/\s\+$// <CR>
-nnoremap <leader>d :%s/\n\{3,}/\r\r/e <CR>
+nnoremap <leader>D :%s/\s\+$// <CR><C-O>
+nnoremap <leader>d :%s/\n\{3,}/\r\r/e <CR><C-O>
 
 nnoremap <silent> <leader><F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
@@ -287,6 +291,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'dense-analysis/ale'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
@@ -336,9 +341,14 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 colorscheme gruvbox
 colorscheme PaperColor
 set background=light
+let g:airline_theme='solarized'
 
+"GitGutter pref"
+" .vim/after/plugin/gitgutter.vim ""autocmd! gitgutter CursorHold,CursorHoldI 
+autocmd BufWritePost * GitGutter
 
 "airline preference
+let g:airline_powerline_fonts = 1 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_detect_modified=0
 let g:airline_section_c = "%t"
@@ -358,6 +368,7 @@ let g:airline#extensions#ale#enabled = 0
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
+\   'python': ['pylint'],
 \}
 ""let g:ale_fix_on_save = 1
 let g:ale_update_tagstack = 0
@@ -381,12 +392,21 @@ let g:ctrlp_open_multiple_files = '1r'
 "map <C-l> <C-W>l
 nnoremap <F6> <C-W>w
 nnoremap <S-F6> <C-W>W
+inoremap <F6> <Esc>:silent update <CR> <C-W>w
+inoremap <S-F6> <Esc>:silent update <CR> <C-W>W
+
 "scroll through buffer/tabs
 nnoremap <F5> :bn<CR>
 nnoremap <S-F5> :bp<CR>
+"close buffer/tabs
+nnoremap ZB :bd<CR>
+
+"toggle mouse
+nnoremap <C-w>m :call ToggleMouse()<CR>
 
 ""map <F8> :silent make<BAR>redraw!<BAR>copen<CR> 
 noremap <F4> :silent update<BAR>redraw!<CR> 
+inoremap <F4> <C-o>:silent update<CR> 
 map <F8> :silent make<BAR>redraw!<CR> 
 ""map <F8> :make! "do not jump to error
 " ccl[ose] to close the quickfix window"
@@ -423,17 +443,13 @@ set lazyredraw
 let g:vimtex_view_method = 'mupdf'
 let g:vimtex_matchparen_enabled = 0
 let g:vimtex_toc_refresh_always = 0
-augroup vimtex
-	autocmd!
-	autocmd BufWritePost *.tex call vimtex#toc#refresh()
-augroup END
-let g:vimtex_compiler_latexmk_engines = {'pdflatex' : '-pdf'}
 autocmd Filetype tex setlocal updatetime=100
 autocmd Filetype tex autocmd CursorHold,CursorHoldI <buffer> silent! update
 ""let g:vimtex_quickfix_autojump = 0 
 ""let g:vimtex_quickfix_blgparser = {"disable":1}
 ""let g:vimtex_quickfix_blgparser.disable =1
-""autocmd InsertLeave <buffer> silent! update
+autocmd InsertLeave <buffer> silent update
+""autocmd InsertLeave <buffer> silent! update<BAR>redraw!
 
 function! s:DimInactiveWindows()
   for i in range(1, tabpagewinnr(tabpagenr(), '$'))
@@ -456,3 +472,11 @@ augroup DimInactiveWindows
   au WinEnter * set cursorline number
   au WinLeave * set nocursorline nonumber
 augroup END
+
+function! ToggleMouse()
+	exec &mouse!=""? "set mouse=" : "set mouse=a"
+endfunc
+
+
+highlight VertSplit cterm=none ctermbg=none ctermfg=none 
+"guibg=black guifg=black

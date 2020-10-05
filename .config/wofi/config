@@ -1,2 +1,2 @@
-mode=run
+mode=drun,run
 filter_rate=100 
