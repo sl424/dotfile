@@ -1,0 +1,31 @@
+;;; japanese input options ;;;
+
+(define default-im-name 'anthy-utf8)
+
+(define generic-on-key? (make-key-predicate '("F4")))
+(define generic-off-key? (make-key-predicate '("F4")))
+
+
+;;; chinese input options ;;;
+
+;(define default-im-name 'wb86)
+
+;(define generic-on-key '("<IgnoreShift><Control>\\" "<Control> "))
+;(define generic-on-key? (make-key-predicate '("<IgnoreShift><Control>\\" "<Control> ")))
+
+;(define generic-off-key '("<IgnoreShift><Control>\\" "<Control> "))
+;(define generic-off-key? (make-key-predicate '("<IgnoreShift><Control>\\" "<Control> ")))
+
+;(define generic-next-candidate-key '("down" "<IgnoreCase><Control>n"))
+;(define generic-next-candidate-key? (make-key-predicate '("down" "<IgnoreCase><Control>n")))
+
+;(define generic-commit-key '(" "))
+;(define generic-commit-key? (make-key-predicate '(" ")))
+
+;(define generic-nr-candidate-max 3)
+;(define generic-show-prediction-candidates? #f)
+
+;(define generic-show-candidate-implicitly? #t)
+;(define generic-use-candidate-window? #f)
+;(define generic-show-prediction-candidate? #f)
+;(define generic-commit-candidate-by-numeral-key? #t)
