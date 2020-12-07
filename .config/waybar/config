@@ -19,6 +19,7 @@
 	  "cpu",
 	  "custom/battery0",
 	  "custom/battery1",
+	  "custom/earbuds",
 	  "clock",
 	  "tray"],
 
@@ -129,6 +130,19 @@
 	  "exec": "$HOME/.config/waybar/waybar-modules/battery/wbm_battery1"
   },
 
+  "custom/earbuds": {
+    "interval": 2,
+    "tooltip": false,
+
+	  //"on-click": "earbuds connect",
+	  //"on-click-right": ""
+    //"format": " | {} ﰝ  <span color='cyan'> ﳃ </span> | ",
+
+    "format": " |Buds+ {}| ",
+    "return-type": "json",
+    "exec": "$HOME/.config/waybar/earbuds.sh"
+  },
+
   "clock": {
 	  "tooltip": false,
 	  "interval": 30,
@@ -156,7 +170,8 @@
 
   "network": {
 	  "interface": "wl*", // (Optional) To force the use of this interface
-	  "format-wifi": "<span color='#589df6'></span> <span color='yellow'>{essid}</span> <span color='red'>鷺{frequency}</span> <span color='cyan'>{signaldBm}dB</span> <span color='orange'> {bandwidthUpBits} {bandwidthDownBits}</span> <span color='magenta'> {ipaddr}/{cidr} </span>",
+	  //"format-wifi": "<span color='#589df6'></span> <span color='yellow'>{essid}</span> <span color='red'>鷺{frequency}</span> <span color='cyan'>{signaldBm}dB</span> <span color='orange'> {bandwidthUpBits} {bandwidthDownBits}</span> <span color='magenta'> {ipaddr}/{cidr} </span>",
+	  "format-wifi": "<span color='#589df6'></span> <span color='yellow'>{essid}</span> <span color='magenta'> {ipaddr}/{cidr} </span>",
 	  //"format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
 	  //"format-linked": "{ifname} (No IP) ",
 	  //"format-linked": "{ifname} (No IP) ",

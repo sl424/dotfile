@@ -107,6 +107,10 @@ label:focus {
   border-bottom: 2px solid #0a8cff;
 }
 
+#custom-earbuds{
+  border-bottom: 2px solid orange;
+}
+
 #pulseaudio.muted {
   border-bottom: 2px solid #fff569;
 }
