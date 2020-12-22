@@ -31,6 +31,7 @@ window#waybar.solo {
 */
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+  /*
 #workspaces button {
     padding: 0 5px;
     background-color: transparent;
@@ -39,14 +40,47 @@ window#waybar.solo {
 }
 
 #workspaces button.focused {
-  color: #ffffff;
-    background-color: #333333;
-    border-bottom: 2px solid #00ff96;
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
 }
 
 #workspaces button.urgent {
     background-color: #eb4d4b;
 }
+*/
+
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #ffffff;
+    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: inherit;
+    border-bottom: 3px solid #ffffff;
+}
+
+#workspaces button.focused {
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
+}
+
+#workspaces button.urgent {
+    background-color: #eb4d4b;
+}
+
+window#waybar.termite {
+    background-color: #3F3F3F;
+}
+
+window#waybar.chromium {
+    background-color: #000000;
+    border: none;
+}
+
 
 #clock,
 #custom-vpn,

@@ -7,7 +7,7 @@ set encoding=utf-8
 syntax on
 set ve=all
 set autochdir
-set title
+set title titlestring=%<%f%=%l/%L titlelen=60
 ""set mouse=a
 
 highlight Pmenu ctermfg=white ctermbg=none
@@ -350,6 +350,8 @@ autocmd BufWritePost * GitGutter
 "airline preference
 let g:airline_powerline_fonts = 1 
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t:.'
+let g:airline#extensions#tabline#fnamecollapse = 0
 let g:airline_detect_modified=0
 let g:airline_section_c = "%t"
 let g:airline#extensions#hunks#hunk_symbols = ['+', '~', '-']

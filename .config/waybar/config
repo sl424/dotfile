@@ -10,17 +10,16 @@
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": [],
   "modules-right": ["network",
-	  "pulseaudio",
-	  "custom/disk_root",
-	  "custom/disk_home",
+	 "pulseaudio",
 	  "temperature",
 	  "backlight",
+	  "custom/disk_root",
+	  "custom/disk_home",
 	  "memory",
 	  "cpu",
 	  "custom/battery0",
-	  "custom/battery1",
 	  "custom/earbuds",
-	  "clock",
+	  "clock", 
 	  "tray"],
 
   // Module config
@@ -33,14 +32,14 @@
 
   "custom/disk_home": {
 	  //"format": "🏠 /home {} ",
-	  "format": "/home {} ",
+	  "format": "<span color='light blue'>  home {} </span>",
 	  "tooltip": false,
 	  "interval": 30,
 	  "exec": "df -h --output=avail $HOME | tail -1 | tr -d ' '"
   },
   "custom/disk_root": {
 	  //"format": "💽 /root {} ",
-	  "format": "﫭/root {} ",
+	  "format": "<span color='violet'>  root {} </span>",
 	  "tooltip": false,
 	  "interval": 30,
 	  "exec": "df -h --output=avail / | tail -1 | tr -d ' '"
@@ -52,7 +51,7 @@
 	  // "format-critical": "{temperatureC}°C {icon}",
 
 	  "critical-threshold": 80,
-	  "format": "<span color='#e88939'>{icon}{temperatureC}°C</span>",
+	  "format": "<span color='orange'> {icon} {temperatureC}°C</span>",
 	  "tooltip": false,
 	  "format-icons": ["", "", ""]
   },
@@ -133,14 +132,12 @@
   "custom/earbuds": {
     "interval": 2,
     "tooltip": false,
-
-	  //"on-click": "earbuds connect",
-	  //"on-click-right": ""
     //"format": " | {} ﰝ  <span color='cyan'> ﳃ </span> | ",
-
-    "format": " |Buds+ {}| ",
+    "format": " [{}] ",
     "return-type": "json",
     "exec": "$HOME/.config/waybar/earbuds.sh"
+	  //"on-click": "earbuds connect",
+	  //"on-click-right": ""
   },
 
   "clock": {
@@ -164,7 +161,7 @@
 	  //"format": "💾 mem {used:0.1f}G",
 	  "interval": 10,
 	  "tooltip": false,
-	  "format": "<span color='magenta'>  mem {}%</span>"
+	  "format": "<span color='yellow'>  mem {}%</span>"
   },
 
 
@@ -180,17 +177,16 @@
 	  "tooltip": false,
 	  "interval": 5
   },
-
   "pulseaudio": {
 	  // "scroll-step": 1, // %, can be a float
-	  "format": "{icon} {volume}% {format_source}",
-	  "format-muted": "🔇 {format_source}",
-	  "format-bluetooth": "<span color='#589df6'></span>  {icon} {volume}% {format_source}",
-	  "format-bluetooth-muted": "<span color='#589df6'></span>  🔇 {format_source}",
 
+	  "format": "<span color='white'>﫛 </span> {icon} {volume}% {format_source}",
+	  "format-muted": "<span color='white'>﫛 </span> 婢 {volume}% {format_source}",
+	  "format-bluetooth": "<span color='#589df6'> </span> {icon} {volume}% {format_source}",
+	  "format-bluetooth-muted": "<span color='#589df6'> </span> 婢 {volume}% {format_source}",
 
 	  "format-source": " {volume}%",
-	  "format-source-muted": "",
+	  "format-source-muted": " {volume}%",
 	  "tooltip": false,
 
 	  "format-icons": {
@@ -200,18 +196,89 @@
 		  "phone": "",
 		  "portable": "",
 		  "car": "",
-		  "default": ["🔈", "🔉", "🔊"]
+		  //"default": ["🔈", "🔉", "🔊"]
+          "default": ["", "", ""]
 	  },
 	  //"on-click": "ponymix -N -t sink toggle",
 	  //"on-click-right": "ponymix -N -t source toggle"
 	  "interval": 5
   },
 
+
   "test":{
   }
 }
 
   /***************************************************
+
+"pulseaudio#bluetooth": {
+        "scroll-step": 0, // %, can be a float
+        "format": "ﰝ",
+	    "format-muted": "ﰝ",
+        //"format-alt": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "",
+        "format-bluetooth-muted": "",
+        //"format-source": "",
+        //"format-source": "{volume}% ",
+        //"format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        //"on-click": "blueman-manager"
+	  "tooltip": false
+    },
+"pulseaudio": {
+        "scroll-step": 0, // %, can be a float
+        "format": "{icon} {volume}%",
+        //"format-alt": "{volume}% {icon} {format_source}",
+        "format-muted": " {volume}%",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-bluetooth-muted": " {volume}%",
+        //"format-source": "",
+        //"format-source": "{volume}% ",
+        //"format-source-muted": "",
+        "format-icons": {
+            "headphone": ["", "", "", ""],
+            "hands-free": "",
+            "headphone": ["", "", "", ""],
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", "", ""]
+        },
+        //"on-click": "pavucontrol",
+        //"on-click-right": "blueman-manager"
+	  "tooltip": false
+    },
+"pulseaudio#mic": {
+        "scroll-step": 0, // %, can be a float
+        "format": "{format_source}",
+        //"format-alt": "{volume}% {icon} {format_source}",
+        "format-muted": "{format_source}",
+        "format-bluetooth": "{format_source}",
+        "format-bluetooth-muted": "{format_source}",
+        //"format-source": "",
+        "format-source": " {volume}% ",
+        "format-source-muted": " {volume}%",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        //"on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+	  "tooltip": false
+    },
+
      "backlight": {
   // "device": "acpi_video1",
   "format": "{icon} {percent}%",
