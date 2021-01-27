@@ -13,10 +13,11 @@ exec_always {
 # auto start services
 ##################################################
 #exec --no-startup-id xrdb -merge $HOME/.Xresources
-exec --no-startup-id redshift -l 33.4:-112 -t 5500:3300 -g 0.8 -m wayland
+exec --no-startup-id gammastep -l 33.4:-112 -t 5500:3300 -g 0.8 -m wayland
 exec --no-startup-id mako
 exec --no-startup-id earbuds -d
 exec --no-startup-id xdg-desktop-portal -r
+exec --no-startup-id blueman-tray
 
 
 # font
@@ -298,6 +299,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 	dwt enabled
 	tap enabled 
 	tap_button_map lmr
+	natural_scroll enabled
     }
 #    input "2:7:SynPS/2_Synaptics_TouchPad" { 
 #	dwt enabled

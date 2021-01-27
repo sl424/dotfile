@@ -141,7 +141,7 @@ label:focus {
   border-bottom: 2px solid #0a8cff;
 }
 
-#custom-earbuds{
+#custom-earbuds.bluetooth{
   border-bottom: 2px solid orange;
 }
 

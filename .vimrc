@@ -444,7 +444,6 @@ set lazyredraw
 ""nnoremap ZZ :update<CR>
 let g:vimtex_view_method = 'mupdf'
 let g:vimtex_matchparen_enabled = 0
-let g:vimtex_toc_refresh_always = 0
 autocmd Filetype tex setlocal updatetime=100
 autocmd Filetype tex autocmd CursorHold,CursorHoldI <buffer> silent! update
 ""let g:vimtex_quickfix_autojump = 0 
@@ -481,4 +480,5 @@ endfunc
 
 
 highlight VertSplit cterm=none ctermbg=none ctermfg=none 
+highlight Folded ctermbg=none
 "guibg=black guifg=black

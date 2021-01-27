@@ -3,8 +3,8 @@ BUDS_STATUS=`earbuds status -o json -q`
 
 REQ_STATUS=`echo $BUDS_STATUS | jq '.status' -r`
 if [ "$REQ_STATUS" != "success" ]; then
-	echo "{\"text\": \"﫽 -- : 﫽 --\", \"class\" : \"Buds+\", \"percentage\" : \"﫽 -- : 﫽 -- \"}"
-    exit 0;
+	echo "{\"text\": \" -- :  --\", \"class\" : \"none\", \"percentage\" : \" -- :  -- \"}"
+    exit 0
 fi
 
 LEFT=$(echo $BUDS_STATUS | jq -r '.payload.batt_left')
@@ -43,7 +43,4 @@ case $RS in
 		;;
 esac
 
-echo "{\"text\":\"$LEFT | $RIGHT\", \"class\":\"Buds+\", \"percentage\":\"$LEFT | $RIGHT\"}"
-
-
-
+echo "{\"text\":\"$LEFT | $RIGHT\", \"class\":\"bluetooth\", \"percentage\":\"$LEFT | $RIGHT\"}"
