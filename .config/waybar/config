@@ -9,15 +9,22 @@
 
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": [],
-  "modules-right": ["network",
-	 "pulseaudio",
-	  "temperature",
+  "modules-right": [
+	  "custom/clipboard0",
+	  "custom/clipboard1",
+	  "custom/language",
+	  "custom/bluetooth",
+	  "custom/wifi",
+	  "network",
+	  "pulseaudio",
+	  //"temperature",
 	  "backlight",
-	  "custom/disk_root",
-	  "custom/disk_home",
+	  //"custom/disk_root",
+	  //"custom/disk_home",
 	  "memory",
 	  "cpu",
 	  "custom/battery0",
+	  "custom/battery1",
 	  "custom/earbuds",
 	  "clock", 
 	  "tray"],
@@ -36,6 +43,20 @@
 	  "tooltip": false,
 	  "interval": 30,
 	  "exec": "df -h --output=avail $HOME | tail -1 | tr -d ' '"
+  },
+  "custom/clipboard0": {
+	  "format": "<span color='pink'>➊ </span>{}",
+	  "tooltip": false,
+	  "interval": "once",
+	  "exec": "[[ $(wl-paste -p -l 2>&1 | grep -i utf) ]] && wl-paste -p | tr '&<>\n\r[:cntrl:]' '-' | colrm 6 ||  wl-paste -p -l 2>&1 | head -n 1 | colrm 9",
+	  "signal": 1
+  },
+  "custom/clipboard1": {
+	  "format": "<span color='gold'> ➋ </span>{} ",
+	  "tooltip": false,
+	  "interval": "once",
+	  "exec": "[[ $(wl-paste -l 2>&1 | grep -i utf) ]] && wl-paste | tr '&<>\n\r[:cntrl:]' '-' | colrm 6 ||  wl-paste -l 2>&1 | head -n 1 | colrm 9",
+	  "signal": 2
   },
   "custom/disk_root": {
 	  //"format": "💽 /root {} ",
@@ -94,7 +115,7 @@
   "custom/batteryone": {
 	  "interval": 8,
 	  "tooltip": false,
-	  "format": "[{}]",
+	  "format": "{}",
 	  "return-type": "json",
 	  // Program at https://gitlab.com/krathalan/waybar-modules
 	  "exec": "$HOME/.config/waybar/waybar-modules/battery/wbm_battery0"
@@ -103,18 +124,45 @@
   "custom/batterytwo": {
 	  "interval": 8,
 	  "tooltip": false,
-	  "format": "[{}]",
+	  "format": "{}",
 	  "return-type": "json",
 	  // Program at https://gitlab.com/krathalan/waybar-modules
 	  "exec": "$HOME/.config/waybar/waybar-modules/battery/wbm_battery1"
   },
 
     //"format": "[{percentage}% {} {icon}]",
-
+	"sway/language": {
+		"format": "<span color='plum'></span> {}",
+		"on-click": "swaymsg 'input 1:1:AT_Translated_Set_2_keyboard xkb_switch_layout next'",
+		"min-length": 7,
+        "tooltip": false
+	},
+	"custom/language": {
+		"interval": 2,
+		"format": "<span color='plum'></span> {} ",
+		"on-click": "swaymsg 'input 1:1:AT_Translated_Set_2_keyboard xkb_switch_layout next'",
+		"exec" : " swaymsg -t get_inputs | jq -r '.[] | select((.xkb_layout_names | length) > 1) | .xkb_active_layout_name' | awk '{print $1}'",
+        "tooltip": false
+	},
+	"custom/bluetooth": {
+		"interval": 3,
+		"format": "<span color='#589df6'> </span>{} ",
+		//"on-click": "",
+		"exec" : "rfkill --json | jq -r '.[] | .[] | select(.type==\"bluetooth\") | .soft'",
+		"signal": 8,
+        	"tooltip": false
+	},
+	"custom/wifi": {
+		"interval": 3,
+		"format": "<span color='#589df6'> </span>{} ",
+		"exec" : "nmcli -f wifi g | tail -n 1",
+		"signal": 9,
+        	"tooltip": false
+	},
   "custom/battery0": {
     "interval": 8,
     "tooltip": false,
-    "format": "[ {percentage}% <span color='orange'>{}</span>]",
+    "format": " {percentage}% <span color='orange'>{}</span>",
     "format-icons": ["", "", "", "", "", "", ""],
     "return-type": "json",
 	  "exec": "$HOME/.config/waybar/waybar-modules/battery/wbm_battery0"
@@ -122,8 +170,8 @@
   "custom/battery1": {
     "interval": 8,
     "tooltip": false,
-    //"format": "[ {percentage}% {} ]",
-    "format": "[ {percentage}% <span color='orange'>{}</span>]",
+    //"format": " {percentage}% {}",
+    "format": " {percentage}% <span color='orange'>{}</span>",
     "format-icons": ["", "", "", "", "", "", ""],
     "return-type": "json",
 	  "exec": "$HOME/.config/waybar/waybar-modules/battery/wbm_battery1"
@@ -133,7 +181,7 @@
     "interval": 2,
     "tooltip": false,
     //"format": " | {} ﰝ  <span color='cyan'> ﳃ </span> | ",
-    "format": " [{}] ",
+    "format": "{}",
     "return-type": "json",
     "exec": "$HOME/.config/waybar/earbuds.sh"
 	  //"on-click": "earbuds connect",
@@ -143,7 +191,8 @@
   "clock": {
 	  "tooltip": false,
 	  "interval": 30,
-	  "format": " {:%a, %b %d %Y %I:%M%P}"
+	  //"format": " {:%a, %b %d %Y %I:%M%P}"
+	  "format": " {:%a, %b %d %I:%M%P}"
   },
   "tray": {
 	  "tooltip": false,
@@ -161,43 +210,40 @@
 	  //"format": "💾 mem {used:0.1f}G",
 	  "interval": 10,
 	  "tooltip": false,
-	  "format": "<span color='yellow'>  mem {}%</span>"
+	  "format": "<span color='yellow'>  mem {used:0.1f}G</span>"
   },
 
-
-  "network": {
-	  "interface": "wl*", // (Optional) To force the use of this interface
-	  //"format-wifi": "<span color='#589df6'></span> <span color='yellow'>{essid}</span> <span color='red'>鷺{frequency}</span> <span color='cyan'>{signaldBm}dB</span> <span color='orange'> {bandwidthUpBits} {bandwidthDownBits}</span> <span color='magenta'> {ipaddr}/{cidr} </span>",
-	  "format-wifi": "<span color='#589df6'></span> <span color='yellow'>{essid}</span> <span color='magenta'> {ipaddr}/{cidr} </span>",
-	  //"format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-	  //"format-linked": "{ifname} (No IP) ",
-	  //"format-linked": "{ifname} (No IP) ",
-	  //"format-alt": "{ifname}: {ipaddr}/{cidr}",
-	  "format-disconnected": "Disconnected ⚠",
-	  "tooltip": false,
-	  "interval": 5
+    "network": {
+  	//"interface": "wlp2s0",
+  	"format": "{ifname}",
+  	"format-wifi": "<span color='#589df6'></span> {essid}({signalStrength}%)",
+  	"format-ethernet": "<span color='green'></span> {ifname} - {ipaddr}",
+  	"format-disconnected": " Disconnected",
+  	"format-disabled": " Disabled",
   },
+
   "pulseaudio": {
 	  // "scroll-step": 1, // %, can be a float
 
-	  "format": "<span color='white'>﫛 </span> {icon} {volume}% {format_source}",
-	  "format-muted": "<span color='white'>﫛 </span> 婢 {volume}% {format_source}",
-	  "format-bluetooth": "<span color='#589df6'> </span> {icon} {volume}% {format_source}",
-	  "format-bluetooth-muted": "<span color='#589df6'> </span> 婢 {volume}% {format_source}",
+	  "format": "﫛 {icon} {volume}% {format_source}",
+	  "format-muted": "﫛 <span background='grey'> 婢 </span> {volume}% {format_source}",
+	  "format-bluetooth": " {icon} {volume}% {format_source}",
+	  "format-bluetooth-muted": " <span background='grey'> 婢 </span> {volume}% {format_source}",
 
-	  "format-source": " {volume}%",
-	  "format-source-muted": " {volume}%",
+	  "format-source": "<span background='red'>  </span> {volume}%",
+	  "format-source-muted": "<span background='grey'>  </span> {volume}%",
 	  "tooltip": false,
 
 	  "format-icons": {
 		  "headphones": "",
 		  "handsfree": "",
-		  "headset": "",
+		  "headset": "<span background='#589df6'>  </span>",
 		  "phone": "",
 		  "portable": "",
 		  "car": "",
 		  //"default": ["🔈", "🔉", "🔊"]
-          "default": ["", "", ""]
+          //"default": ["  ", "  ", "  "]
+          "default": "<span background='green'>  </span>"
 	  },
 	  //"on-click": "ponymix -N -t sink toggle",
 	  //"on-click-right": "ponymix -N -t source toggle"
@@ -210,6 +256,20 @@
 }
 
   /***************************************************
+  
+"network": {
+	  "interface": "wlp3s0", // (Optional) To force the use of this interface
+	  //"format-wifi": "<span color='#589df6'></span> <span color='yellow'>{essid}</span> <span color='red'>鷺{frequency}</span> <span color='cyan'>{signaldBm}dB</span> <span color='orange'> {bandwidthUpBits} {bandwidthDownBits}</span> <span color='magenta'> {ipaddr}/{cidr} </span>",
+	  "format-wifi": "<span color='#589df6'></span> <span color='yellow'>{essid}</span>",
+	  //"format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+	  //"format-linked": "{ifname} (No IP) ",
+	  //"format-linked": "{ifname} (No IP) ",
+	  //"format-alt": "{ifname}: {ipaddr}/{cidr}",
+	  "format-disconnected": "<span background='grey'> ⚠ </span> Disconnected",
+	  "format-disabled": "<span background='grey'> 睊 </span> Disabled",
+	  "tooltip": false,
+	  "interval": 2
+  },
 
 "pulseaudio#bluetooth": {
         "scroll-step": 0, // %, can be a float
