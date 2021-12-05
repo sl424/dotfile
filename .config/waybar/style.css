@@ -50,7 +50,7 @@ window#waybar.solo {
 */
 
 #workspaces button {
-    padding: 0 5px;
+    min-width: 0;
     background-color: transparent;
     color: #ffffff;
     /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
@@ -133,9 +133,21 @@ label:focus {
     background-color: #000000;
 }
 
-#network.disconnected {
-  border-bottom: 2px solid #dd2241;
+#network.disabled{
+  border-bottom: 2px solid red;
 }
+#network.disconnected{
+  border-bottom: 2px solid orange;
+}
+
+#network.wifi{
+  border-bottom: 2px solid #589df6;
+}
+
+#network.ethernet{
+  border-bottom: 2px solid green;
+}
+
 
 #pulseaudio.bluetooth {
   border-bottom: 2px solid #0a8cff;
