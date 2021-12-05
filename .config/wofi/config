@@ -1,2 +1,5 @@
 mode=drun,run
 filter_rate=100 
+image_size=128
+width=600
+height=300
