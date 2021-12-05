@@ -71,7 +71,7 @@ set fillchars+=vert:\█
 set autoindent
 set smartindent
 
-set number
+set nonumber
 "set relativenumber
 
 
@@ -103,7 +103,7 @@ set listchars=eol:⏎,tab:␉·,trail:␠,nbsp:⎵
 set listchars=tab:>\ ,trail:•,extends:#,nbsp:.
 set listchars=nbsp:¬,tab:»·,trail:·,extends:>
 set listchars=nbsp:¬,tab:· ,trail:·,extends:>
-set listchars=tab:·\ ,eol:¬,trail:·
+set listchars=tab:·\ ,eol:¬,trail:·,nbsp:⎵
 "toggle line numbering [number]
 map <silent> <leader>n :set number!<CR>
 "toggle relativenumbering [relativenumber]
@@ -294,7 +294,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'dense-analysis/ale'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-fugitive'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'scrooloose/nerdtree'
 ""Plug 'ervandew/supertab'
@@ -340,12 +340,13 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 "autocmd vimenter * colorscheme PaperColor
 colorscheme gruvbox
 colorscheme PaperColor
-set background=light
-let g:airline_theme='solarized'
+set background=dark
+let g:airline_theme='light'
 
 "GitGutter pref"
 " .vim/after/plugin/gitgutter.vim ""autocmd! gitgutter CursorHold,CursorHoldI 
 autocmd BufWritePost * GitGutter
+""let g:gitgutter_highlight_lines = 1
 
 "airline preference
 let g:airline_powerline_fonts = 1 
@@ -443,14 +444,15 @@ set lazyredraw
 ""let maplocalleader="\"
 ""nnoremap ZZ :update<CR>
 let g:vimtex_view_method = 'mupdf'
-let g:vimtex_matchparen_enabled = 0
-autocmd Filetype tex setlocal updatetime=100
-autocmd Filetype tex autocmd CursorHold,CursorHoldI <buffer> silent! update
+""let g:vimtex_matchparen_enabled = 0
+""autocmd Filetype tex setlocal updatetime=100
+""autocmd Filetype tex autocmd CursorHold,CursorHoldI <buffer> silent! update
 ""let g:vimtex_quickfix_autojump = 0 
 ""let g:vimtex_quickfix_blgparser = {"disable":1}
 ""let g:vimtex_quickfix_blgparser.disable =1
-autocmd InsertLeave <buffer> silent update
+""autocmd InsertLeave <buffer> silent update
 ""autocmd InsertLeave <buffer> silent! update<BAR>redraw!
+autocmd Filetype tex autocmd TextChangedI,TextChanged,InsertLeave <buffer> silent! update
 
 function! s:DimInactiveWindows()
   for i in range(1, tabpagewinnr(tabpagenr(), '$'))
@@ -470,8 +472,8 @@ endfunction
 augroup DimInactiveWindows
   au!
   au WinEnter * call s:DimInactiveWindows()
-  au WinEnter * set cursorline number
-  au WinLeave * set nocursorline nonumber
+  ""au WinEnter * set cursorline number
+  ""au WinLeave * set nocursorline nonumber
 augroup END
 
 function! ToggleMouse()
@@ -479,6 +481,10 @@ function! ToggleMouse()
 endfunc
 
 
+highlight Normal ctermfg=none ctermbg=none cterm=none
 highlight VertSplit cterm=none ctermbg=none ctermfg=none 
 highlight Folded ctermbg=none
-"guibg=black guifg=black
+highlight LineNr ctermfg=none ctermbg=none cterm=none
+highlight SignColumn ctermfg=none ctermbg=none cterm=none
+highlight NonText ctermbg=none cterm=none
+highlight ColorColumn ctermbg=253 "254	Grey89	#e4e4e4	rgb(228,228,228)	hsl(0,0%,89%)
