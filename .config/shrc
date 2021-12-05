@@ -17,10 +17,11 @@ alias tmuxls='tmux list-session'
 alias tmuxas='tmux attach-session -t'
 
 # related alias 
-alias ls='ls --color=auto -F'
-alias ll='ls -l --color=auto -F'
-alias la='ls --color=auto -F -a -d .?*'
-alias l.='ls -d .* --color=auto'
+alias ls='ls --color=auto -F --group-directories-first'
+alias ll='ls -l --color=auto -F --group-directories-first'
+alias la='ls --color=auto -F --group-directories-first -a -d .?*'
+alias l.='ls -d .* --color=auto --group-directories-first'
+
 alias diff='diff --color=auto'
 alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
