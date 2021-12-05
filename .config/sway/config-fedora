@@ -1,34 +1,53 @@
 for_window [shell=".*"] title_format "%title :: %shell"
 for_window [shell=".*"] title_format "゜%title :: %shell"
 
-#set $gnome-schema org.gnome.desktop.interface
 
+# Theme
+##################################################
+# qt (qt5ct, kvantum, materia_kde)
+# gtk2 (lxappearance)
+# gtk3:
+set $gnome-schema org.gnome.desktop.interface
 exec_always {
-    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
-    gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
-    gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita'
+    #gsettings set $gnome-schema gtk-theme 'Adwaita'
+    gsettings set $gnome-schema gtk-theme 'Materia-dark-compact'
+    gsettings set $gnome-schema icon-theme 'Papirus'
+    gsettings set $gnome-schema cursor-theme 'Bibata-Modern-Amber'
+    gsettings set $gnome-schema font-name 'Sans 10'
 }
+
+#exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+#exec hash dbus-update-activation-environment 2>/dev/null && \
+#     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 
 # auto start services
 ##################################################
 #exec --no-startup-id xrdb -merge $HOME/.Xresources
-exec --no-startup-id gammastep -l 33.4:-112 -t 5500:3300 -g 0.8 -m wayland
-exec --no-startup-id mako
+#exec --no-startup-id gammastep -l 33.4:-112 -t 5500:3300 -g 0.8 -m wayland
 exec --no-startup-id earbuds -d
-exec --no-startup-id xdg-desktop-portal -r
-exec --no-startup-id blueman-tray
+exec --no-startup-id autoime
+exec --no-startup-id kanshi
+exec --no-startup-id /home/sl424/Downloads/SwayNotificationCenter/build/src/swaync
+#exec --no-startup-id "sleep 1; copyq --start-server"
 
 
 # font
+##################################################
 #Font "xft:Inconsolata Nerd Font"
 #font pango:Inconsolata Nerd Font 12
 font pango: ter-v32n
 
 # Logo key. Use Mod1 for Alt.
+##################################################
 set $mod Mod4
 
-bindsym F12 exec --no-startup-id mpv --force-window=immediate --geometry=800x450 --ytdl-format="best[height=360]" "$(wl-paste -p -n)"
+# bindsym F11 exec --no-startup-id swaymsg 'input 1:1:AT_Translated_Set_2_keyboard xkb_switch_layout next'
+bindsym F9 exec --no-startup-id /home/sl424/Downloads/SwayNotificationCenter/build/src/swaync-client -t
+
+#bindsym F12 exec --no-startup-id mpv --force-window=immediate --geometry=800x450 --ytdl-format="best[height=360]" "$(wl-paste -p -n)"
+#bindsym F10 exec --no-startup-id copyq toggle
+#exec wl-paste --watch wl-copy -p                    #sync 2nd -> 1st (everything)
 
 # input method
 ##################################################
@@ -52,19 +71,22 @@ bindsym F12 exec --no-startup-id mpv --force-window=immediate --geometry=800x450
 
 # window rules
 ##################################################
-#for_window [app_id="nautilus"] border none
-#for_window [class="vlc"] floating enable
 for_window [class="feh"] floating enable
 for_window [app_id="mpv"] floating enable
-#for_window [class="zoom"] floating enable
-for_window [class="Quartus"] floating enable
-for_window [title="\ -\ Sharing\ Indicator$"] floating enable
+for_window [app_id="imv"] floating enable
+for_window [app_id="copyq"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="dialog"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [app_id="firefox"] border none
 
 
 # key config
 ##################################################
 #F1 	113 	XF86AudioMute 	Mute speakers 	No
 #bindsym XF86AudioMute exec "amixer set Master toggle"
+exec pactl set-sink-mute @DEFAULT_SINK@ 1 #default muted
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 #F2 	114 	XF86AudioLowerVolume 	Decreases the speaker volume 	No
@@ -78,6 +100,10 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 #F4 	190 	XF86AudioMicMute 	Mutes/unmutes microphone 	No
 #bindsym XF86AudioMicMute exec "amixer set Mic toggle"
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+exec pactl set-source-mute @DEFAULT_SOURCE@ 1 # default: muted
+#push to talk
+bindsym F4 exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ 0 # unmute mic
+bindsym --release F4 exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ 1 # mute mic
 
 #F5 	224 	XF86MonBrightnessDown 	Darkens display 	No
 bindsym XF86MonBrightnessDown exec "brightlight -p -d 5"
@@ -86,6 +112,8 @@ bindsym XF86MonBrightnessUp exec "brightlight -p -i 5"
 
 #F7 	227 	XF86Display 	Switch between internal and external display 	No
 #F8 	238 	XF86WLAN 	Enable/disable wireless 	Yes
+bindsym Shift+F8 exec toggle_wifi
+bindsym Control+F8 exec toggle_bluetooth
 #F9 	171 	XF86Tools 	Open "Control Panel" 	No
 #F10 	217 	XF86Search 	Open "Windows Search" 	No
 #F11 	120 	XF86LaunchA 	View open programs 	No
@@ -105,8 +133,10 @@ bindsym XF86MonBrightnessUp exec "brightlight -p -i 5"
 ##################################################
 #swaymsg -t get_outputs for example eDP-1.
 set $laptop eDP-1
-bindswitch lid:on output $laptop disable
-bindswitch lid:off output $laptop enable
+set $m27 DP-1
+
+#bindswitch lid:on output $laptop disable
+#bindswitch lid:off output $laptop enable
 
 #output HDMI1 scale 2
 #output HDMI1 pos 0 0 res 3200x1800
@@ -131,11 +161,47 @@ bindswitch lid:off output $laptop enable
 
 bindsym $mod+Home Mode "dvlc"
 mode "dvlc" {
-	bindsym 1 exec playerctl position 3-
-	bindsym 3 exec playerctl position 10-
-	bindsym 2 exec playerctl play-pause
-	bindsym 8 exec playerctl next
-	bindsym 7 exec playerctl previous
+    bindsym $mod+j focus left
+    bindsym $mod+k focus down
+
+    bindsym $mod+1 workspace 1
+    bindsym $mod+2 workspace 2
+    bindsym $mod+3 workspace 3
+    bindsym $mod+4 workspace 4
+    bindsym $mod+5 workspace 5
+    bindsym $mod+6 workspace 6
+    bindsym $mod+7 workspace 7
+    bindsym $mod+8 workspace 8
+    bindsym $mod+9 workspace 9
+
+	bindsym 1 exec playerctl -p mpv position 2-
+	bindsym 3 exec playerctl -p mpv position 10-
+	bindsym 2 exec playerctl -p mpv play-pause
+	bindsym 8 exec playerctl -p mpv next
+	bindsym 7 exec playerctl -p mpv previous
+    	bindsym Escape mode "default"
+}
+
+bindsym $mod+Delete Mode "fox"
+mode "fox" {
+    bindsym $mod+j focus left
+    bindsym $mod+k focus down
+
+    bindsym $mod+1 workspace 1
+    bindsym $mod+2 workspace 2
+    bindsym $mod+3 workspace 3
+    bindsym $mod+4 workspace 4
+    bindsym $mod+5 workspace 5
+    bindsym $mod+6 workspace 6
+    bindsym $mod+7 workspace 7
+    bindsym $mod+8 workspace 8
+    bindsym $mod+9 workspace 9
+
+	bindsym 1 exec playerctl -p firefox position 2-
+	bindsym 3 exec playerctl -p firefox position 10-
+	bindsym 2 exec playerctl -p firefox play-pause
+	bindsym 8 exec playerctl -p firefox next
+	bindsym 7 exec playerctl -p firefox previous
     	bindsym Escape mode "default"
 }
 
@@ -173,19 +239,20 @@ set $right semicolon
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 #default_border none
-#default_border pixel 1
+default_border normal
 #default_floating_border normal
 
 # Hide borders
-hide_edge_borders none
+#hide_edge_borders none
 
 # change borders
 #bindsym $mod+u border none
-#bindsym $mod+y border pixel 1
-#bindsym $mod+n border normal
+bindsym $mod+n border none
+bindsym $mod+Shift+n border normal
+# bindsym $mod+m border pixel 1
 
 # Your preferred terminal emulator
-set $term alacritty
+set $term foot
 #set $term urxvt
 
 # set drop down menu to F1 key
@@ -194,7 +261,8 @@ set $term alacritty
 #bindsym Mod4+F1 exec --no-startup-id urxvt -name dock 
 bindsym Mod4+F1 exec --no-startup-id alacritty --title=dock
 for_window [title="dock"] floating enable, move scratchpad, scratchpad show, \
-			resize set width 1920, move position 0px 0px, mark drop-term
+			resize set width 1500, move position 0px 0px, mark drop-term
+			#resize set width 1920, move position 0px 0px, mark drop-term
 bindsym F1 [con_mark="drop-term"] scratchpad show
  
 # Your preferred application launcher
@@ -208,22 +276,28 @@ set $menu wofi --show run | xargs swaymsg exec --
 #exec wl-paste -t text --watch clipman store
 #bindsym $mod+h exec clipman pick
 
-#exec wl-paste -p -n --watch clipman store --histpath="$HOME/.cache/clipman-primary.json"
-exec wl-paste -t text --watch clipman store
-exec wl-paste -p -t text --watch clipman store -P --histpath="$HOME/.cache/clipman-primary.json"
-#bindsym Shift+F10 exec wl-paste -p -n --watch clipman store --histpath="$HOME/.cache/clipman-primary.json"
-bindsym F10 exec clipman pick --tool="wofi" --histpath="$HOME/.cache/clipman-primary.json" && wl-paste | wl-copy -p -n
-#bindsym F10 exec clipman pick -t wofi && wl-paste | wl-copy -p -n
+#exec wl-paste -n --watch clipman --mime "" --primary --notify store      #stop 2nd -> 2nd (-P)
+# exec wl-paste -p -t text --watch clipman store      #sync 1st -> 2nd, return nil if loop (text only)
+#exec wl-paste --watch wl-copy -p                    #sync 2nd -> 1st (everything)
+# exec wl-paste -p --watch wl-copy                      #sync 1st -> 2nd (everything)
 
-#exec wl-paste -p --watch 'wl-paste -p >> ~/.clipboard'
-#bindsym F10 exec "tac ~/.clipboard | wofi -dmenu | wl-copy -p -n"
+exec wl-paste --watch clipman --notify store -P
+bindsym F10 exec clipman --notify --mimeconv="" pick --tool="wofi" --tool-args="--allow-images"
+
+exec wl-paste -p --watch pkill -SIGRTMIN+1 waybar
+exec wl-paste --watch pkill -SIGRTMIN+2 waybar
+
+#exec wl-paste -t text --watch clipman --primary store      #sync 2nd -> 1st (text only), return nil if loop
+#exec wl-paste -p -t text --watch clipman store -P             
+#exec wl-paste -p --watch wl-copy                    #sync 1st -> 2nd (everything)
+#bindsym F10 exec clipman pick --tool="wofi"
 
 ##################################################
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output $laptop bg $HOME/.cms.png fill
+output * bg $HOME/.wallpaper fill
 
 # Example configuration:
 #
@@ -235,9 +309,14 @@ output $laptop bg $HOME/.cms.png fill
 ### Idle configuration
           #timeout 300 'swaylock -f -c 000000' \
 ##################################################
- exec swayidle -w \
-          timeout 300 'brightlight -p -w 0' \
-               resume 'brightlight -p -w 10'
+exec swayidle -w \
+	before-sleep 'loginctl lock-session $XDG_SESSION_ID' \
+	lock 'pactl set-sink-mute @DEFAULT_SINK@ 1 && swaylock -f -c 589df6'
+
+# exec swayidle -w \
+#          timeout 300 'brightlight -p -w 0' \
+#               resume 'brightlight -p -w 10'
+
           #timeout 300 'swaymsg "output * dpms off"' \
           #     resume 'swaymsg "output * dpms on"'
           #timeout 600 'swaymsg "output * dpms off"' \
@@ -262,7 +341,8 @@ output $laptop bg $HOME/.cms.png fill
 #keyboard
 
 input "1:1:AT_Translated_Set_2_keyboard" { 
-	 	xkb_layout us,es
+	 	xkb_layout us,jp
+	   xkb_options grp:alt_shift_toggle
 	#   xkb_options grp:alt_space_toggle
 	#	xkb_options caps:escape,grp:alt_space_toggle
 	#	xkb_rules "keycode 65 = keycode 66"
@@ -299,7 +379,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 	dwt enabled
 	tap enabled 
 	tap_button_map lmr
-	natural_scroll enabled
+	#natural_scroll enabled
     }
 #    input "2:7:SynPS/2_Synaptics_TouchPad" { 
 #	dwt enabled
@@ -327,7 +407,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 
     # Start your launcher
     bindsym $mod+d exec $menu
-    bindsym F9 exec --no-startup-id window_switcher
+    # bindsym F9 exec --no-startup-id window_switcher
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -342,7 +422,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
-bindsym Print exec --no-startup-id 'grimshot copy output && pinta'
+# bindsym Print exec --no-startup-id 'grimshot copy output && pinta'
 bindsym $mod+Print exec --no-startup-id 'grimshot copy area'
 bindsym $mod+Shift+Print exec --no-startup-id 'grimshot copy  window'
 #bindsym $mod+Shift+Print exec --no-startup-id 'grim -g "`swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp`"'
@@ -373,6 +453,16 @@ bindsym $mod+Shift+Print exec --no-startup-id 'grimshot copy  window'
     bindsym $mod+Shift+Right move right
 
 
+# bind workspace to monitor when docked
+workspace 1 output $laptop
+workspace 2 output $m27
+workspace 3 output $m27
+workspace 4 output $m27
+workspace 5 output $m27
+workspace 6 output $m27
+workspace 7 output $m27
+workspace 8 output $m27
+workspace 9 output $m27
 
 
 
@@ -510,11 +600,27 @@ bar {
 # class                   border  backgr. text    indic.   child_border
 
 #client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
-#client.unfocused         #2F3D44 #2F3D44 #ffffff #454948
-client.unfocused         #2F3D44 #2F3D44 #a3a3a3 #454948
+## client.unfocused         #2F3D44 #2F3D44 #ffffff #454948
+#client.focused          #2F3D44 #2F3D44 #1ABC9C #454948
+#client.unfocused         #2F3D44 #2F3D44 #a3a3a3 #454948
 #client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
 #client.placeholder      #000000 #0c0c0c #ffffff #000000
 #client.background       #2B2C2B
+
+# active window color palette from ubuntu wallpaper
+#set $bg     #6C226A
+#set $bg     #77195D
+set $bg     #843382
+#set $bg     #9A223D
+
+#class						border  backgr  text    indic	child_border
+#client.focused              #bf616a #bf616a #d8dee8 #bf616a #bf616a
+client.focused              $bg		$bg		#d8dee8 $bg		$bg
+client.focused_inactive     #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.unfocused            #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.urgent               #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.placeholder          #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.background           #2f343f
 
 # Set shut down, restart and locking features
 bindsym $mod+0 mode "$m_system"
@@ -529,7 +635,7 @@ mode "$m_system" {
     
     bindsym l exec --no-startup-id swaylock -f -c 8cafe8, mode "default"
     bindsym h exec --no-startup-id systemctl hibernate, mode "default"
-    #bindsym u exec --no-startup-id systemctl switch_user, mode "default"
+   #bindsym u exec --no-startup-id systemctl switch_user, mode "default"
     bindsym e exec --no-startup-id swaymsg exit, mode "default"
     bindsym s exec --no-startup-id swaylock -f -c 8cafe8 && systemctl suspend, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
