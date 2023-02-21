@@ -1,3 +1,14 @@
 [submodule ".config/waybar/waybar-modules"]
 	path=.config/waybar/waybar-modules
 	url=https://github.com/sl424/waybar.git
+[submodule ".config/rofi/networkmanager-dmenu"]
+	path = .config/rofi/networkmanager-dmenu
+	url = git@github.com:sl424/networkmanager-dmenu.git
+	branch = wifi
+[submodule ".config/rofi/rofi-bluetooth"]
+	path = .config/rofi/rofi-bluetooth
+	url = git@github.com:sl424/rofi-bluetooth.git
+	branch = toggle-now
+[submodule ".config/rofi/rofi-power-menu"]
+	path = .config/rofi/rofi-power-menu
+	url = git@github.com:sl424/rofi-power-menu.git
