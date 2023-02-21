@@ -1,0 +1,60 @@
+[global]
+    frame_width = 0
+    corner_radius = 5
+    origin = "center"
+    format = "<b>%s</b> %p\n%b"
+    enable_posix_regex = true
+    font = "InconsolataGo Nerd Font 12"
+    height = 110
+
+    progress_bar_height=50
+    progress_bar_frame_width = 0 
+
+    padding = 10
+    horizontal_padding = 10
+    gap_size = 10
+
+    icon_theme = Papirus
+    enable_recursive_icon_lookup = true
+    min_icon_size = 32
+    max_icon_size = 64
+
+    mouse_left_click = do_action,close_current
+
+[urgency_low]
+    background = "{color4}"
+    foreground = "{color0}"
+    timeout = 5
+
+[urgency_normal]
+    background = "{color4}"
+    foreground = "{color0}"
+    timeout = 5
+
+[urgency_critical]
+    background = "{color4}"
+    foreground = "{color0}"
+    timeout = 0
+
+[bar]
+    category = bar
+    foreground = "{color7}"
+    highlight = "{color4}"
+    background = "{color1}"
+    timeout = 1
+    history_ignore = yes
+
+[battery]
+    category = battery
+    background = "{color4}"
+    foreground = "{color7}"
+    timeout = 0
+    history_ignore = yes
+
+[chat]
+    body = (discord.com|slack.com)
+    background = "{color4}"
+    foreground = "{color0}"
+    timeout = 0
+    set_stack_tag = false
+    ellipsize = end
