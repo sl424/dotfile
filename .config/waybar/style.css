@@ -1,16 +1,20 @@
+@import "/home/sl424/.cache/wal/colors-waybar.css";
+
 * {
     border: none;
     border-radius: 0;
-    font-family: "Inconsolata Nerd Font";
+    font-family: "InconsolataGo Nerd Font";
     font-size: 16px;
     min-height: 0;
 }
 
 window#waybar {
-    background-color: rgba(11, 11, 11, 0.8);
-    color: #ffffff;
+    /*background-color: rgba(43,48,59,0.1); */
+    background-color: @background;
+    color: @color7;
     transition-property: background-color;
     transition-duration: .5s;
+    opacity: 0.7;
 }
 
 window#waybar.hidden {
@@ -84,13 +88,16 @@ window#waybar.chromium {
 
 #clock,
 #custom-vpn,
-#custom-battery0,
-#custom-battery1,
+#custom-earbuds,
+/*
+#custom-disk_home,
+#custom-disk_root,
+*/
 #battery,
 #cpu,
-/*
 #backlight,
 #memory,
+/*
 #network,
 */
 #pulseaudio,
@@ -100,8 +107,8 @@ window#waybar.chromium {
     padding: 0 5px;
     margin: 0 4px;
     background-color: transparent;
-    border-bottom: 2px solid #00ff96;
-    color: #ffffff;
+    /*border-bottom: 2px solid #00ff96;*/
+    color: @color7;
 }
 
 #mode {
@@ -109,10 +116,18 @@ window#waybar.chromium {
   color: #000000;
 }
 
-#pulseaudio,
-#clock,
-#tray,
-#cpu {
+
+
+label:focus {
+    background-color: #000000;
+}
+
+/*
+#battery{
+    border-bottom: 2px solid #00ff96;
+}
+
+#pulseaudio, #clock, #tray, #cpu {
   border-bottom: transparent;
 }
 
@@ -123,16 +138,10 @@ window#waybar.chromium {
 #custom-battery.charging {
   border-bottom: 2px solid #00ff96;
 }
-
 #custom-vpn.down,
 #custom-battery.critical:not(.charging) {
   border-bottom: 2px solid #dd2241;
 }
-
-label:focus {
-    background-color: #000000;
-}
-
 #network.disabled{
   border-bottom: 2px solid red;
 }
@@ -147,12 +156,15 @@ label:focus {
 #network.ethernet{
   border-bottom: 2px solid green;
 }
+*/
 
 
 #pulseaudio.bluetooth {
   border-bottom: 2px solid #0a8cff;
 }
 
+
+/*
 #custom-earbuds.bluetooth{
   border-bottom: 2px solid orange;
 }
@@ -160,3 +172,26 @@ label:focus {
 #pulseaudio.muted {
   border-bottom: 2px solid #fff569;
 }
+*/
+
+#tray {
+    background-color: #2980b9;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+
+#keyboard-state {
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+

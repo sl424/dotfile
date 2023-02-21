@@ -1,0 +1,6 @@
+action=type 
+typer=wtype 
+selector=rofi 
+clipboarder=wl-copy 
+files=[ kaomoji, math ]
+no-frecency=True

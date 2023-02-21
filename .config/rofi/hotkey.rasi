@@ -1,0 +1,50 @@
+@theme "spotlight"
+
+configuration {
+
+	terminal: "/usr/bin/foot";
+	font:"UbuntuMono Nerd Font 14";
+	//font:"Noto Sans 12";
+	modi: "calc:qalc,filebrowser,ssh,combi";
+	// width: 25; // ignored for fullscreen
+	// lines: 10;
+	show-icons: true;
+	icon-theme: "Papirus";
+	//application-fallback-icon: "dino-symbolic";
+	//fake-transparency: true;
+	hover-select: true;
+	//sidebar-mode: true; //choose mode
+	combi-modi:"drun,run";
+	disable-history:true;
+	kb-row-left: "Alt+h";
+	kb-row-right: "Alt+l";
+	kb-row-up: "Alt+k,Up";
+	kb-row-down: "Alt+j,Down";
+	/*
+	kb-row-tab: "";
+	kb-mode-next: "Tab";
+	*/
+	case-sensitive: true;
+	kb-custom-1:"S";
+    	kb-custom-2:"r";
+    	kb-custom-3:"s";
+    	kb-custom-4:"h";
+    	kb-custom-5:"L";
+    	kb-custom-6:"l";
+	
+	filebrowser {
+		/** Directory the file browser starts in. */
+		/** Group directories before files. */
+		/**
+		 * Sorting method. Can be set to:
+		 *   - "name"
+		 *   - "mtime" (modification time)
+		 *   - "atime" (access time)
+		 *   - "ctime" (change time)
+		 */
+		directory: "/home/sl424";
+		sorting-method: "name";
+		directories-first: true;
+	}
+}
+

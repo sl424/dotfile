@@ -1,5 +1,13 @@
 mode=drun,run
 filter_rate=100 
-image_size=128
 width=600
 height=300
+
+
+width=1920
+height=1080
+insensitive=true
+mode=drun,run
+allow_images=true
+image_size=16
+

@@ -1,0 +1,154 @@
+/*******************************************************************************
+ * User                 : LR-Tech
+ * Theme Repo           : https://github.com/lr-tech/rofi-themes-collection
+ *******************************************************************************/
+
+* {
+    //font:   "Noto Sans Mono 12";
+
+    bg0:    #282c34cc;
+    bg1:    #3B4252;
+    bg2:    grey;
+    bg3:    #88C0D0F2;
+
+    fg0:    #D8DEE9;
+    fg1:    #ECEFF4;
+    fg2:    #D8DEE9;
+    fg3:    #4C566A;
+
+    rgx:    #ffff00;
+    xgb:    #00ffff;
+
+    urgent-color:       #ffff00;
+    highlight-color:    #00ffff;
+    highlight: 		none;
+
+    background-color:   transparent;
+    text-color:         @fg0;
+
+    margin:     0;
+    padding:    0;
+    spacing:    0;
+}
+
+window {
+    background-color:   @bg0;
+    location:       center;
+    padding: 5em;
+    location: north;
+    //y-offset:       400;
+    //border-radius:  8;
+    //fullscreen: true;
+    width:          1920;
+    height:          1080;
+}
+
+mainbox {
+    padding: 8px;
+    //children: [mode-switcher, inputbar, message, listview];
+}
+
+inputbar {
+    //font:       "Noto Sans Mono 20";
+    padding:    12px;
+    spacing:    12px;
+    //children:   [ icon-search, entry ];
+    children:   [ entry ];
+}
+
+icon-search {
+    expand:     false;
+    filename:   "search";
+    size: 28px;
+}
+
+icon-search, entry, element-icon, element-text {
+    vertical-align: 0.5;
+}
+
+entry {
+    //font:   inherit;
+    placeholder         : "";
+    placeholder-color   : @fg2;
+    cursor: text;
+    blink:      false; 
+}
+
+message {
+    border:             2px 0 0;
+    border-color:       @bg1;
+    background-color:   @bg1;
+}
+
+textbox {
+    padding:    8px 24px;
+}
+
+listview {
+    lines:      10;
+    margin: 20px 0px;
+    columns:    3;
+    fixed-height:   false;
+    border:         1px 0 0;
+    border-color:   @bg1;
+    spacing: 1px;
+    fixed-columns: true;
+}
+
+element, element-text, element-icon {
+    cursor: pointer;
+}
+
+element-icon {
+    size:   1em;
+}
+
+element{
+    padding:            8px 8px;
+    spacing:            8px;
+    border-radius: 5px;
+    //orientation: vertical;
+}
+element-text {
+    //background-color: inherit;
+    text-color:       inherit;
+}
+element.normal.normal, element.alternate.normal {
+    text-color:        inherit;
+}
+element.normal.urgent, element.alternate.urgent{
+    text-color:        @rgx;
+}
+element.normal.active, element.alternate.active{
+    text-color: @xgb;
+}
+element.selected.normal {
+    background-color:   @bg2;
+    text-color:         @fg1;
+}
+element.selected.urgent {
+    background-color:   @bg2;
+    text-color:       @rgx;
+}
+element.selected.active {
+    background-color:   @bg2;
+    text-color: @xgb;
+}
+
+
+
+
+mode-switcher {
+    //orientation: vertical;
+}
+
+button {
+    padding:            8px 8px;
+    spacing:            8px;
+    border-radius: 5px;
+}
+
+button.selected {
+    background-color:   @bg2;
+    text-color:         @fg1;
+}
