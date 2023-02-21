@@ -22,10 +22,15 @@ Xft.lcdfilter: lcddefault
 XTerm*background:        #222D31
 XTerm*foreground:        #d8d8d8
 XTerm*pointerColor:      #1ABB9B
-XTerm*faceName:          Fixed
-XTerm*faceSize:          11
-XTerm*reverseVideo:      on
+!XTerm*faceName:          UbuntuMono Nerd Font Mono
+!XTerm*faceSize:          12
+XTerm.vt100.faceName: Liberation Mono:size=11:antialias=true
+XTerm*vt100.scaleHeight: 0.9
+XTerm*vt100.scaleWidth: 0.9
+XTerm.vt100.font: 7x13
+XTerm*reverseVideo:      off
 XTerm*selectToClipboard: true
+XTerm*scrollBar:                  false
 
 *background:                      #222D31
 *foreground:                      #d8d8d8
@@ -71,7 +76,7 @@ Xcursor.theme: xcursor-breeze
 Xcursor.size:                     0
 
 !URxvt.font:                       9x15,xft:TerminessTTFNerdFontMono
-URxvt.font:                        xft:Inconsolata Nerd Font:size=14,xft:WenQuanYi Micro Hei Mono
+URxvt.font:                        xft:InconsolataGo Nerd Font:size=12
 ! Inconsolata Nerd Font Mono
 
 ! alternative font settings with 'terminus':
@@ -124,7 +129,7 @@ URxvt.color3:               [90]#d79921
 URxvt.color4:               [90]#458588
 URxvt.color5:               [90]#b16286
 URxvt.color6:               [90]#689d6a
-!URxvt.color7:               [90]#a89984
+URxvt.color7:               [90]#a89984
 URxvt.color8:               [90]#928374
 URxvt.color9:               [90]#fb4934
 URxvt.color10:              [90]#b8bb26
@@ -132,12 +137,12 @@ URxvt.color11:              [90]#fabd2f
 URxvt.color12:              [90]#83a598
 URxvt.color13:              [90]#d3869b
 URxvt.color14:              [90]#8ec07c
-!URxvt.color15:              [90]#ebdbb2
+URxvt.color15:              [90]#ebdbb2
 URxvt.foreground:           [90]#ebdbb2
 URxvt.background:           [80]#282828
 URxvt.colorIT:              [90]#8ec07c
 URxvt.colorBD:              [90]#d5c4a1
-!URxvt.colorUL:              [90]#83a598
+URxvt.colorUL:              [90]#83a598
 URxvt.scrollColor:          [90]#504945
 
 URxvt.color24:  #076678
