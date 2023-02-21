@@ -1,7 +1,0 @@
-configuration {
-combi-modi:    "window,run,ssh";
-theme:         "solarized";
-font:          "hack 12";
-modi:          "combi";
-sep: "\0";
-}
