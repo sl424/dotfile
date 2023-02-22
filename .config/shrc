@@ -70,6 +70,7 @@ ex ()
       *.zip)       unzip $1     ;;
       *.Z)         uncompress $1;;
       *.7z)        7z x $1      ;;
+      *.zst)       tar --use-compress-program=unzstd -xvf $1      ;;
       *)           echo "'$1' cannot be extracted via ex()" ;;
     esac
   else
@@ -153,41 +154,31 @@ alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
 alias jctl="journalctl -p 3 -xb"
 
 
-if [ "$TERM" = "linux" ]; then
-    echo -en "\e]P0232323" #black
-    echo -en "\e]P82B2B2B" #darkgrey
-    echo -en "\e]P1D75F5F" #darkred
-    echo -en "\e]P9E33636" #red
-    echo -en "\e]P287AF5F" #darkgreen
-    echo -en "\e]PA98E34D" #green
-    echo -en "\e]P3D7AF87" #brown
-    echo -en "\e]PBFFD75F" #yellow
-    echo -en "\e]P48787AF" #darkblue
-    echo -en "\e]PC7373C9" #blue
-    echo -en "\e]P5BD53A5" #darkmagenta
-    echo -en "\e]PDD633B2" #magenta
-    echo -en "\e]P65FAFAF" #darkcyan
-    echo -en "\e]PE44C9C9" #cyan
-    echo -en "\e]P7E5E5E5" #lightgrey
-    echo -en "\e]PFFFFFFF" #white
-    clear #for background artifacting
-fi
-
-set-hl() {
-    LESS_TERMCAP_md=$'\e[01;31m' \
-    LESS_TERMCAP_me=$'\e[0m' \
-    LESS_TERMCAP_se=$'\e[0m' \
-    LESS_TERMCAP_so=$'\e[01;44;33m' \
-    LESS_TERMCAP_ue=$'\e[0m' \
-    LESS_TERMCAP_us=$'\e[01;32m' 
-}
+#if [ "$TERM" = "linux" ]; then
+#    echo -en "\e]P0232323" #black
+#    echo -en "\e]P82B2B2B" #darkgrey
+#    echo -en "\e]P1D75F5F" #darkred
+#    echo -en "\e]P9E33636" #red
+#    echo -en "\e]P287AF5F" #darkgreen
+#    echo -en "\e]PA98E34D" #green
+#    echo -en "\e]P3D7AF87" #brown
+#    echo -en "\e]PBFFD75F" #yellow
+#    echo -en "\e]P48787AF" #darkblue
+#    echo -en "\e]PC7373C9" #blue
+#    echo -en "\e]P5BD53A5" #darkmagenta
+#    echo -en "\e]PDD633B2" #magenta
+#    echo -en "\e]P65FAFAF" #darkcyan
+#    echo -en "\e]PE44C9C9" #cyan
+#    echo -en "\e]P7E5E5E5" #lightgrey
+#    echo -en "\e]PFFFFFFF" #white
+#    clear #for background artifacting
+#fi
 
 man() {
-    set-hl
-    command man "$@"
+    command man -f "$@" && echo -n "Pick section: " && read num
+    command man $num "$@"
 }
 
 less() {
-    set-hl
     command less -i "$@"
 }

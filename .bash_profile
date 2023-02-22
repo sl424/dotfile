@@ -9,6 +9,7 @@ export EDITOR=nvim
 export MANPAGER="less -R --use-color -Dd+r -Dur"
 export MANROFFOPT="-c"
 export LESS='-R --use-color -Dd+r$Du+y'
+export HISTIGNORE='rm *:de *:dv *:ls *:cd *'
 
 #[[ -f ~/.extend.bash_profile ]] && . ~/.extend.bash_profile
 [[ -f ~/.bashrc ]] && . ~/.bashrc
@@ -73,9 +74,10 @@ export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_DIRS=$HOME/.local/share/:$XDG_DATA_DIRS
 export GOPATH=$HOME/gobook
 
-PATH=/usr/libexec:$PATH
-PATH=$HOME/opt/bin:$HOME/bin:$HOME/.local/bin:$PATH
-PATH=$HOME/.wayland_utils:$HOME/script:$PATH
+#PATH=$PATH:/usr/libexec
+PATH=$HOME/opt/bin:$PATH
+PATH=$HOME/.local/bin:$PATH
+PATH=$HOME/.wayland_utils:$PATH
 PATH=$HOME/gobook/bin:$PATH
 export PATH
 #add new path
