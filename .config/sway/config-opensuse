@@ -398,8 +398,8 @@ exec wl-paste -p --watch pkill -SIGRTMIN+1 waybar
 exec wl-paste --watch pkill -SIGRTMIN+2 waybar
 
 # wifi and bluetooth
-bindsym F10 exec ~/rofi-bluetooth/rofi-bluetooth
-bindsym Shift+F10 exec ~/networkmanager-dmenu/networkmanager_dmenu
+bindsym F10 exec ~/.config/rofi/rofi-bluetooth/rofi-bluetooth
+bindsym Shift+F10 exec ~/.config/rofi/networkmanager-dmenu/networkmanager_dmenu
 
 # dropdown console
 bindsym Mod4+F1 exec alacritty --title=dock
@@ -414,7 +414,7 @@ bindsym $mod+Shift+Print exec 'grimshot save output'
 bindsym Print exec 'grim -g "$(slurp)" - |  tesseract stdin stdout -l eng | wl-copy'
 
 # power mode
-bindsym $mod+0 exec rofi -show power -modi power:~/rofi-power-menu/rofi-power-menu -config ~/.config/rofi/hotkey.rasi
+bindsym $mod+0 exec rofi -show power -modi power:~/.config/rofi/rofi-power-menu/rofi-power-menu -config ~/.config/rofi/hotkey.rasi
 #bindsym $mod+0 mode "$power"
 #set $power (l)ock, (e)xit, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 #mode "$power" {

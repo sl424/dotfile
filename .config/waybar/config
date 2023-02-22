@@ -7,39 +7,59 @@
   //"modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
   //"modules-right": ["custom/vpn", "network", "custom/battery", "pulseaudio", "cpu", "clock", "tray"],
 
-  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-left": ["sway/workspaces", "sway/mode" ],
   "modules-center": [],
   "modules-right": [
 	  "custom/clipboard0",
 	  "custom/clipboard1",
-	  "custom/language",
-	  "custom/bluetooth",
-	  "custom/wifi",
+	  "sway/language",
+	  //"keyboard-state",
+	  "bluetooth",
 	  "network",
 	  "pulseaudio",
 	  //"temperature",
 	  "backlight",
-	  //"custom/disk_root",
-	  //"custom/disk_home",
+	  "custom/disk_root",
+	  "custom/disk_home",
 	  "memory",
 	  "cpu",
-	  "custom/battery0",
-	  "custom/battery1",
+	  "custom/gpu",
+	  "battery",
 	  "custom/earbuds",
 	  "clock", 
 	  "tray"],
 
   // Module config
 
+  "keyboard-state": {
+        "capslock": true,
+        "format": " {icon}",
+        "format-icons": {
+            "locked": "<span background='red'>  </span>",
+            "unlocked": "  "
+        }
+  },
+
+  //"bluetooth": { "format": "<span color='#589df6'> </span>{} ", "on-click": "rfkill toggle bluetooth" },
+
+  "bluetooth": {
+        "format": "<span color='#589df6'> </span>{status} ", 
+        "format-connected": "<span color='#589df6'> </span>{device_alias:.6s} ", 
+        "format-connected-battery": "<span color='#589df6'> </span>{device_alias:.6s} <b><span color='orange'>{device_battery_percentage}%</span></b> ", 
+  },
+
   "sway/mode": {
 	  "tooltip": false,
 	  //"format": "<span weight=\"bold\">{}</span>"
 	  "format": "{}"
   },
-
+  "custom/gpu": {
+	  "format": "GPU<b><span color='orange'> {}% </span></b>",
+	  "exec": "igpu.sh"
+  },
   "custom/disk_home": {
-	  //"format": "🏠 /home {} ",
-	  "format": "<span color='light blue'>  home {} </span>",
+	  //"format": "<span color='coral'> </span>/home <b>{}</b>",
+	  "format": "  <b>{}</b>",
 	  "tooltip": false,
 	  "interval": 30,
 	  "exec": "df -h --output=avail $HOME | tail -1 | tr -d ' '"
@@ -48,19 +68,22 @@
 	  "format": "<span color='pink'>➊ </span>{}",
 	  "tooltip": false,
 	  "interval": "once",
-	  "exec": "[[ $(wl-paste -p -l 2>&1 | grep -i utf) ]] && wl-paste -p | tr '&<>\n\r[:cntrl:]' '-' | colrm 6 ||  wl-paste -p -l 2>&1 | head -n 1 | colrm 9",
+	  "escape": true,
+          //"exec": "[[ $(wl-paste -p -l 2>&1 | grep -i utf) ]] && wl-paste -p | tr '&<>\n\r[:cntrl:]' '-' | colrm 6 ||  wl-paste -p -l 2>&1 | head -n 1 | colrm 9",
+	  "exec": "echo $(exec 2>&1; wl-paste -pl | grep -iq utf && wl-paste -p || wl-paste -pl) | tr '[:cntrl:]' '-' | colrm 8 ",
 	  "signal": 1
   },
   "custom/clipboard1": {
 	  "format": "<span color='gold'> ➋ </span>{} ",
 	  "tooltip": false,
 	  "interval": "once",
-	  "exec": "[[ $(wl-paste -l 2>&1 | grep -i utf) ]] && wl-paste | tr '&<>\n\r[:cntrl:]' '-' | colrm 6 ||  wl-paste -l 2>&1 | head -n 1 | colrm 9",
+	  "escape": true,
+	  "exec": "echo $(exec 2>&1; wl-paste -l | grep -iq utf && wl-paste || wl-paste -l) | tr '&<>\n\r[:cntrl:]' '-' | colrm 8 ",
 	  "signal": 2
   },
   "custom/disk_root": {
 	  //"format": "💽 /root {} ",
-	  "format": "<span color='violet'>  root {} </span>",
+	  "format": "<span color='violet'>  </span> <b>{}</b>",
 	  "tooltip": false,
 	  "interval": 30,
 	  "exec": "df -h --output=avail / | tail -1 | tr -d ' '"
@@ -82,60 +105,39 @@
 	  //"format-alt-click": "click-right",
 	  //"format-icons": ["", ""],
 
-	  "format": "<span color='light green'> {icon} {percent}% </span>",
+	  "format": "<span color='light green'>{icon} </span>{percent}%",
 	  "format-icons": ["盛", ""],
 	  "tooltip": false,
 	  "on-scroll-down": "light -A 1",                  
 	  "on-scroll-up": "light -U 1"                     
   },
   "battery": {
+          "bat": "CMB0",
+	  "states": {
+		  "full": 100,
+		  "good": 80,
+		  "warning": 30,
+		  "critical": 15
+	  },
+	  "format-time": "{H}:{M}",
+	  "format": "{icon} {capacity}% 龍 {time} <span color='orange'>{power:.2f}W</span>",
+	  "format-charging": "{icon} {capacity}% 﫰 {time} <span color='orange'></span>",
+	  //"format-charging-good": "{icon} {capacity}% ⚡",
+	  "format-plugged": "{icon} {capacity}% ",
+	  "format-alt": "{icon} {time}",
+	  "interval": 3,
 	  "tooltip": false,
-	  "states": {
-		  "good": 95,
-		  "warning": 30,
-		  "critical": 15
-	  },
-	  "format": "{icon} {capacity}%",
-	  "format-icons": [ "", "", "", "", "" ]
-  },
-  "battery": {
-	  "states": {
-		  // "good": 95,
-		  "warning": 30,
-		  "critical": 15
-	  },
-	  "format": "{capacity}% {icon}",
-	  "format-charging": "⚡  {capacity}%",
-	  "format-plugged": " {capacity}% ",
-	  "format-alt": "{time} {icon}",
 	  // "format-good": "", // An empty format will hide the module
 	  // "format-full": "",
 	  "format-icons": ["", "", "", "", ""]
   },
-  "custom/batteryone": {
-	  "interval": 8,
-	  "tooltip": false,
-	  "format": "{}",
-	  "return-type": "json",
-	  // Program at https://gitlab.com/krathalan/waybar-modules
-	  "exec": "$HOME/.config/waybar/waybar-modules/battery/wbm_battery0"
-  },
-
-  "custom/batterytwo": {
-	  "interval": 8,
-	  "tooltip": false,
-	  "format": "{}",
-	  "return-type": "json",
-	  // Program at https://gitlab.com/krathalan/waybar-modules
-	  "exec": "$HOME/.config/waybar/waybar-modules/battery/wbm_battery1"
-  },
 
     //"format": "[{percentage}% {} {icon}]",
 	"sway/language": {
-		"format": "<span color='plum'></span> {}",
-		"on-click": "swaymsg 'input 1:1:AT_Translated_Set_2_keyboard xkb_switch_layout next'",
+		"format": "{flag} {}",
 		"min-length": 7,
-        "tooltip": false
+		//"on-click": "swaymsg 'input 1:1:AT_Translated_Set_2_keyboard xkb_switch_layout next'",
+        	//"tooltip": false
 	},
 	"custom/language": {
 		"interval": 2,
@@ -144,41 +146,9 @@
 		"exec" : " swaymsg -t get_inputs | jq -r '.[] | select((.xkb_layout_names | length) > 1) | .xkb_active_layout_name' | awk '{print $1}'",
         "tooltip": false
 	},
-	"custom/bluetooth": {
-		"interval": 3,
-		"format": "<span color='#589df6'> </span>{} ",
-		//"on-click": "",
-		"exec" : "rfkill --json | jq -r '.[] | .[] | select(.type==\"bluetooth\") | .soft'",
-		"signal": 8,
-        	"tooltip": false
-	},
-	"custom/wifi": {
-		"interval": 3,
-		"format": "<span color='#589df6'> </span>{} ",
-		"exec" : "nmcli -f wifi g | tail -n 1",
-		"signal": 9,
-        	"tooltip": false
-	},
-  "custom/battery0": {
-    "interval": 8,
-    "tooltip": false,
-    "format": " {percentage}% <span color='orange'>{}</span>",
-    "format-icons": ["", "", "", "", "", "", ""],
-    "return-type": "json",
-	  "exec": "$HOME/.config/waybar/waybar-modules/battery/wbm_battery0"
-  },
-  "custom/battery1": {
-    "interval": 8,
-    "tooltip": false,
-    //"format": " {percentage}% {}",
-    "format": " {percentage}% <span color='orange'>{}</span>",
-    "format-icons": ["", "", "", "", "", "", ""],
-    "return-type": "json",
-	  "exec": "$HOME/.config/waybar/waybar-modules/battery/wbm_battery1"
-  },
 
   "custom/earbuds": {
-    "interval": 2,
+    "interval": 3,
     "tooltip": false,
     //"format": " | {} ﰝ  <span color='cyan'> ﳃ </span> | ",
     "format": "{}",
@@ -192,7 +162,8 @@
 	  "tooltip": false,
 	  "interval": 30,
 	  //"format": " {:%a, %b %d %Y %I:%M%P}"
-	  "format": " {:%a, %b %d %I:%M%P}"
+	  //"format": " {:%a, %b %d %I:%M%P}"
+	  "format": "<span color='tomato'> </span>{:%a, %b %d %I:%M%p}"
   },
   "tray": {
 	  "tooltip": false,
@@ -202,24 +173,26 @@
 
   "cpu": {
 	  //"format": "🏭 cpu {usage}%",
-	  "format": "<span color='cyan'> cpu {usage}%</span>",
-	  "interval": 5,
+	  "format": "<span color='cyan'> </span>CPU <b><span color='cyan'>{usage}%</span></b>",
+	  "interval": 3,
 	  "tooltip": false
   },
   "memory": {
 	  //"format": "💾 mem {used:0.1f}G",
 	  "interval": 10,
 	  "tooltip": false,
-	  "format": "<span color='yellow'>  mem {used:0.1f}G</span>"
+	  "format": "<span color='yellow'> </span>mem {used:0.1f}G"
   },
 
     "network": {
   	//"interface": "wlp2s0",
   	"format": "{ifname}",
-  	"format-wifi": "<span color='#589df6'></span> {essid}({signalStrength}%)",
+  	"format-wifi": "<span color='#589df6'></span> {essid:.5s}({signalStrength}%)({frequency}G)",
   	"format-ethernet": "<span color='green'></span> {ifname} - {ipaddr}",
   	"format-disconnected": " Disconnected",
   	"format-disabled": " Disabled",
+	"format-alt": " {ipaddr}",
+	"tooltip": false,
   },
 
   "pulseaudio": {
@@ -227,8 +200,8 @@
 
 	  "format": "﫛 {icon} {volume}% {format_source}",
 	  "format-muted": "﫛 <span background='grey'> 婢 </span> {volume}% {format_source}",
-	  "format-bluetooth": " {icon} {volume}% {format_source}",
-	  "format-bluetooth-muted": " <span background='grey'> 婢 </span> {volume}% {format_source}",
+	  "format-bluetooth": "<span color='#589df6'></span> {icon} {volume}% {format_source}",
+	  "format-bluetooth-muted": "<span color='#589df6'></span> <span background='grey'> 婢 </span> {volume}% {format_source}",
 
 	  "format-source": "<span background='red'>  </span> {volume}%",
 	  "format-source-muted": "<span background='grey'>  </span> {volume}%",
