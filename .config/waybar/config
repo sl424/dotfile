@@ -1,6 +1,6 @@
 {
   "layer": "top", // Waybar at top layer
-  "position": "bottom", // Waybar position (top|bottom|left|right)
+  "position": "top", // Waybar position (top|bottom|left|right)
   "height": 30, // Waybar height (to be removed for auto height)
 
   /* Choose the order of the modules */
@@ -10,6 +10,8 @@
   "modules-left": ["sway/workspaces", "sway/mode" ],
   "modules-center": [],
   "modules-right": [
+	  "custom/dnd",
+	  "custom/scratchpad",
 	  "custom/clipboard0",
 	  "custom/clipboard1",
 	  "sway/language",
@@ -17,6 +19,7 @@
 	  "bluetooth",
 	  "network",
 	  "pulseaudio",
+	  "custom/bt",
 	  //"temperature",
 	  "backlight",
 	  "custom/disk_root",
@@ -59,11 +62,31 @@
   },
   "custom/disk_home": {
 	  //"format": "<span color='coral'> </span>/home <b>{}</b>",
-	  "format": "  <b>{}</b>",
+	  "format": " <span color='salmon'> </span><b>{}</b>",
 	  "tooltip": false,
 	  "interval": 30,
 	  "exec": "df -h --output=avail $HOME | tail -1 | tr -d ' '"
   },
+  "custom/scratchpad": {
+        "interval": "once",
+	"tooltip":false,
+        "format": "缾 {}",
+        "exec": "swaymsg -r -t get_tree | jq -r 'recurse(.nodes[]) | first(select(.name==\"__i3_scratch\")) | .floating_nodes | length'",
+        "signal": 7
+  },
+  "custom/dnd": {
+        "interval": "once",
+	"tooltip":false,
+        "return-type": "json",
+        "format": "{icon}{}",
+        "format-icons": {
+            "false": "<span color='lime'></span>",
+            "true": "<span color='crimson'>ﮡ</span>"
+        },
+        "on-click": "dunstctl set-paused toggle; pkill -RTMIN+11 waybar",
+        "exec": "printf '{\"alt\":\"%s\"}' $(dunstctl is-paused) ",
+        "signal": 11
+    },
   "custom/clipboard0": {
 	  "format": "<span color='pink'>➊ </span>{}",
 	  "tooltip": false,
@@ -83,7 +106,7 @@
   },
   "custom/disk_root": {
 	  //"format": "💽 /root {} ",
-	  "format": "<span color='violet'>  </span> <b>{}</b>",
+	  "format": "<span color='violet'>  </span><b>{}</b>",
 	  "tooltip": false,
 	  "interval": 30,
 	  "exec": "df -h --output=avail / | tail -1 | tr -d ' '"
@@ -125,7 +148,7 @@
 	  //"format-charging-good": "{icon} {capacity}% ⚡",
 	  "format-plugged": "{icon} {capacity}% ",
 	  "format-alt": "{icon} {time}",
-	  "interval": 3,
+	  "interval": 5,
 	  "tooltip": false,
 	  // "format-good": "", // An empty format will hide the module
 	  // "format-full": "",
@@ -137,7 +160,7 @@
 		"format": "{flag} {}",
 		"min-length": 7,
 		//"on-click": "swaymsg 'input 1:1:AT_Translated_Set_2_keyboard xkb_switch_layout next'",
-        	//"tooltip": false
+        	"tooltip": false
 	},
 	"custom/language": {
 		"interval": 2,
@@ -174,25 +197,35 @@
   "cpu": {
 	  //"format": "🏭 cpu {usage}%",
 	  "format": "<span color='cyan'> </span>CPU <b><span color='cyan'>{usage}%</span></b>",
-	  "interval": 3,
+	  "interval": 5,
 	  "tooltip": false
   },
   "memory": {
 	  //"format": "💾 mem {used:0.1f}G",
 	  "interval": 10,
 	  "tooltip": false,
-	  "format": "<span color='yellow'> </span>mem {used:0.1f}G"
+	  "format": "<span color='yellow'> </span>mem {used:0.1f}G",
+	  "states": { "warning":80, "critical":90 }
   },
 
     "network": {
   	//"interface": "wlp2s0",
   	"format": "{ifname}",
-  	"format-wifi": "<span color='#589df6'></span> {essid:.5s}({signalStrength}%)({frequency}G)",
+  	"format-wifi": "<span color='#589df6'></span> {essid:.5s}({frequency}G)",
   	"format-ethernet": "<span color='green'></span> {ifname} - {ipaddr}",
-  	"format-disconnected": " Disconnected",
+  	"format-disconnected": "睊 Disconnected",
   	"format-disabled": " Disabled",
 	"format-alt": " {ipaddr}",
 	"tooltip": false,
+  },
+
+  "custom/bt":{
+	"tooltip":false,
+	"format":" ({})",
+	"exec":"wpctl inspect @DEFAULT_AUDIO_SINK@ | awk -F '= ' '/codec/ {print $2}' | tr -d '\"' ",
+	"signal": 3,
+	"interval":"once"
+	//"exec":"wpctl inspect @DEFAULT_AUDIO_SINK@ | awk -v RS='' '/bluez/' | awk -F '=' '/codec/ {print $2}'"
   },
 
   "pulseaudio": {
@@ -206,6 +239,7 @@
 	  "format-source": "<span background='red'>  </span> {volume}%",
 	  "format-source-muted": "<span background='grey'>  </span> {volume}%",
 	  "tooltip": false,
+	  "on-update":"pkill -SIGRTMIN+3 waybar",
 
 	  "format-icons": {
 		  "headphones": "",
@@ -218,11 +252,10 @@
           //"default": ["  ", "  ", "  "]
           "default": "<span background='green'>  </span>"
 	  },
-	  //"on-click": "ponymix -N -t sink toggle",
+	  "on-click": "ponymix get-profile | grep a2dp && ponymix set-profile headset-head-unit || ponymix set-profile a2dp-sink",
 	  //"on-click-right": "ponymix -N -t source toggle"
 	  "interval": 5
   },
-
 
   "test":{
   }

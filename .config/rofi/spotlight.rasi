@@ -38,9 +38,9 @@ window {
     location: north;
     //y-offset:       400;
     //border-radius:  8;
-    //fullscreen: true;
-    width:          1920;
-    height:          1080;
+    fullscreen: true;
+    /*width:          1920;
+    height:          1080;*/
 }
 
 mainbox {

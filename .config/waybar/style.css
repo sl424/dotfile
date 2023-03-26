@@ -1,5 +1,15 @@
 @import "/home/sl424/.cache/wal/colors-waybar.css";
 
+@keyframes blink-warning {
+    70% { color: @wm_icon_bg; }
+    to { color: @wm_icon_bg; background-color: @warning_color; }
+}
+
+@keyframes blink-critical {
+    70% { color: @wm_icon_bg; }
+    to { color: @wm_icon_bg; background-color: @error_color; }
+}
+
 * {
     border: none;
     border-radius: 0;
@@ -55,6 +65,7 @@ window#waybar.solo {
 
 #workspaces button {
     min-width: 0;
+    padding: 0 9px;
     background-color: transparent;
     color: #ffffff;
     /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
@@ -62,13 +73,13 @@ window#waybar.solo {
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
-    background: rgba(0, 0, 0, 0.2);
+    background-color: @theme_selected_bg_color;
     box-shadow: inherit;
     border-bottom: 3px solid #ffffff;
 }
 
 #workspaces button.focused {
-    background-color: #64727D;
+    background-color: @theme_selected_bg_color;
     border-bottom: 3px solid #ffffff;
 }
 
@@ -89,6 +100,8 @@ window#waybar.chromium {
 #clock,
 #custom-vpn,
 #custom-earbuds,
+#custom-dnd,
+#custom-scratchpad,
 /*
 #custom-disk_home,
 #custom-disk_root,
@@ -97,10 +110,8 @@ window#waybar.chromium {
 #cpu,
 #backlight,
 #memory,
-/*
 #network,
-*/
-#pulseaudio,
+/*#pulseaudio,*/
 #tray,
 #mode,
 #idle_inhibitor {
@@ -122,11 +133,53 @@ label:focus {
     background-color: #000000;
 }
 
-/*
+#battery {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#battery.warning {
+    color: @warning_color;
+}
+
+#battery.critical {
+    color: @error_color;
+}
+
+#battery.warning.discharging {
+    animation-name: blink-warning;
+    animation-duration: 9s;
+}
+
+#battery.critical.discharging {
+    animation-name: blink-critical;
+    animation-duration: 9s;
+}
+
+#memory {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#memory.warning {
+    color: @warning_color;
+    animation-name: blink-warning;
+    animation-duration: 9s;
+}
+
+#memory.critical {
+    color: @error_color;
+    animation-name: blink-critical;
+    animation-duration: 9s;
+}
+
 #battery{
     border-bottom: 2px solid #00ff96;
 }
 
+/*
 #pulseaudio, #clock, #tray, #cpu {
   border-bottom: transparent;
 }
@@ -160,6 +213,10 @@ label:focus {
 
 
 #pulseaudio.bluetooth {
+  border-bottom: 2px solid #0a8cff;
+}
+
+#custom-bt{
   border-bottom: 2px solid #0a8cff;
 }
 

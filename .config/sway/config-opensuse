@@ -204,17 +204,21 @@ input type:pointer {
     bindsym $mod+a focus parent
     bindsym $mod+z focus child
 #
+# sticky toggle
+bindsym $mod+Shift+s sticky toggle
+
+
 # Scratchpad:
 #
     # Sway has a "scratchpad", which is a bag of holding for windows.
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+    bindsym $mod+Shift+minus move scratchpad, exec "pkill -RTMIN+7 waybar"
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+    bindsym $mod+minus scratchpad show, exec "pkill -RTMIN+7 waybar" 
 #
 # Resizing containers:
 #
@@ -314,7 +318,7 @@ bindsym --to-code {
 # Sound / Media keys / Sink
 #
 set $is audio-speakers
-set $hs string:x-canonical-private-synchronous:speaker
+set $hs string:synchronous:speaker
 set $notify-speaker notify-send " " -c "bar" -i $is -h $hs
 set $notify-volume $notify-speaker -h int:value:$(pamixer --get-volume)
 set $notify-toggle $notify-speaker -h int:value:$(pamixer --get-mute | grep -q t && echo 0 || pamixer --get-volume)
@@ -329,7 +333,7 @@ bindsym XF86AudioMute exec pamixer --toggle-mute && $notify-toggle
 #
 set $mic "--default-source"
 set $im deepin-voice-recorder
-set $hm string:x-canonical-private-synchronous:mic
+set $hm string:synchronous:mic
 set $notify-mic  notify-send " " -c "bar" -i $im -h $hm
 set $notify-mic-volume $notify-mic -h int:value:$(pamixer --get-volume $mic)
 set $notify-mic-toggle $notify-mic -h int:value:$(pamixer --get-mute $mic | grep -q t && echo 0 || pamixer --get-volume $mic)
@@ -345,7 +349,7 @@ bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && $
 #
 # Screen/display Brightness
 #
-set $hd string:x-canonical-private-synchronous:display
+set $hd string:synchronous:display
 set $display-level int:value:$((`brightnessctl get`*100/`brightnessctl m`))
 set $notify-display notify-send " " -c "bar" -i display -h $hd -h $display-level
 #
@@ -406,7 +410,7 @@ bindsym Mod4+F1 exec alacritty --title=dock
 for_window [title="dock"] floating enable, move scratchpad, scratchpad show, mark "drop-term", \
     resize set width 100 ppt height 60 ppt, \
     move position 0 ppt 0 ppt
-bindsym F1 [con_mark="drop-term"] scratchpad show
+bindsym F1 [con_mark="drop-term"] scratchpad show, exec "pkill -RTMIN+7 waybar" 
 
 # Screenshot
 bindsym $mod+Print exec 'grimshot copy area'
@@ -466,6 +470,17 @@ for_window [app_id="pavucontrol"] floating enable
 for_window [app_id="blueman-manager"] floating enable
 for_window [app_id="imv"] border normal, floating enable
 for_window [app_id="xdg-desktop-portal-gtk"] border normal, floating enable
+seat * shortcuts_inhibitor disable
+for_window [instance="lxappearance"] floating enable
+for_window [title="Save File"] floating enable
+for_window [app_id="" title="Picture in picture"] floating enable, sticky enable
+for_window [title="Firefox .*— Sharing Indicator"] floating enable, sticky enable
+for_window [app_id="firefox" title="^Library$"] floating enable, border pixel 1, sticky enable
+for_window [app_id="" title=".* is sharing your screen."] floating enable
+
+#opacity/transparency
+for_window [shell=".*"] opacity 0.9
+bindsym Mod4+x exec "~/.config/sway/toggle_transparent.sh toggle"
 
 #pywal colors
 #exec wal -R
